@@ -1,0 +1,17 @@
+---
+interface Props {
+  size?: number;
+  opacity?: number;
+  position?: string;
+  colors?: [string, string];
+}
+const {
+  size = 240,
+  opacity = 0.18,
+  position = 'top:80px;right:-40px',
+  colors = ['var(--color-mint)', 'var(--color-lavender)'],
+} = Astro.props;
+const bg = `radial-gradient(${colors[0]}, ${colors[1]})`;
+const style = `position:absolute;width:${size}px;height:${size}px;border-radius:50%;background:${bg};opacity:${opacity};filter:blur(40px);${position};pointer-events:none;z-index:0`;
+---
+<div aria-hidden="true" style={style}></div>

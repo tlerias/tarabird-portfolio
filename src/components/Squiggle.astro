@@ -1,0 +1,23 @@
+---
+interface Props {
+  color?: 'mint' | 'lavender';
+  width?: number;
+}
+const { color = 'mint', width = 170 } = Astro.props;
+const stroke = color === 'mint' ? 'var(--color-mint)' : 'var(--color-lavender)';
+---
+<svg
+  width={width}
+  height="14"
+  viewBox={`0 0 ${width} 14`}
+  aria-hidden="true"
+  class="block"
+>
+  <path
+    d={`M2 8 Q ${width * 0.18} 2, ${width * 0.35} 8 T ${width * 0.7} 8 T ${width - 2} 8`}
+    stroke={stroke}
+    stroke-width="3"
+    fill="none"
+    stroke-linecap="round"
+  />
+</svg>

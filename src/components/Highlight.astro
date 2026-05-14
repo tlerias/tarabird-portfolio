@@ -1,0 +1,10 @@
+---
+interface Props {
+  color?: 'mint' | 'lavender';
+}
+const { color = 'mint' } = Astro.props;
+const classes = color === 'mint' ? 'bg-mint text-ink' : 'bg-lavender text-cream';
+---
+<span class={`${classes} rounded-lg`} style="padding-inline:10px;">
+  <slot />
+</span>

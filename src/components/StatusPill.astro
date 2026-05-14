@@ -1,0 +1,17 @@
+---
+interface Props {
+  variant?: 'live' | 'kids' | 'wip';
+  label?: string;
+}
+const { variant = 'live', label } = Astro.props;
+const defaults = { live: 'LIVE', kids: 'FOR THE KIDS', wip: 'WIP' };
+const text = label ?? defaults[variant];
+const variantClass = {
+  live: 'bg-mint text-ink',
+  kids: 'bg-lavender text-cream',
+  wip: 'bg-cream-warm text-ink border border-ink',
+}[variant];
+---
+<span class={`inline-block font-mono text-[9px] font-bold uppercase tracking-[1.5px] px-2.5 py-1 rounded-full ${variantClass}`}>
+  {text}
+</span>

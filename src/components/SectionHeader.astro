@@ -1,0 +1,35 @@
+---
+import Squiggle from './Squiggle.astro';
+
+interface Props {
+  number: string;
+  label: string;
+  squiggleColor?: 'mint' | 'lavender';
+  squiggleWidth?: number;
+  labelColor?: 'lavender' | 'lavender-deep' | 'mint';
+}
+const {
+  number,
+  label,
+  squiggleColor = 'mint',
+  squiggleWidth = 170,
+  labelColor = 'lavender',
+} = Astro.props;
+
+const labelClass = {
+  'lavender': 'text-lavender',
+  'lavender-deep': 'text-lavender-deep',
+  'mint': 'text-mint',
+}[labelColor];
+---
+<div>
+  <div class={`font-mono text-[10px] font-semibold uppercase tracking-[2px] ${labelClass}`}>
+    {number} — {label}
+  </div>
+  <h2 class="font-display font-extrabold text-[46px] md:text-[48px] leading-none mt-2" style="letter-spacing:-0.025em">
+    <slot />
+  </h2>
+  <div class="mt-1">
+    <Squiggle color={squiggleColor} width={squiggleWidth} />
+  </div>
+</div>

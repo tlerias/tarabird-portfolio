@@ -26,6 +26,17 @@ npm test          # run unit tests once
 npm run test:ui   # interactive vitest UI
 ```
 
+## Lighthouse baseline
+
+Measured against local preview (`npm run preview`) on 2026-05-14:
+
+| Category | Score |
+|---|---|
+| Performance | 99 |
+| Accessibility | 95 |
+| Best Practices | 100 |
+| SEO | 100 |
+
 ## Deploy
 
 Auto-deploys to `tarabird.com` on push to `main` (via Vercel).

@@ -1,0 +1,26 @@
+---
+import { now } from '../content/now';
+import { interleaveSeparator, doubleForLoop } from '../lib/marquee';
+
+const interleaved = interleaveSeparator(now, '★');
+const looped = doubleForLoop(interleaved);
+---
+<div class="w-full overflow-hidden bg-mint text-ink py-3.5 font-mono text-[11px] font-semibold uppercase tracking-[1.5px] select-none">
+  <div class="marquee-track whitespace-nowrap inline-block hover:[animation-play-state:paused]">
+    {looped.map(s => (
+      <span class="px-6">{s}</span>
+    ))}
+  </div>
+</div>
+<style>
+  .marquee-track {
+    animation: marquee 30s linear infinite;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+  }
+</style>

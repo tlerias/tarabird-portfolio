@@ -6,7 +6,7 @@ import BlurShape from './BlurShape.astro';
 <section id="say-hi" class="relative bg-ink text-cream overflow-hidden">
   <BlurShape size={240} opacity={0.25} position="top:40px;right:-60px" />
   <div class="relative z-10 max-w-6xl mx-auto px-8 py-16">
-    <div class="font-mono text-[10px] font-semibold uppercase tracking-[2px] text-mint">05 — say hi</div>
+    <div class="font-mono text-[10px] font-semibold uppercase tracking-[2px] text-mint">05 / say hi</div>
     <h2 class="font-display font-extrabold text-[46px] md:text-[48px] leading-none mt-2" style="letter-spacing:-0.025em">
       Drop a <Highlight color="mint">line</Highlight>.
     </h2>
@@ -48,7 +48,7 @@ import BlurShape from './BlurShape.astro';
     try {
       const res = await fetch('/api/contact', { method: 'POST', body: data });
       if (res.ok) {
-        status.textContent = 'sent — talk soon ✓';
+        status.textContent = 'sent. talk soon ✓';
         form.reset();
       } else {
         const text = await res.text();

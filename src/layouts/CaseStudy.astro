@@ -33,7 +33,7 @@ interface Props {
 const fm = Astro.props.frontmatter ?? Astro.props;
 const { title, eyebrow, description, liveUrl, liveLabel, status, gradientHeader, heroImage, stats = [] } = fm;
 ---
-<Base title={`${title} — Tara Bird`} description={description}>
+<Base title={`${title} · Tara Bird`} description={description}>
   <Nav />
   <main>
     <section class="relative overflow-hidden" style={`background:${gradientHeader};min-height:45vh`}>

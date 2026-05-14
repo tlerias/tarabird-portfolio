@@ -21,4 +21,16 @@ const { item } = Astro.props;
       </div>
     ))}
   </div>
+  {item.link && (
+    <div class="mt-5">
+      <a
+        href={item.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block font-mono text-[11px] uppercase tracking-[1.5px] font-semibold text-ink border-b-[1.5px] border-mint pb-0.5 hover:text-mint transition-colors"
+      >
+        Visit ↗
+      </a>
+    </div>
+  )}
 </article>

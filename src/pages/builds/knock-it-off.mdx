@@ -1,0 +1,44 @@
+---
+layout: ../../layouts/CaseStudy.astro
+title: Knock It Off
+eyebrow: "2025 · GAME · FOR THE KIDS"
+description: "A tap-and-knock game where a cat shoves food off the counter to a hungry dog. Built in Godot, mostly for my kids."
+liveUrl: "https://knock-it-off.vercel.app"
+liveLabel: "Play ↗"
+status: "kids"
+gradientHeader: "linear-gradient(180deg, #8a6f5a 0%, #5b3a2a 100%)"
+heroImage: "/screenshots/knock-it-off-cat-select.png"
+stats:
+  - label: "PLAY AT"
+    value: "knock-it-off.vercel.app"
+  - label: "BUILT WITH"
+    value: "Godot 4.6 · GDScript"
+  - label: "ROUND LENGTH"
+    value: "45 seconds"
+  - label: "PLAYTESTED BY"
+    value: "Three short humans"
+---
+
+## What it does
+
+You pick a cat (Waffles or Prince), the cat sits on a kitchen counter, food appears, and you tap to knock it off. A hungry dog catches it below. 45-second rounds, scoring, replay.
+
+## Why I built it
+
+My kids think it is the funniest thing in the world when a cat puts a paw on the counter and slowly nudges something off. I wanted to make them a game where they get to *be* the cat.
+
+Also: I've wanted to learn Godot for a while, and a short tap-game for kids is roughly the perfect first project.
+
+## How it works
+
+- **Godot 4.6** with GDScript
+- **Pixel art** sprites for the cat, dog, counter, and food
+- **Web export** so they can play it on the iPad without an app store install
+- **Responsive layout** that works on web *and* iPad landscape (tablet was the actual target platform)
+- **Clean scene/script architecture** — main menu, game scene, score scene as separate nodes; signals between them for round events; no shared mutable state
+
+## What I'm proud of
+
+- **It actually shipped.** Most "I should learn Godot" projects sit in a folder.
+- **My kids play it on their own.** Best possible review.
+- **Cat physics that feel right.** The "knock" arc is hand-tuned for the satisfying paw-tap motion.

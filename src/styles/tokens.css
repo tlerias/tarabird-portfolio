@@ -1,6 +1,7 @@
 @import '@fontsource-variable/inter';
 @import '@fontsource-variable/jetbrains-mono';
 @import 'tailwindcss';
+@plugin "@tailwindcss/typography";
 
 @theme {
   /* Colors — see spec §3 */

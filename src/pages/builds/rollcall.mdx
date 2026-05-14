@@ -1,0 +1,60 @@
+---
+layout: ../../layouts/CaseStudy.astro
+title: Rollcall
+eyebrow: "2025 → ONGOING · INDIE PRODUCT"
+description: "A training log and community for jiu-jitsu practitioners. Tracks belts, drills, and the people you roll with."
+liveUrl: "https://www.meetwithrollcall.com/u/tara"
+liveLabel: "Visit ↗"
+status: "live"
+gradientHeader: "linear-gradient(135deg, #fef9f0 0%, #f3eef8 100%)"
+heroImage: "/screenshots/rollcall-profile.png"
+stats:
+  - label: "LIVE AT"
+    value: "meetwithrollcall.com"
+  - label: "STACK"
+    value: "Next.js · Supabase · Playwright"
+  - label: "ROLE"
+    value: "Sole engineer + designer"
+  - label: "SHIPPED"
+    value: "2025"
+---
+
+## What it does
+
+Rollcall is the training log I always wanted for jiu-jitsu — and a soft community layer on top.
+
+You log every roll (your training partner, what you worked, how it went), track your belt progression, and over time build a real record of who you train with and what you're working on. It's social without being a social network: you can follow practitioners, see who's at your gym tonight, and connect with people you've actually rolled with.
+
+## Why I built it
+
+A year into my jiu-jitsu obsession, I had a year of training and almost zero record of it. I knew who I'd rolled with the last week, maybe. I had no sense of what I'd been working, what was getting better, or what was still a hole.
+
+The existing options were either generic habit trackers (no concept of "rolling partner" or "submission attempt"), or pen-and-paper logs (don't work for the social side). I wanted something purpose-built for the sport.
+
+So I built it. And then realized other practitioners had the same problem.
+
+## How it works
+
+Pretty standard modern web app:
+
+- **Next.js** for the frontend and API routes
+- **Supabase** for postgres, auth, and storage (profile photos, gym banners)
+- **React Hook Form + Zod** for form validation
+- **React Google Maps** for the gym-location features
+- **Playwright** for end-to-end tests covering the critical user flows (sign up, log a roll, follow a practitioner)
+- **Vitest** for unit tests on the business logic (belt progression, weekly summaries)
+- **Sentry** for error tracking in production
+- **pnpm workspaces** monorepo so a future mobile app can share the same data layer
+
+The data model is the interesting part. A "roll" is a first-class entity that connects a date, two practitioners, a set of techniques drilled, and a vibe score. Everything else (your belt history, weekly summaries, partner suggestions, gym presence) is a view on top of that single entity.
+
+## What I'm proud of
+
+- **The belt visualization.** It's a single horizontal SVG that reads "WHITE" or "BLUE" with stripe indicators. It looks like the real thing. Practitioners get it instantly.
+- **The roll as a first-class entity.** Made everything else easier. Weekly summaries write themselves. Partner suggestions become a single query.
+- **End-to-end coverage of the critical flows.** Playwright covers sign up → log a roll → follow a practitioner. I've shipped during open mat with confidence.
+- **Privacy defaults.** Profiles are private by default. You opt in to being discoverable. Took a lot of thought to get this right for a sport where people often have a public-private gradient.
+
+## What I'd do differently
+
+Built the social features too early. The training log alone is the product for most practitioners. The community layer is what keeps people, but only after they've built a habit of logging. I'd ship just the log first, then layer in social.

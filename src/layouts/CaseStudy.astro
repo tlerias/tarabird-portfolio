@@ -1,0 +1,91 @@
+---
+import Base from './Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import StatusPill from '../components/StatusPill.astro';
+import Button from '../components/Button.astro';
+import Squiggle from '../components/Squiggle.astro';
+
+interface Props {
+  title: string;
+  eyebrow: string;
+  description: string;
+  liveUrl: string;
+  liveLabel: string;
+  status: 'live' | 'kids';
+  gradientHeader: string;
+  heroImage?: string;
+  stats?: { label: string; value: string }[];
+  // MDX layouts receive frontmatter nested under `frontmatter` prop
+  frontmatter?: {
+    title: string;
+    eyebrow: string;
+    description: string;
+    liveUrl: string;
+    liveLabel: string;
+    status: 'live' | 'kids';
+    gradientHeader: string;
+    heroImage?: string;
+    stats?: { label: string; value: string }[];
+  };
+}
+// MDX passes frontmatter as Astro.props.frontmatter; support both paths
+const fm = Astro.props.frontmatter ?? Astro.props;
+const { title, eyebrow, description, liveUrl, liveLabel, status, gradientHeader, heroImage, stats = [] } = fm;
+---
+<Base title={`${title} — Tara Bird`} description={description}>
+  <Nav />
+  <main>
+    <section class="relative overflow-hidden" style={`background:${gradientHeader};min-height:45vh`}>
+      {heroImage && (
+        <img src={heroImage} alt={`Screenshot of ${title}`} loading="eager"
+          class="absolute inset-0 w-full h-full object-cover opacity-25" />
+      )}
+      <div class="relative z-10 max-w-6xl mx-auto px-8 py-16">
+        <a href="/#builds" class="font-mono text-[11px] uppercase tracking-[1.5px] text-cream/70 hover:text-mint">← back to builds</a>
+        <div class="mt-8">
+          <div class="font-mono text-[10px] font-medium uppercase tracking-[2px] text-mint">{eyebrow}</div>
+          <h1 class="font-display font-extrabold text-[64px] md:text-[78px] leading-[0.96] mt-3 text-cream max-w-3xl" style="letter-spacing:-0.04em">{title}</h1>
+          <div class="mt-2"><Squiggle color="mint" width={240} /></div>
+          <p class="text-[18px] mt-5 max-w-xl text-cream/90 leading-[1.55]">{description}</p>
+          <div class="flex gap-3 mt-6 items-center">
+            <Button href={liveUrl} variant="mint" external={true}>{liveLabel}</Button>
+            <StatusPill variant={status} />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {stats.length > 0 && (
+      <section class="bg-cream border-b border-card-border/40">
+        <div class="max-w-6xl mx-auto px-8 py-8 flex gap-10 flex-wrap">
+          {stats.map(s => (
+            <div>
+              <div class="font-mono text-[10px] uppercase tracking-[2px] text-ink/55">{s.label}</div>
+              <div class="font-display font-bold text-[22px] mt-1" style="letter-spacing:-0.025em">{s.value}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <article class="max-w-3xl mx-auto px-8 py-16 prose prose-lg
+      prose-headings:font-display prose-headings:font-extrabold
+      prose-h2:text-[36px] prose-h2:mt-12
+      prose-h3:text-[22px]
+      prose-p:text-[17px] prose-p:leading-[1.65]
+      prose-a:text-mint prose-a:no-underline hover:prose-a:underline
+      prose-strong:font-bold">
+      <slot />
+    </article>
+
+    <section class="bg-cream border-t border-card-border/40">
+      <div class="max-w-3xl mx-auto px-8 py-10 flex gap-3 flex-wrap">
+        <Button href={liveUrl} variant="primary" external={true}>{liveLabel}</Button>
+        <Button href="/#builds" variant="secondary">Back to builds →</Button>
+        <Button href="/#say-hi" variant="secondary">Say hi →</Button>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>

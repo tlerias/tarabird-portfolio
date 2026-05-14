@@ -1,0 +1,57 @@
+---
+layout: ../../layouts/CaseStudy.astro
+title: Layoff Calculator
+eyebrow: "2024 → ONGOING · INDIE PRODUCT"
+description: "A free, source-cited tool that grades severance offers and estimates runway in sixty seconds."
+liveUrl: "https://layoffcalculator.com"
+liveLabel: "Visit ↗"
+status: "live"
+gradientHeader: "linear-gradient(135deg, #0d2820 0%, #1a4a3a 100%)"
+heroImage: "/screenshots/severance-hero.png"
+stats:
+  - label: "LIVE AT"
+    value: "layoffcalculator.com"
+  - label: "STACK"
+    value: "Next.js · TypeScript · Supabase"
+  - label: "ROLE"
+    value: "Sole engineer, designer, content"
+  - label: "SHIPPED"
+    value: "2024 · still shipping"
+---
+
+## What it does
+
+The Layoff Calculator grades a severance offer the way an experienced negotiator would — fast, source-cited, and free.
+
+You paste in the numbers (base, bonus, equity, target separation date), it estimates your runway, models your equity (RSU/ISO/NSO), checks WARN Act eligibility for your state, and produces a one-page verdict you can take to your employer or an attorney.
+
+No account. No paywall. No data sold. Funded entirely by optional affiliate links and attorney referrals you can choose to use — never required.
+
+## Why I built it
+
+A friend got laid off in the 2023 round of layoffs and texted me a screenshot of their offer with one question: "is this fair?" I couldn't answer it confidently in under an hour. That bothered me.
+
+The existing tools were either calculator-shaped lead-gen for law firms, or paywalled, or used decade-old WARN Act data. There was no public, source-cited, free tool that just answered the question.
+
+So I built one.
+
+## How it works
+
+The hard part of this product isn't the math — the hard part is **earning the user's trust in the numbers**.
+
+Every claim on the site (a state law, a WARN Act threshold, a tax rate, a typical severance multiple) is anchored to a public source. The build pipeline enforces this: if a claim doesn't have a citation, the build fails. If a citation can't be reached at build time, the build fails. If a citation's content has materially changed since I last verified it, the build flags it for review.
+
+Behind that, a **content refresh pipeline** keeps state-by-state data, WARN Act guidance, and the equity modeling current. (I'll skip the implementation details here — the whole point is that you should trust the numbers because of the visible citation, not because of how the pipeline works.)
+
+The math itself runs entirely in the browser. The Supabase backend handles only optional things: saved scenarios for returning users, and aggregate (anonymized) usage data so I can see which fields are most-used and what's broken.
+
+## What I'm proud of
+
+- **The trust gates.** Every visible number traces to a public source you can click. The build literally refuses to ship if that breaks.
+- **The verdict format.** Most calculators dump a table at you. This one renders a single-page verdict — the negotiation move, the runway estimate, the state-specific caveat — in a way you can show your employer.
+- **Equity modeling that doesn't lie.** RSUs, ISOs, NSOs, and acceleration clauses all behave differently at separation. The calculator handles each correctly and shows its work.
+- **Zero account required.** You can use the entire product without giving me a single piece of personal information.
+
+## What I'd do differently
+
+Started building the content pipeline before I had three months of public-source-citation patterns to base it on. Spent a quarter rebuilding once I knew what the rules should actually be. If I did it again, I'd hand-curate the first 50 claims, see the pattern, *then* automate.

@@ -1,0 +1,33 @@
+---
+import Button from './Button.astro';
+import Highlight from './Highlight.astro';
+import Squiggle from './Squiggle.astro';
+import BlurShape from './BlurShape.astro';
+---
+<section class="relative overflow-hidden" style="background:var(--gradient-hero)">
+  <BlurShape size={280} opacity={0.18} position="top:80px;right:-60px" />
+  <div class="relative z-10 max-w-6xl mx-auto px-8 pt-16 pb-14">
+    <div class="font-mono text-[10px] font-semibold uppercase tracking-[2px] flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-mint"></span> hi, i'm tara
+    </div>
+
+    <h1 class="font-display font-extrabold text-[78px] leading-[0.96] mt-5 max-w-3xl" style="letter-spacing:-0.04em">
+      I build<br />
+      <Highlight color="mint">cool</Highlight> &amp; <Highlight color="lavender">useful</Highlight><br />
+      things.
+    </h1>
+
+    <div class="mt-1">
+      <Squiggle color="mint" width={280} />
+    </div>
+
+    <p class="text-[17px] leading-[1.6] mt-6 max-w-xl text-ink/90">
+      Engineering manager at Gusto. Independent builder of a layoff calculator, a jiu-jitsu app, and a tap-and-knock game for my kids.
+    </p>
+
+    <div class="flex gap-3 mt-7">
+      <Button href="#builds" variant="primary">See the builds →</Button>
+      <Button href="#say-hi" variant="secondary">Say hi</Button>
+    </div>
+  </div>
+</section>

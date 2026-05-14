@@ -1,0 +1,24 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import Highlight from './Highlight.astro';
+import Button from './Button.astro';
+import BlurShape from './BlurShape.astro';
+---
+<section id="career" class="relative border-b border-card-border/40" style="background:var(--gradient-career)">
+  <BlurShape size={200} opacity={0.15} position="top:40px;right:-60px" colors={['var(--color-lavender)', 'var(--color-mint)']} />
+  <div class="relative z-10 max-w-6xl mx-auto px-8 py-16">
+    <SectionHeader number="02" label="career" squiggleColor="mint" squiggleWidth={180} labelColor="lavender-deep">
+      How I <Highlight color="mint">got here</Highlight>.
+    </SectionHeader>
+
+    <div class="mt-6 max-w-3xl text-[17px] leading-[1.65] text-ink/95">
+      <p>In middle school, my friend taught me to edit Neopets pages with HTML at a sleepover. That was it — I was hooked on shaping the web by hand. I studied advertising at CU Boulder (with a tech-and-media minor), spent my early career in a customer-support seat at a startup called Kapost, attended Women Who Code meetups with friends, and finally bet on a thirteen-week bootcamp called Fullstack Academy when bootcamps still felt like a risk…</p>
+    </div>
+
+    <div class="flex gap-3 mt-7 flex-wrap">
+      <Button href="/career" variant="primary" size="sm">Read the full story →</Button>
+      <Button href="https://linkedin.com/in/tleriasbird" variant="secondary" size="sm" external={true}>LinkedIn ↗</Button>
+      <Button href="https://medium.com/@tleriasbird" variant="secondary" size="sm" external={true}>Medium ↗</Button>
+    </div>
+  </div>
+</section>

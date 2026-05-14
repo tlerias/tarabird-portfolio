@@ -1,9 +1,25 @@
 ---
 import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Marquee from '../components/Marquee.astro';
+import BuildsSection from '../components/BuildsSection.astro';
+import CareerSection from '../components/CareerSection.astro';
+import OffKeyboardSection from '../components/OffKeyboardSection.astro';
+import OffTheClockSection from '../components/OffTheClockSection.astro';
+import ContactSection from '../components/ContactSection.astro';
+import Footer from '../components/Footer.astro';
 ---
 <Base>
-  <main class="p-8">
-    <h1 class="font-display text-5xl font-extrabold tracking-tighter">tarabird scaffold</h1>
-    <p class="font-mono text-xs uppercase tracking-widest text-lavender mt-2">hello world — design tokens are wired</p>
+  <Nav />
+  <main>
+    <Hero />
+    <Marquee />
+    <BuildsSection />
+    <CareerSection />
+    <OffKeyboardSection />
+    <OffTheClockSection />
+    <ContactSection />
   </main>
+  <Footer />
 </Base>

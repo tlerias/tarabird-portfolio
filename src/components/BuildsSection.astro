@@ -1,0 +1,20 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import BuildCard from './BuildCard.astro';
+import Highlight from './Highlight.astro';
+import { builds } from '../content/builds';
+---
+<section id="builds" class="bg-cream border-b border-card-border/40">
+  <div class="max-w-6xl mx-auto px-8 py-16">
+    <div class="flex justify-between items-end mb-8 flex-wrap gap-4">
+      <SectionHeader number="01" label="builds" squiggleColor="lavender" squiggleWidth={170}>
+        Things I've <Highlight color="mint">shipped</Highlight> lately.
+      </SectionHeader>
+      <div class="font-mono text-[10px] text-ink/50">3 selected · 2024 → 2026</div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      {builds.map(build => (<BuildCard build={build} />))}
+    </div>
+  </div>
+</section>

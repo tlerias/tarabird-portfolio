@@ -1,0 +1,20 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import Highlight from './Highlight.astro';
+import { offTheClock } from '../content/off-the-clock';
+---
+<section id="off-the-clock" class="border-b border-card-border/40" style="background:var(--gradient-personal)">
+  <div class="max-w-6xl mx-auto px-8 py-16">
+    <SectionHeader number="04" label="off the clock" squiggleColor="lavender">
+      <Highlight color="lavender">Outside</Highlight> the IDE.
+    </SectionHeader>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8 max-w-3xl">
+      {offTheClock.map(item => (
+        <div class="bg-cream-warm border border-card-border rounded-2xl p-5">
+          <h3 class="font-display font-bold text-[17px]">{item.title}</h3>
+          <p class="text-[14px] mt-1 text-ink/80 leading-[1.5]">{item.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

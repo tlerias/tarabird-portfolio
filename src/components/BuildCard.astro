@@ -1,0 +1,33 @@
+---
+import StatusPill from './StatusPill.astro';
+import Button from './Button.astro';
+import type { z } from 'zod';
+import type { BuildSchema } from '../content/schema';
+
+interface Props { build: z.infer<typeof BuildSchema>; }
+const { build } = Astro.props;
+---
+<article class="bg-cream-warm border border-card-border rounded-2xl overflow-hidden transition-transform hover:-translate-y-0.5 hover:shadow-lg duration-200">
+  <div class="relative h-[180px] overflow-hidden" style={`background:${build.gradientHeader}`}>
+    <img
+      src={build.screenshot}
+      alt={`Screenshot of ${build.title}`}
+      class="absolute inset-0 w-full h-full object-cover object-top opacity-95"
+      loading="lazy"
+    />
+    <div class="absolute top-3 right-3">
+      <StatusPill variant={build.status} />
+    </div>
+  </div>
+  <div class="p-5">
+    <div class="font-mono text-[9px] font-medium uppercase tracking-[1.5px] text-ink/60">
+      {build.dates}
+    </div>
+    <h3 class="font-display font-bold text-[20px] mt-1" style="letter-spacing:-0.025em">{build.title}</h3>
+    <p class="text-[14px] mt-1.5 leading-[1.55] text-ink/80">{build.description}</p>
+    <div class="flex gap-2 mt-4">
+      <Button href={build.liveUrl} variant="primary" size="sm" external={true}>{build.liveLabel}</Button>
+      <Button href={`/builds/${build.slug}`} variant="secondary" size="sm">Case study →</Button>
+    </div>
+  </div>
+</article>

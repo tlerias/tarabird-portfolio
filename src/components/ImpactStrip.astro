@@ -1,0 +1,24 @@
+---
+import type { z } from 'zod';
+import type { OffKeyboardSchema } from '../content/schema';
+
+interface Props { item: z.infer<typeof OffKeyboardSchema>; }
+const { item } = Astro.props;
+---
+<article class="bg-cream-warm border border-card-border rounded-2xl p-6">
+  <h3 class="font-display font-bold text-[22px]" style="letter-spacing:-0.025em">
+    {item.link ? (
+      <a href={item.link} target="_blank" rel="noopener noreferrer" class="hover:text-mint transition-colors">{item.title}</a>
+    ) : item.title}
+  </h3>
+  <div class="font-mono text-[10px] font-medium uppercase tracking-[1.5px] text-ink/55 mt-1">{item.meta}</div>
+  <p class="text-[14px] mt-3 leading-[1.55] text-ink/80">{item.description}</p>
+  <div class="flex gap-5 mt-5">
+    {item.stats.map(s => (
+      <div>
+        <div class="font-display font-extrabold text-[28px] text-forest" style="letter-spacing:-0.025em">{s.value}</div>
+        <div class="font-mono text-[10px] uppercase tracking-[1px] text-ink/55 mt-0.5">{s.label}</div>
+      </div>
+    ))}
+  </div>
+</article>

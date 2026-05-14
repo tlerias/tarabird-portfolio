@@ -11,7 +11,9 @@
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest run",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "screenshots": "node scripts/screenshot-products.mjs",
+    "og": "node scripts/og-image.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.6",
@@ -25,7 +27,9 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.3.0",
+    "@vercel/node": "^5.8.1",
     "@vitest/ui": "^4.1.6",
+    "playwright": "^1.60.0",
     "tailwindcss": "^4.3.0",
     "vitest": "^4.1.6"
   },

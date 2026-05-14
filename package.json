@@ -14,19 +14,19 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
-    "astro": "latest",
-    "@astrojs/mdx": "latest",
-    "@astrojs/sitemap": "latest",
-    "@astrojs/vercel": "latest",
-    "@fontsource-variable/inter": "latest",
-    "@fontsource-variable/jetbrains-mono": "latest",
-    "zod": "latest"
+    "astro": "^6.3.3",
+    "@astrojs/mdx": "^5.0.6",
+    "@astrojs/sitemap": "^3.7.2",
+    "@astrojs/vercel": "^10.0.7",
+    "@fontsource-variable/inter": "^5.2.8",
+    "@fontsource-variable/jetbrains-mono": "^5.2.8",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
-    "tailwindcss": "latest",
-    "@tailwindcss/vite": "latest",
-    "vitest": "latest",
-    "@vitest/ui": "latest"
+    "tailwindcss": "^4.3.0",
+    "@tailwindcss/vite": "^4.3.0",
+    "vitest": "^4.1.6",
+    "@vitest/ui": "^4.1.6"
   },
   "overrides": {
     "vite": "^7"

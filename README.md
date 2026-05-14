@@ -19,6 +19,13 @@ npm run dev
 
 Open http://localhost:4321
 
+## Tests
+
+```bash
+npm test          # run unit tests once
+npm run test:ui   # interactive vitest UI
+```
+
 ## Deploy
 
 Auto-deploys to `tarabird.com` on push to `main` (via Vercel).

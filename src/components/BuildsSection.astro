@@ -2,6 +2,7 @@
 import SectionHeader from './SectionHeader.astro';
 import BuildCard from './BuildCard.astro';
 import Highlight from './Highlight.astro';
+import ScrollFadeIn from './ScrollFadeIn.astro';
 import { builds } from '../content/builds';
 ---
 <section id="builds" class="bg-cream border-b border-card-border/40">
@@ -13,8 +14,10 @@ import { builds } from '../content/builds';
       <div class="font-mono text-[10px] text-ink/50">3 selected · 2024 → 2026</div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-      {builds.map(build => (<BuildCard build={build} />))}
-    </div>
+    <ScrollFadeIn>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {builds.map(build => (<BuildCard build={build} />))}
+      </div>
+    </ScrollFadeIn>
   </div>
 </section>

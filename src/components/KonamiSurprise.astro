@@ -1,0 +1,30 @@
+<div id="konami-surprise" aria-hidden="true"
+  class="fixed bottom-8 left-[-80px] z-[100] pointer-events-none text-5xl select-none opacity-0">
+  🐈‍⬛
+</div>
+<script>
+  import { createKonamiMatcher } from '../lib/konami';
+  const surprise = document.getElementById('konami-surprise')!;
+  const matcher = createKonamiMatcher();
+  document.addEventListener('keydown', (e) => {
+    if (matcher(e.key)) {
+      surprise.classList.add('walking');
+      setTimeout(() => surprise.classList.remove('walking'), 4000);
+    }
+  });
+</script>
+<style>
+  #konami-surprise.walking {
+    animation: walk 4s linear forwards;
+  }
+  @keyframes walk {
+    0%   { transform: translateX(0);                 opacity: 1; }
+    20%  { transform: translateX(30vw) rotate(-10deg);}
+    40%  { transform: translateX(50vw) rotate(15deg) translateY(-30px); }
+    60%  { transform: translateX(70vw) rotate(-5deg); }
+    100% { transform: translateX(110vw) rotate(0deg); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #konami-surprise.walking { animation: none; opacity: 0; }
+  }
+</style>

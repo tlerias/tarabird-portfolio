@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Button from '../components/Button.astro';
+import Highlight from '../components/Highlight.astro';
+import Squiggle from '../components/Squiggle.astro';
+---
+<Base title="Not found — Tara Bird" description="This page got knocked off the counter.">
+  <Nav />
+  <main class="bg-cream min-h-[60vh] flex items-center">
+    <div class="max-w-3xl mx-auto px-8 py-16">
+      <div class="font-mono text-[10px] font-semibold uppercase tracking-[2px] text-lavender">404 — gone</div>
+      <h1 class="font-display font-extrabold text-[64px] leading-[0.96] mt-3" style="letter-spacing:-0.04em">
+        This page got <Highlight color="mint">knocked off</Highlight> the counter.
+      </h1>
+      <div class="mt-2"><Squiggle color="lavender" width={280} /></div>
+      <p class="text-[17px] mt-6 max-w-xl text-ink/85">Try a different one ↓</p>
+      <div class="flex gap-3 mt-6 flex-wrap">
+        <Button href="/" variant="primary">Home →</Button>
+        <Button href="/#builds" variant="secondary">Builds</Button>
+        <Button href="/#say-hi" variant="secondary">Say hi</Button>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Base>

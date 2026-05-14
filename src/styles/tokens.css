@@ -1,0 +1,49 @@
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/jetbrains-mono';
+@import 'tailwindcss';
+
+@theme {
+  /* Colors — see spec §3 */
+  --color-cream: #fef9f0;
+  --color-cream-warm: #fefcf5;
+  --color-peach-wash: #fdf0e8;
+  --color-lavender-wash: #f3eef8;
+  --color-lavender: #8b7ab8;
+  --color-lavender-deep: #5b4380;
+  --color-mint: #5fc9a0;
+  --color-forest: #1a4a3a;
+  --color-ink: #0d2820;
+  --color-ink-soft: #1a3a2e;
+  --color-card-border: #d4cfc1;
+
+  /* Font stacks */
+  --font-display: 'Inter Variable', Inter, system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter Variable', Inter, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+
+  /* Custom letter-spacing tokens */
+  --tracking-tightest-display: -0.04em;
+  --tracking-tight-display: -0.025em;
+}
+
+/* Gradients (used via inline style="background:var(--gradient-...)") */
+:root {
+  --gradient-hero: linear-gradient(165deg, #fdf6f0 0%, #fdf6f0 40%, #f3eef8 100%);
+  --gradient-career: linear-gradient(180deg, #f3eef8, #ede5f5);
+  --gradient-personal: linear-gradient(180deg, #fef9f0, #fdf0e8);
+}
+
+html {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

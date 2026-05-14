@@ -1,0 +1,34 @@
+{
+  "name": "tarabird-portfolio",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test": "vitest run",
+    "test:ui": "vitest --ui"
+  },
+  "dependencies": {
+    "astro": "latest",
+    "@astrojs/mdx": "latest",
+    "@astrojs/sitemap": "latest",
+    "@astrojs/vercel": "latest",
+    "@fontsource-variable/inter": "latest",
+    "@fontsource-variable/jetbrains-mono": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "tailwindcss": "latest",
+    "@tailwindcss/vite": "latest",
+    "vitest": "latest",
+    "@vitest/ui": "latest"
+  },
+  "overrides": {
+    "vite": "^7"
+  }
+}

@@ -14,7 +14,11 @@ import BlurShape from './BlurShape.astro';
       Yes I take contract work. No I don't take spec interviews. Most things in between, ask.
     </p>
 
-    <form method="POST" action="/api/contact" class="mt-6 max-w-xl" id="contact-form">
+    <form method="POST" action="https://formsubmit.co/tarabird90@gmail.com" class="mt-6 max-w-xl" id="contact-form">
+      <input type="hidden" name="_subject" value="Hello from tarabird.com" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_captcha" value="true" />
+      <input type="hidden" name="_next" value="https://tarabird.com/?sent=1" />
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <input name="name" required maxlength="100" placeholder="your name"
           class="bg-ink-soft border border-mint text-cream rounded-full px-4 py-3 text-[14px] placeholder:text-cream/40 focus:outline-none focus:ring-2 focus:ring-mint" />
@@ -23,7 +27,7 @@ import BlurShape from './BlurShape.astro';
       </div>
       <textarea name="message" required maxlength="2000" placeholder="what's up?"
         class="w-full bg-ink-soft border border-mint text-cream rounded-2xl px-4 py-3 text-[14px] mt-3 min-h-[80px] placeholder:text-cream/40 focus:outline-none focus:ring-2 focus:ring-mint resize-none"></textarea>
-      <input type="text" name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
       <div class="mt-5">
         <Button variant="mint">Send →</Button>
       </div>
@@ -46,16 +50,25 @@ import BlurShape from './BlurShape.astro';
     status.textContent = 'sending…';
     const data = new FormData(form);
     try {
-      const res = await fetch('/api/contact', { method: 'POST', body: data });
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { Accept: 'application/json' },
+      });
       if (res.ok) {
         status.textContent = 'sent. talk soon ✓';
         form.reset();
       } else {
-        const text = await res.text();
-        status.textContent = `couldn't send: ${text}`;
+        status.textContent = `couldn't send (${res.status}). try emailing tarabird90@gmail.com`;
       }
     } catch (err) {
       status.textContent = `couldn't send: ${(err as Error).message}`;
     }
   });
+
+  // surface a thank-you if FormSubmit redirected back with ?sent=1
+  if (new URLSearchParams(window.location.search).get('sent') === '1') {
+    status.textContent = 'sent. talk soon ✓';
+    history.replaceState({}, '', window.location.pathname + window.location.hash);
+  }
 </script>

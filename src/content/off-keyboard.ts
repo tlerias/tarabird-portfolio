@@ -13,7 +13,7 @@ export const offKeyboard: OffKeyboard[] = [
       { value: '13 yrs', label: 'continuous' },
       { value: '4', label: 'regions served' },
     ],
-    link: 'https://heartandhammer.org',
+    link: 'https://heartandhammerorg.notion.site/Heart-Hammer-2aa48cf5898d8011ac3dd3c7b29af68b',
   },
   {
     title: 'Kinetic Minds',

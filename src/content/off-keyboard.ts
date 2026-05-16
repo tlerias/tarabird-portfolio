@@ -17,7 +17,7 @@ export const offKeyboard: OffKeyboard[] = [
   },
   {
     title: 'Kinetic Minds',
-    meta: 'kid-coding pilot · 2024 → 2025',
+    meta: 'kid-coding pilot · 2025 → 2026',
     description: 'A creative-coding program for K–5 students in Montclair. Started with a community fundraiser.',
     stats: [
       { value: '$3,750', label: 'seed raised' },

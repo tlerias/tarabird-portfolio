@@ -2,7 +2,7 @@
 layout: ../../layouts/CaseStudy.astro
 title: Knock It Off
 eyebrow: "2026 · GAME · FOR THE KIDS"
-description: "A tap-and-knock game where a cat shoves food off the counter to a hungry dog. Built in Godot, mostly for my kids."
+description: "A tap-and-knock game starring my two cats (Waffles and Prince) and their partner in crime, my French bulldog Winston. Built in Godot to learn game dev alongside my kids."
 liveUrl: "https://knock-it-off.vercel.app"
 liveLabel: "Play ↗"
 status: "kids"
@@ -21,24 +21,27 @@ stats:
 
 ## What it does
 
-You pick a cat (Waffles or Prince), the cat sits on a kitchen counter, food appears, and you tap to knock it off. A hungry dog catches it below. 45-second rounds, scoring, replay.
+You pick a cat. **Waffles** is the tuxedo. **Prince** is the white one with attitude. Your cat sits on a kitchen counter, food appears, and you tap to knock it off. Down on the floor: **Winston**, my French bulldog, waiting with his mouth open. Every piece of food the cat shoves off, Winston scarfs. 45-second rounds. Score. Replay. Repeat.
 
 ## Why I built it
 
-My kids think it is the funniest thing in the world when a cat puts a paw on the counter and slowly nudges something off. I wanted to make them a game where they get to *be* the cat.
+This game exists because of three real animals and three real kids.
 
-Also: I've wanted to learn Godot for a while, and a short tap-game for kids is roughly the perfect first project.
+The animals: Waffles and Prince are my cats. Winston is my Frenchie. Their actual relationship in our actual kitchen is the entire premise. The cats knock food off the counter. Winston cleans it up. They have been running this operation, unbidden, for years. I just turned it into a game.
+
+The kids: my three got curious about game development, and I realized my honest answer to "how do you make games?" was *I don't actually know*. I'd built every other kind of software, but never a game. So I picked up Godot, partly to make them something they'd love and partly so I could guide them through their own first projects with hands that had actually done it. The real long game here isn't this game. It's the next one, which one of them will build.
 
 ## How it works
 
-- **Godot 4.6** with GDScript
-- **Pixel art** sprites for the cat, dog, counter, and food
-- **Web export** so they can play it on the iPad without an app store install
-- **Responsive layout** that works on web *and* iPad landscape (tablet was the actual target platform)
-- **Clean scene/script architecture**: main menu, game scene, score scene as separate nodes; signals between them for round events; no shared mutable state
+- **Godot 4.6** with GDScript. Picked Godot over Unity for the smaller footprint and the open license (no royalty surprises, no per-seat math).
+- **Pixel art sprites** for Waffles, Prince, Winston, the counter, and the food. Hand-drawn pixel by pixel because that part is fun.
+- **Web export** so the kids can play on the iPad without an app store install or a per-account anything.
+- **Responsive layout** that works on web *and* iPad landscape. Tablet was the actual target platform. Desktop was a happy accident.
+- **Clean scene/script architecture**: main menu, game scene, score scene as separate nodes; signals between them for round events; no shared mutable state. Built it like a real codebase because that habit is hard to turn off.
 
 ## What I'm proud of
 
-- **It actually shipped.** Most "I should learn Godot" projects sit in a folder.
-- **My kids play it on their own.** Best possible review.
-- **Cat physics that feel right.** The "knock" arc is hand-tuned for the satisfying paw-tap motion.
+- **It actually shipped.** Most "I should learn Godot" projects sit in a folder forever. This one has a URL.
+- **The kids play it on their own**, and they laugh at it, and that's the only review that matters.
+- **Cat physics that feel right.** The "knock" arc is hand-tuned for the satisfying paw-tap motion. Winston's catch animation is honest about his actual catching ability (low).
+- **A foothold for the next one.** I now know enough Godot to sit next to a kid who's building their first game and be useful, instead of just supportive.

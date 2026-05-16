@@ -31,6 +31,22 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'Tara Bird',
+      url: 'https://tarabird.com',
+      image: 'https://tarabird.com/portrait.jpg',
+      jobTitle: 'Engineering Manager',
+      worksFor: { '@type': 'Organization', name: 'Gusto' },
+      description: 'Engineering manager at Gusto. Independent builder of a layoff calculator, a jiu-jitsu app, and a tap-and-knock game for my kids.',
+      sameAs: [
+        'https://linkedin.com/in/tleriasbird',
+        'https://medium.com/@tarabird90',
+        'https://github.com/tlerias',
+        'https://instagram.com/mamabirdhustles',
+      ],
+    })} />
   </head>
   <body class="font-body bg-cream text-ink">
     <slot />

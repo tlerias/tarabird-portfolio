@@ -14,11 +14,11 @@ import BlurShape from './BlurShape.astro';
       Yes I take contract work. No I don't take spec interviews. Most things in between, ask.
     </p>
 
-    <form method="POST" action="https://formsubmit.co/tarabird90@gmail.com" class="mt-6 max-w-xl" id="contact-form">
-      <input type="hidden" name="_subject" value="Hello from tarabird.com" />
-      <input type="hidden" name="_template" value="table" />
-      <input type="hidden" name="_captcha" value="true" />
-      <input type="hidden" name="_next" value="https://tarabird.com/?sent=1" />
+    <form method="POST" action="https://api.web3forms.com/submit" class="mt-6 max-w-xl" id="contact-form">
+      <input type="hidden" name="access_key" value="ddb6e158-95c4-45d3-be69-aff73871cd60" />
+      <input type="hidden" name="subject" value="Hello from tarabird.com" />
+      <input type="hidden" name="from_name" value="tarabird.com contact form" />
+      <input type="hidden" name="redirect" value="https://tarabird.com/?sent=1" />
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <input name="name" required maxlength="100" placeholder="your name"
           class="bg-ink-soft border border-mint text-cream rounded-full px-4 py-3 text-[14px] placeholder:text-cream/40 focus:outline-none focus:ring-2 focus:ring-mint" />
@@ -27,7 +27,7 @@ import BlurShape from './BlurShape.astro';
       </div>
       <textarea name="message" required maxlength="2000" placeholder="what's up?"
         class="w-full bg-ink-soft border border-mint text-cream rounded-2xl px-4 py-3 text-[14px] mt-3 min-h-[80px] placeholder:text-cream/40 focus:outline-none focus:ring-2 focus:ring-mint resize-none"></textarea>
-      <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
+      <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
       <div class="mt-5">
         <Button variant="mint">Send →</Button>
       </div>

@@ -7,7 +7,7 @@ const qrSvg = await QRCode.toString(url, {
   type: 'svg',
   errorCorrectionLevel: 'M',
   margin: 0,
-  color: { dark: '#0d2820', light: '#00000000' },
+  color: { dark: '#000000', light: '#00000000' },
 });
 
 const html = `<!doctype html>

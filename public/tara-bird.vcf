@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Bird;Tara;;;
+FN:Tara Bird
+ORG:Gusto
+TITLE:Engineering Manager
+EMAIL;TYPE=INTERNET,WORK:tara@tarabird.com
+URL;TYPE=WORK:https://tarabird.com
+URL;TYPE=LinkedIn:https://linkedin.com/in/tleriasbird
+NOTE:Founder, Kinetic Minds Creative
+END:VCARD

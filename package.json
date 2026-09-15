@@ -13,7 +13,8 @@
     "test": "vitest run",
     "test:ui": "vitest --ui",
     "screenshots": "node scripts/screenshot-products.mjs",
-    "og": "node scripts/og-image.mjs"
+    "og": "node scripts/og-image.mjs",
+    "qr": "node scripts/generate-qr.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.6",
@@ -28,6 +29,7 @@
     "@tailwindcss/vite": "^4.3.0",
     "@vitest/ui": "^4.1.6",
     "playwright": "^1.60.0",
+    "qrcode": "^1.5.4",
     "tailwindcss": "^4.3.0",
     "vitest": "^4.1.6"
   },

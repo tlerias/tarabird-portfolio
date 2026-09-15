@@ -1,0 +1,116 @@
+---
+import Base from '../layouts/Base.astro';
+import Footer from '../components/Footer.astro';
+import Highlight from '../components/Highlight.astro';
+import Squiggle from '../components/Squiggle.astro';
+
+const tags = ['Builder', 'Consultant', 'Freelancer'];
+
+const links = [
+  {
+    href: '/tara-bird.vcf',
+    label: 'Save my contact',
+    sub: 'adds Tara Bird to your phone',
+    variant: 'mint',
+    download: true,
+  },
+  {
+    href: 'mailto:tarabird90@gmail.com',
+    label: 'Email me',
+    sub: 'consulting, speaking, or just say hi',
+    variant: 'secondary',
+  },
+  {
+    href: 'https://linkedin.com/in/tleriasbird',
+    label: 'LinkedIn',
+    sub: 'linkedin.com/in/tleriasbird',
+    variant: 'secondary',
+    external: true,
+  },
+  {
+    href: 'https://tarabird.com',
+    label: 'Full site',
+    sub: 'builds, career, off-the-clock',
+    variant: 'secondary',
+    external: true,
+  },
+];
+
+const linkBase =
+  'flex items-center justify-between gap-3 w-full rounded-2xl px-5 py-4 text-left transition-transform duration-150 active:scale-[0.98]';
+const linkVariant: Record<string, string> = {
+  mint: 'bg-mint text-ink font-semibold shadow-[0_6px_20px_rgba(95,201,160,0.35)]',
+  secondary: 'bg-cream-warm border border-card-border text-ink hover:border-ink',
+};
+---
+<Base
+  title="Tara Bird · Say hi"
+  description="Engineering Manager at Gusto, open to engineering leadership consulting. Save my contact, connect on LinkedIn, or check out what I'm building."
+  ogImage="/og-image.png"
+>
+  <div class="min-h-screen flex flex-col" style="background:var(--gradient-hero)">
+  <main class="max-w-sm w-full mx-auto px-6 flex-1 flex flex-col" style="padding-top:max(2.5rem, env(safe-area-inset-top)); padding-bottom:2.5rem;">
+      <a href="/" class="font-mono text-[11px] uppercase tracking-[1.5px] text-ink/60 hover:text-mint self-start">← tarabird.com</a>
+
+      <div class="flex flex-col items-center text-center mt-6">
+        <div class="font-mono text-[10px] font-semibold uppercase tracking-[2px] flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-mint"></span> hi, i'm tara
+        </div>
+
+        <div class="relative w-[136px] h-[136px] mt-6">
+          <div class="absolute -inset-3 rounded-full bg-mint/30 blur-2xl"></div>
+          <img
+            src="/portrait.jpg"
+            alt="Tara Bird"
+            width="136"
+            height="136"
+            loading="eager"
+            class="relative w-full h-full rounded-full object-cover ring-4 ring-mint shadow-[0_10px_40px_rgba(13,40,32,0.22)]"
+          />
+        </div>
+
+        <h1 class="font-display font-extrabold text-[38px] leading-[0.96] mt-5" style="letter-spacing:-0.03em">
+          <Highlight color="mint">Tara Bird</Highlight>
+        </h1>
+
+        <p class="text-[14px] font-semibold mt-2 text-ink/90">Engineering Manager @ Gusto</p>
+
+        <div class="flex flex-wrap justify-center gap-1.5 mt-3">
+          {tags.map((t) => (
+            <span class="font-mono text-[10px] font-semibold uppercase tracking-[1px] border border-mint text-ink/75 rounded-full px-2.5 py-1">{t}</span>
+          ))}
+        </div>
+
+        <div class="mt-4"><Squiggle color="lavender" width={160} /></div>
+
+        <p class="text-[14px] leading-[1.6] mt-3 max-w-[280px] text-ink/85">
+          A decade shipping product and leading engineering teams, from scrappy startups to Gusto. I help teams move faster and ship things that matter.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-3 mt-8">
+        {links.map((l) => (
+          <a
+            href={l.href}
+            class={`${linkBase} ${linkVariant[l.variant]}`}
+            target={l.external ? '_blank' : undefined}
+            rel={l.external ? 'noopener noreferrer' : undefined}
+            download={l.download ? true : undefined}
+          >
+            <span>
+              <span class="block text-[15px]">{l.label}</span>
+              <span class="block text-[12px] opacity-70">{l.sub}</span>
+            </span>
+            <span aria-hidden="true" class="text-[18px] shrink-0">{l.external ? '↗' : '→'}</span>
+          </a>
+        ))}
+      </div>
+
+      <div class="flex flex-col items-center mt-10 pt-8 border-t border-card-border/60">
+        <img src="/hi-qr.svg" alt="QR code linking to tarabird.com/hi" width="120" height="120" class="rounded-lg" />
+        <p class="font-mono text-[10px] uppercase tracking-[1.5px] text-ink/50 mt-2">scan to share this card</p>
+      </div>
+  </main>
+  <Footer />
+  </div>
+</Base>

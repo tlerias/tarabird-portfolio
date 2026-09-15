@@ -27,7 +27,6 @@ const html = `<!doctype html>
   h1 { font-size: 88px; font-weight: 800; letter-spacing: -3px; margin: 48px 0 0 0; line-height: 0.98; }
   .hi { background: #5fc9a0; padding: 0 20px; border-radius: 16px; }
   .role { font-size: 30px; font-weight: 600; margin-top: 28px; }
-  .org { font-size: 24px; font-weight: 400; color: rgba(13,40,32,0.65); margin-top: 6px; }
   .qr-card { margin-top: 64px; background: #fff; border-radius: 40px; padding: 48px; box-shadow: 0 20px 60px rgba(13,40,32,0.18); border: 3px solid #5fc9a0; }
   .qr-card svg { width: 460px; height: 460px; display: block; }
   .scan-url { margin-top: 36px; font-family: 'JetBrains Mono', monospace; font-size: 30px; font-weight: 600; letter-spacing: -0.5px; }
@@ -36,7 +35,6 @@ const html = `<!doctype html>
   <div class="wordmark"><span class="dot"></span>tarabird.com</div>
   <h1>Tara <span class="hi">Bird</span></h1>
   <div class="role">Engineering Manager @ Gusto</div>
-  <div class="org">Founder, Kinetic Minds Creative</div>
   <div class="qr-card">${qrSvg}</div>
   <div class="scan-url">tarabird.com/hi</div>
   <div class="tagline">Scan to save my contact, connect on LinkedIn, or see what I'm building.</div>

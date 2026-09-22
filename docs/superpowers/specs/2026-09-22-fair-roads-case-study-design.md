@@ -38,7 +38,7 @@ told me to do."** Pre-registration and disclosure stay, but as the
 mechanism behind decisions, not as the subject.
 
 **The page must carry the positive material it was throwing away**: the
-four-city result, and the system engineering (950 tests, ONNX export with
+four-city result, and the system engineering (a large test suite, ONNX export with
 verified parity, distroless serving image, fAIr harness conformance, a
 20k-chip OpenAerialMap pipeline across five regions).
 
@@ -76,10 +76,18 @@ repository"* in the proposal already sent to HOT.
    `63dd20c7…` (99,407,751 B), ONNX sha256 `9d844d88…` (99,679,000 B).
    Slimmed from the 181.6 MB training checkpoint, verified tensor- and
    output-identical. ONNX exported at opset 17 through the repo's own
-   `export_to_onnx_bytes`; parity against the PyTorch model measured at
-   **5.2e-05** worst case across the three live channels, with the
-   footpath channel a constant −1e4 in both. Published files downloaded
-   anonymously and hashed to confirm they match byte-for-byte.
+   `export_to_onnx_bytes`; parity against the PyTorch model measured over 5 random inputs at
+   **6.4e-05** worst case across the three live channels, with the
+   footpath channel a constant −1e4 in every trial. The measurement is
+   recorded in `onnx_parity.json` beside the weights, not quoted from a
+   shell session. Published files were downloaded anonymously and hashed
+   to confirm they match the local artifacts.
+
+   **Provenance caveat the page must respect:** the published ONNX was
+   re-exported locally from the released checkpoint, so it is not
+   byte-identical to the one the training job emitted (different torch
+   build). The card says so. Do not write "the model the job produced"
+   about the ONNX.
 
 `liveUrl` is `https://huggingface.co/tarabird90/dinov2s-roads`, label
 `Model card ↗`.
@@ -178,11 +186,15 @@ Carries achievement, not category labels:
 |---|---|
 | ROAD IoU | 0.687 across 4 cities |
 | MODEL | DINOv2 ViT-S/14 + UPerNet · ONNX |
-| ENGINEERING | 950 tests · distroless serve |
-| ROLE | Sole engineer, agent-directed |
+| ENGINEERING | 1,189 tests · distroless serve |
+| ROLE | Sole engineer |
 
 A pooled figure across four cities is not a decontextualised number the
 way a bare `0.63` would be — the context is in the label.
+
+The ROLE row deliberately does **not** say "agent-directed". That
+disclosure belongs to §6 and must rise or fall with it; putting it here
+too would make §6's veto cosmetic.
 
 ## Sections
 
@@ -206,15 +218,22 @@ same walk-back the proposal had to make.
 
 ### 2. What got built
 
-Brief, plain numbers, no narrative: a `roads_hot` package under 950
-passing tests; a four-stage distroless serving image; an ONNX export with
-measured parity; conformance against fAIr's real harness (108 of 108 step
-tests initially errored against the live harness and were fixed); a
+Brief, plain numbers, no narrative: a `roads_hot` package carrying
+1,189 test functions across 82 files (static count at `9ae5385`; say
+"test functions", not "passing tests", unless the suite has been run); a four-stage distroless serving image; an ONNX export with
+measured parity; conformance work against fAIr's real harness (all 108 step tests
+initially errored against the live harness; the fixes are committed, but
+**confirm a clean run before the page claims they pass**); a
 20k-chip OpenAerialMap pipeline across five regions with pre-registered
 held-out golden regions.
 
 This section exists because the neighbouring case studies each show a
 shipped thing, and without it this page reads weaker than the work is.
+
+**Signpost required:** the pre-registered golden regions belong to the
+Stage B / OpenAerialMap pipeline, not to the released Stage A model,
+which has no held-out evidence (§3). Say which is which here, or a
+skimmer will credit the release with evidence it does not have.
 
 ### 3. Four cities, and what the numbers actually said
 
@@ -276,9 +295,10 @@ recommendation but easy to cut.**
 The work is agent-directed, and the repository makes that discoverable
 anyway. For a Director of AI Engineering track, directing agents and
 building the verification that catches their errors is the most relevant
-thing on the page. The withdrawn 61.2% figure is the proof: it existed
-only in prose and a commit message, never in a committed measurement
-artifact, and the verification gates are what surfaced that.
+thing on the page. The withdrawn footpath figure in §5 is the proof: it existed only in
+prose and a commit message, never in a committed measurement artifact,
+and the verification gates are what surfaced that. Refer back to §5
+rather than restating the number, per the do-not-quote rule.
 
 One honest paragraph. The risk of omitting it is a less impressive true
 answer when someone asks how the work was done.
@@ -385,12 +405,16 @@ checkpoint, or the source repository going public.
 
 1. **§6 (agent-directed disclosure)** — included on my recommendation;
    veto if you disagree.
-2. **Proposal-sent evidence.** The only proposal in the repo
-   (`docs/outreach/2026-09-18-hot-fair-proposal-draft.md`) is still
-   headed "DRAFT. NOT SENT, and NOT SENDABLE AS IT STANDS" with an
-   unresolved owner-decision block. You have said it was sent. The page
-   will state publicly that a proposal is in, so the sent version and
-   date should be recorded somewhere before publication.
+2. ~~Proposal-sent evidence.~~ **Resolved 2026-09-22 — this was my
+   error.** I read the proposal from a worktree three commits behind and
+   reported stale "NOT SENDABLE"/owner-decision wording that Tara had
+   already cut. The current proposal is `11a9fd8` on
+   `claude/fair-roads-codex-review-dbddf1`: retitled, carrying her name
+   and email, answering five required items, citing the 16 September
+   email confirmation, with zero occurrences of "NOT SENDABLE", "OWNER
+   DECISION", "PLACEHOLDER" or "NOT SENT", and the `fairpredictor`
+   paragraph removed entirely. **Read the proposal from that ref, not
+   from this worktree's HEAD.**
 
 ## Out of scope
 

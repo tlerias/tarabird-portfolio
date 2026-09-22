@@ -84,10 +84,9 @@ These two rows are real but their evidence lives only in the HuggingFace repo, *
 
 So the repository's own same-day metadata disagrees with the model card about which checkpoint is published. The card is the better authority for what is actually on HuggingFace, but the disagreement is unresolved and it sits in the exact area this page claims competence in.
 
-**Action, in order:**
-1. **Tell Tara** (§12). The four-city release shipping without the verification trail its predecessor got is a process gap worth closing regardless of this page.
-2. Copy `onnx_parity.json` into `reports/`, and update `stac-item.json` to name the four-city ONNX.
-3. Until (2) is done, **drop the parity figure and the hashes from the page.** A page arguing that numbers must trace to artifacts cannot lead with two that do not. The page loses little — neither figure is part of its argument.
+**Action for this page: omit both.** Do not put the parity figure or the artifact hashes on the page. A page arguing that numbers must trace to committed artifacts cannot itself lead with two that do not, and neither is load-bearing — the argument runs on the metric disagreement and the exposure register, not on a hash.
+
+Fixing the underlying trail is Tara's, in a separate session (§12.0). **If it lands before this page is written**, the figures become quotable and this section can be revisited; that is a bonus, not a dependency. Implement as though it has not landed.
 
 ### Unpinned — must NOT appear
 
@@ -315,7 +314,9 @@ Bold the findings, not the confessions — the metric disagreement, the oracle c
 
 ## 12. Open questions for Tara
 
-0. **New, and not really about this page: the four-city release has no verification trail.** The Khartoum-only release got `reports/khartoum_stage_a_release/` and `reports/publication_20260921/artifact_verification.json` — hashes, parity, golden scores, all committed. The four-city release got none of that, and `stac-item.json` still names the old ONNX as "the released" one despite being stamped 2026-09-22 (§4). Worth closing independently of the case study; right now the published checkpoint's identity rests on a model card that is private.
+0. ~~**The four-city release has no verification trail.**~~ **Delegated 2026-09-22.** Tara is handling the model card and its artifacts in a separate session, before going public. Not a task for whoever implements this page.
+
+   The handoff list, so it is not lost: republish the card **without** the unpinned per-city table (§4); commit `onnx_parity.json` into `reports/` so the four-city parity figure is checkable from git; update `models/dinov2s_roads/stac-item.json`, which is stamped `2026-09-22` but still names the superseded ONNX (`dbdc48fa…`) as "the released" one; and refresh `models/dinov2s_roads/README.md`, which still describes the Khartoum-only release throughout.
 1. ~~**The model card is private.**~~ **Resolved 2026-09-22.** Ship with the real URL and accept the dead link until the card goes public. See §7 for the three render sites and the body-copy constraint this imposes. **Not a publication blocker any more.**
 
    Still worth doing, and cheap: when the card is republished, remove the unpinned per-city table (§4) first. It is the reason the card went private, and republishing it unchanged puts those numbers back in public.

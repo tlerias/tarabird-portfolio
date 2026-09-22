@@ -21,6 +21,8 @@ The original audience ranking was: (1) personal artifact, (2) network/strangers,
 
 **Contracting has moved up.** Landing paid work is now a real goal. The skills content has a job to do beyond self-expression, and the contract CTA cannot stay in the footer.
 
+**A second goal runs in parallel: a Director of AI Engineering track.** That is the stated purpose of the `fair-roads` case study specced the same day (`2026-09-22-fair-roads-case-study-design.md`, on `main`). Priority for *this* section is contracting first, hiring second — the heading stays "What you can hire me for" and the CTA stays contract-shaped — but the ML evidence must be legible to a hiring manager who lands here, which is why §7's lane 01 absorbs it. See §13.
+
 The voice constraint from §1 of the original spec is unchanged and still binding: *playful + craftsperson + wry, never childish, never corporate.* A skills section is the single most likely element on this page to violate it. Every decision below is constrained by that.
 
 ## 3. Scope of the offer
@@ -98,10 +100,16 @@ All four rows use the **identical** `grid-template-columns: minmax(0, 1.35fr) mi
 
 | # | Title | Description | Stat | Caption | Tags |
 |---|---|---|---|---|---|
-| 01 | Ship the whole product. | Idea to live URL, solo. Design, build, deploy, and the unglamorous parts after launch. | `3` | products live, built alone | Next.js, Supabase, Godot |
+| 01 | Ship the whole product, model included. | Idea to live URL, solo. Design, build, deploy, the unglamorous parts after launch — and when the product *is* a model, train, evaluate and export that too. | `4` | products shipped, built alone | Next.js, Supabase, PyTorch, ONNX, Godot |
 | 02 | Make systems talk. | Partner APIs, accounting platforms, sync pipelines that fail quietly until someone makes them stop. | `15% → 7%` | sync errors · teams I led | QuickBooks, Xero, Sage Intacct |
 | 03 | Run the engineering team. | Fractional tech leadership. On-call rotations, ops reviews, calibration — the infrastructure that makes leadership scale. | `20 days → 9` | time-to-resolve · teams I led | 2 teams, 5 engineers |
 | 04 | Get a team productive with new tools. | AI tooling adoption, workshops, and teaching people who have never written a line of code. | `+57%` | PR throughput · AI-tooling sprint | AI tooling, Workshops |
+
+**Lane 01 absorbs the ML work rather than getting its own row.** `fair-roads` is the strongest single piece of evidence on the site for ML engineering, and a fifth lane was rejected: five lanes make the "I do everything" problem of §3 worse, not better. Folding it into lane 01 is cheaper and keeps the section tight, at the cost of burying the differentiator inside a generalist row — an accepted trade. The title carries "model included" specifically so a hiring manager skimming four titles still sees it.
+
+Lane 01's stat drops the word **live**: `fair-roads` ships as Stage A with open weights, not as a live product, so "4 products live" would be false. "Shipped" is true of all four.
+
+Lane 01 keeps **"built alone"**, now confirmed rather than assumed: all four projects are agent-assisted, which is Tara's normal working method and does not make her any less the sole engineer. `fair-roads`'s own stats strip says `ROLE: Sole engineer`, so the two pages agree. Its §6 discloses agent-direction in body text; the homepage does not need to restate that, and must not contradict it — do not write "hand-coded", "from scratch", or "without AI assistance" anywhere in this section.
 
 Stat strings are written as spoken, not abbreviated — `20 days → 9`, never `20d → 9d`. `15% → 7%` is left as-is: screen readers pronounce `%` correctly, and the `→` sits inside a labelled `<dl>` pair (§8) so the relationship is already conveyed.
 
@@ -140,11 +148,11 @@ export const ServiceSchema = z.object({
   description: z.string().min(1),
   statValue: z.string().min(1),
   statCaption: z.string().min(1),
-  tags: z.array(z.string().min(1)).length(3),
+  tags: z.array(z.string().min(1)).min(2).max(5),
 });
 ```
 
-`.length(3)` rather than `.min(1)`: every row in §7 carries exactly three tags, and `OffKeyboardSchema` already uses `.length(3)` for its analogous fixed-count `stats` field. Matching that keeps schema style consistent and makes a dropped tag a test failure rather than a silent layout shift.
+A bounded range rather than `.min(1)`. An earlier draft used `.length(3)` to match `OffKeyboardSchema`'s fixed-count `stats` field, but lane 01 now legitimately carries five tags after absorbing the ML work (§7). Correctness beats stylistic symmetry here. The bounds still make a dropped tag or an unbounded list a test failure rather than a silent layout shift; the row's third grid column is sized `minmax(220px, 0.9fr)` and holds five chips without reflowing.
 
 **Tag rendering** (shared by service rows and build cards, which have no existing precedent — `StatusPill` is a different, single-value component): pill chips, `1px` mint border, transparent background, `JetBrains Mono` uppercase at ~9.5px with `0.7px` letter-spacing, `border-radius: 999px`, `5px 8px` padding. Not comma-separated text. Extract as `src/components/Tag.astro` so the two consumers cannot drift.
 
@@ -195,8 +203,8 @@ Note that `ContactSection` does **not** use `SectionHeader` — it hand-rolls it
 
 **Automated** — in `src/content/__tests__/content.test.ts`, matching the existing pattern exactly (`z.array(Schema).parse(...)` plus a length and slug assertion):
 
-- `ServiceSchema`: exactly 4 services; slugs equal `['ship', 'integrate', 'lead', 'enable']`; every field non-empty; exactly 3 tags each.
-- `BuildSchema` extended to require `stack`; existing builds assertion updated so all three entries carry one.
+- `ServiceSchema`: exactly 4 services; slugs equal `['ship', 'integrate', 'lead', 'enable']`; every field non-empty; 2–5 tags each.
+- `BuildSchema` extended to require `stack`; the builds assertion updated so every entry carries one. **Do not hardcode `builds.length` to 3 here** — the `fair-roads` spec changes it to 4 (§13). Assert `builds.every(b => b.stack.length > 0)` and leave the count assertion to whichever change lands second.
 
 **No component-rendering test.** The suite has no DOM-rendering capability — every existing test is a pure data/schema check, and `src/lib/__tests__/sanity.test.ts` is a `1 + 1 === 2` placeholder. Playwright is present as a devDependency but is wired only to the screenshot scripts (`scripts/screenshot-products.mjs`, `scripts/og-image.mjs`), not to `vitest run`. Introducing render testing is out of scope for this change; do not add a test that silently requires it.
 
@@ -212,7 +220,7 @@ No new client-side JavaScript. `ScrollFadeIn` is reused, not duplicated.
 
 ## 11. Assumptions carried into implementation
 
-1. **"built alone"** (lane 01) asserts the Layoff Calculator, Rollcall, and Knock It Off were all genuinely solo. Raised twice during design and not corrected, so it is written as stated — but it is a factual claim about authorship on a page selling work, and it should be confirmed before merge. If anyone else contributed to any of the three, the stat caption changes.
+1. ~~**"built alone"**~~ **Resolved 2026-09-22.** Tara confirmed all four projects are hers alone, and that all of them — including the three indie products — are agent-assisted. Agent assistance is her normal working method and does not qualify sole authorship; `fair-roads`'s own stats strip independently says `ROLE: Sole engineer`. The claim stands as fact, not assumption. See §7 for the wording this forbids.
 2. **Metric accuracy** — see §5. The two homepage-facing Gusto numbers rest on Tara's recollection, not on data in this repo.
 3. **Lane 02's integration partners** (QuickBooks, Xero, Sage Intacct) are sourced from `career.astro:41` and are therefore as reliable as that prose. They name real products publicly associated with Gusto Pro; if any of those integrations is not something Tara's teams actually built or owned, the tags must change. This replaced an invented `Rails` tag — see §7.
 
@@ -232,3 +240,25 @@ The `Rails` tag is worth noting as a pattern: §5 was written specifically to st
 - Any change to the `/hi` digital business card, which has its own Builder · Consultant · Freelancer framing.
 - A rates page, availability calendar, or intake form. The contact form stays as-is.
 - Case-study pages for anything other than the three existing builds.
+
+## 13. Coordination with the fair-roads case study
+
+A second spec landed on `main` the same day: `docs/superpowers/specs/2026-09-22-fair-roads-case-study-design.md` (commits `3de681d`, revised by `40515ea`). It adds a **fourth** build at `/builds/fair-roads` — an open-weight road-extraction model for HOT's fAIr platform. Neither spec was written with knowledge of the other. Both are unimplemented.
+
+**They touch the same three files.** Implementing either one in isolation breaks the other.
+
+| File | This spec | fair-roads spec | Combined end state |
+|---|---|---|---|
+| `src/content/schema.ts` | add `stack` to `BuildSchema`; add `ServiceSchema` | add `'fair-roads'` to `slug` enum; add `'wip'` to `status` enum | all four changes; they do not conflict textually but land in the same object |
+| `src/content/builds.ts` | add `stack` to the 3 existing entries | add a 4th entry | 4 entries, **each with a `stack`** |
+| `src/content/__tests__/content.test.ts` | `stack` assertions | `builds.length` 3 → 4; update hardcoded slug array | 4, slugs `['fair-roads'?, 'severance', 'rollcall', 'knock-it-off']` per their ordering decision |
+
+**Sequencing: land `fair-roads` first.** It changes the build set, which this spec's lane 01 stat (`4`) and the `stack` requirement both depend on. Building this section first means writing a `3` that is wrong within days.
+
+**If this spec lands first anyway**, the `fair-roads` implementer must add a `stack` to the new entry or `BuildSchema` will reject it. Use the values from that spec's own stats strip, which are sourced: `['DINOv2 ViT-S/14', 'UPerNet', 'ONNX']`. Do not invent a stack — see §7's `Rails` incident.
+
+**Gap in neither spec, assigned here:** `BuildsSection.astro:18` is `grid grid-cols-1 md:grid-cols-3`. A fourth build renders three cards and an orphan. The `fair-roads` file-change table does not list this file. Whichever change lands second owns the fix; recommended value is `grid-cols-1 md:grid-cols-2`, giving a 2×2 that matches the card proportions better than four-across at `max-w-6xl`. Verify visually — this is a layout change to an existing section, not a drop-in.
+
+**Constraints this section inherits.** `fair-roads` carries a do-not-quote list, and anything the homepage says about that build is bound by it. Specifically: no claim of HOT acceptance, partnership, or endorsement; no state-of-the-art or benchmark claim; `HOT` stays out of stat strips (their rule, and this section's lane 01 stat is a stat strip); and `fair-roads` is described as shipped, never as live. Lane 01's tags (`PyTorch`, `ONNX`) are safe — both are sourced from that spec — and deliberately avoid quoting any metric, so nothing here needs revision when their in-flight numbers move.
+
+**Their review trigger applies here too.** That page is revisited on a HOT decision, a Stage B result, a block-APLS measurement, or the source repo going public. The first and last of those could also change what lane 01 may claim.

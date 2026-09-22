@@ -37,7 +37,9 @@ Audience, in order: a hiring manager reading for a Director of AI Engineering tr
 
 The project uses "Stage A" in two incompatible senses:
 
-1. **A training stage.** The HuggingFace card: *"Stage A base model, trained on four SpaceNet 3 cities."* Here Stage A is base training, as opposed to Stage B fine-tuning, and the four-city model **is** Stage A.
+1. **A training stage.** The HuggingFace card: *"Status: Stage A base model, trained on four SpaceNet 3 cities (Khartoum, Paris, Shanghai, Las Vegas)."* Here Stage A is base training, as opposed to Stage B fine-tuning, and the four-city model **is** Stage A.
+
+   **Provenance — read this before trying to verify that quote.** It is not in git. It was read from the live public model card at `huggingface.co/tarabird90/dinov2s-roads` on 2026-09-22, before Tara made the card private later the same day. The committed copy at `models/dinov2s_roads/README.md` is **stale** — it still describes the superseded Khartoum-only release and never uses "Stage A" at all. Two independent reviewers have already searched git for this quote, failed to find it, and concluded it was fabricated or misattributed. It was neither, but the confusion is now on record twice, which means the page must not rest on it without re-confirmation when the card is republished (§13).
 2. **A specific checkpoint.** `fourcity_apls_20260922/SUMMARY.json` and `candidate_comparison.json` both use `stage_a` as the name of the **superseded Khartoum-only checkpoint** (`3f143fc8…`), used as the control arm.
 
 Both are in committed artifacts. Neither is wrong internally. Together they are a trap: "Stage A block APLS is 0.286" and "Stage A road IoU is 0.643" are both true statements about *different models*.
@@ -76,7 +78,16 @@ These two rows are real but their evidence lives only in the HuggingFace repo, *
 
 **Do not confuse these with `reports/publication_20260921/artifact_verification.json`.** That file describes the *superseded Khartoum-only* release — its own paths read `runs/khartoum_stageA_20260918T235031Z/release/` — and carries different values: ckpt `3f143fc8…`, ONNX `dbdc48fa…`, parity `5.15e-05` on the live channels. A reviewer checking this spec against that file will "find" three errors that are not errors; one already did. Same architecture means identical file sizes, which makes the two releases easy to mistake for each other.
 
-**Action:** either copy `onnx_parity.json` into `reports/` so the four-city parity figure is verifiable from git, or drop the parity claim from the page. A number whose only home is a private repo is not one a hiring manager can check.
+**Provenance:** these values were read from the live public model card on 2026-09-22, before it was made private. They are not in git and cannot currently be re-checked by anyone.
+
+**There is a real gap in the project here, not just in this spec.** The Khartoum-only release has a meticulous committed trail — `reports/khartoum_stage_a_release/` and `reports/publication_20260921/` with `artifact_verification.json`, hashes, parity, golden scores. **The four-city release has no equivalent.** There is no `publication_20260922/`. `git grep` finds zero hits for `63dd20c7`, `9d844d88` or `6.4e-05` anywhere in the tree. Worse, `models/dinov2s_roads/stac-item.json` carries `properties.updated: "2026-09-22T00:00:00Z"` and *still* names `dbdc48fa…` — the Khartoum-only file — as "the released ONNX".
+
+So the repository's own same-day metadata disagrees with the model card about which checkpoint is published. The card is the better authority for what is actually on HuggingFace, but the disagreement is unresolved and it sits in the exact area this page claims competence in.
+
+**Action, in order:**
+1. **Tell Tara** (§12). The four-city release shipping without the verification trail its predecessor got is a process gap worth closing regardless of this page.
+2. Copy `onnx_parity.json` into `reports/`, and update `stac-item.json` to name the four-city ONNX.
+3. Until (2) is done, **drop the parity figure and the hashes from the page.** A page arguing that numbers must trace to artifacts cannot lead with two that do not. The page loses little — neither figure is part of its argument.
 
 ### Unpinned — must NOT appear
 
@@ -105,7 +116,18 @@ This section exists because the neighbouring case studies each show a shipped th
 ### 3. Two numbers that disagreed
 **The centerpiece.** Adding three cities to base training moved Khartoum's pixel IoU from `0.6291` to `0.643` — **+0.014, inside the project's ~0.02 noise floor.** On the same checkpoints and the same frozen 388-chip validation split, block APLS moved from `0.2862` to `0.3945`.
 
-The pixel metric said nothing happened. The connectivity metric said something substantial did. Both were measured correctly. The disagreement is the finding: **pixel IoU was not measuring the thing the product needs**, because a road network that is pixel-accurate and topologically fragmented scores well on one and badly on the other — and it is the graph that a mapper actually uses.
+The pixel metric said nothing happened. The connectivity metric said something substantial did. Both were measured correctly.
+
+**State the disagreement as the observation, and the explanation as a hypothesis. Do not assert the causal mechanism.**
+
+The tempting sentence — *"pixel IoU was not measuring the thing the product needs"* — is not earned by this experiment, and a reader in the target audience will see why before the caveat list does its work. Two alternatives are live and unexcluded:
+
+1. **Training length.** The four-city model's best epoch was ~21 of 26; the Khartoum-only model's was 8 of 14. APLS rewards coherent long-range topology, which plausibly keeps improving after pixel IoU saturates. "Trained longer" explains the result as well as "saw more cities."
+2. **Noise.** There is **no APLS noise floor at all.** The ~0.02 figure this page cites is a pixel-IoU estimate, and a weak one. A `+0.108` mean delta at n=1 per arm cannot be separated from run-to-run variation, because nobody has measured what that variation is.
+
+So write it as: the two metrics disagreed on the same checkpoints and the same frozen split; one reading is that pixel IoU was insensitive to the topological property the product depends on; the experiment as run cannot distinguish that from a longer training schedule or from noise; the seed repeats that would separate them were launched and terminated before finishing.
+
+That is a weaker claim and a better page. The section's value is that the disagreement was *noticed and interrogated* rather than resolved into whichever number flattered the work — not that the mechanism is known. Asserting the mechanism here is precisely the failure this page exists to demonstrate avoiding, committed on the page itself.
 
 The honesty this section must carry, from the artifact's own `cannot_conclude` block:
 
@@ -132,9 +154,13 @@ Two consequences, a few sentences each: three-class surface macro-F1 was silentl
 ### 6. Spending the evidence
 **The section no other portfolio page will have.**
 
-Stage B fine-tuning was evaluated on two genuinely held-out OpenAerialMap cities — Banepa, Nepal and Nhamatanda, Mozambique — against gates written down in advance (`passes_khartoum_guard`, `passes_golden_improvement_rule`). The masked candidate improved mean held-out road IoU from `0.2907` to `0.3628`, and passed both gates.
+**Do not open with "genuinely held-out."** That phrase is true in one sense (the cities were never trained on) and misleading in another (the outcome was inspected to choose a release candidate, which makes them development data). Leading with it and undercutting it a paragraph later is the same ambiguous-term trap §3 guards against for "Stage A" — and here the page would be setting the trap itself.
 
-Then the project did the thing almost nobody does: it recorded that **looking at that result spent it.** From `docs/exposure-register.json`:
+Open with the tension instead. Something in this shape:
+
+> Stage B fine-tuning was scored on two cities the model had never trained on — Banepa, Nepal and Nhamatanda, Mozambique, real OpenAerialMap imagery against OpenStreetMap geometry — using gates written down before the run (`passes_khartoum_guard`, `passes_golden_improvement_rule`). The masked candidate improved mean road IoU from `0.2907` to `0.3628` and passed both. Then I looked at the result to pick a release candidate, and that act converted those two regions from evidence into development data.
+
+Then the register entry, which is the point. From `docs/exposure-register.json`:
 
 > "Outcome inspected, so this region is development data. It cannot serve as confirmation for any Stage B claim, including the seed 43/44 repeats that reuse it for median selection."
 
@@ -264,6 +290,22 @@ This spans two repositories: assets are generated in `fair-roads`, the page live
 - **The private source repo URL**
 - **Any claim of HOT acceptance, partnership, endorsement, or review**
 - **Any state-of-the-art or benchmark claim**
+- **Any comparison against HOT's own published models**, including their building model's pixel IoU of `0.4276`. The project's own audit: *"the tasks, datasets and splits all differ — and theirs is a test split while ours is the validation split used for selection. The comparison is unsound."* A "we beat HOT's own number" line is a tempting thing for a case study to reach for and it is not supportable.
+- **Any comparison against the earlier ResNet-34 U-Net control** — *"it used mismatched training seeds and its headline numbers are not those of the released checkpoint. Superseded."*
+- **The four-city ONNX parity figure and the published artifact hashes**, until they have a committed artifact (§4).
+
+### Used deliberately, against the project's own outreach decision: the 0.60 APLS target
+
+`proposal-send-checklist.md` lists the internal `0.60` APLS target as **deliberately left out of the HOT proposal**:
+
+> "APLS is not in fAIr's vocabulary at all. Introducing a metric they do not use in order to report failing a threshold they never set, then explaining they never set it, spends credibility for nothing."
+
+§5.4 of this page is built on exactly that framing. The divergence is intentional and the reasoning is audience, not soundness:
+
+- HOT are domain experts who would correctly respond *"we never set that bar"* — the framing spends credibility with them for no gain.
+- A hiring manager reads it the opposite way. "Wrote a number down before the run, missed it, and diagnosed instead of moving the bar" is the most legible possible demonstration of pre-registration, and it needs the bar named to work at all.
+
+**But the page must carry the same caveat the model card does, in the same breath:** the `0.60` is *this project's internal pre-registered target and is not a published HOT acceptance threshold.* Without that sentence, §5.4 implies a standard was imposed from outside and missed, which is false and would be the page's single most damaging misreading.
 
 ## 11. Voice
 
@@ -273,6 +315,7 @@ Bold the findings, not the confessions — the metric disagreement, the oracle c
 
 ## 12. Open questions for Tara
 
+0. **New, and not really about this page: the four-city release has no verification trail.** The Khartoum-only release got `reports/khartoum_stage_a_release/` and `reports/publication_20260921/artifact_verification.json` — hashes, parity, golden scores, all committed. The four-city release got none of that, and `stac-item.json` still names the old ONNX as "the released" one despite being stamped 2026-09-22 (§4). Worth closing independently of the case study; right now the published checkpoint's identity rests on a model card that is private.
 1. ~~**The model card is private.**~~ **Resolved 2026-09-22.** Ship with the real URL and accept the dead link until the card goes public. See §7 for the three render sites and the body-copy constraint this imposes. **Not a publication blocker any more.**
 
    Still worth doing, and cheap: when the card is republished, remove the unpinned per-city table (§4) first. It is the reason the card went private, and republishing it unchanged puts those numbers back in public.

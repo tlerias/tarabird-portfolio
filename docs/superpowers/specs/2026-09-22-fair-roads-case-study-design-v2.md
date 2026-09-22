@@ -18,7 +18,7 @@ The spec on `main` was written from `fair-roads` at `9ae5385` (2026-09-19) while
 | "block APLS not yet re-measured on this checkpoint" | Measured 2026-09-22. Mean `0.2862 → 0.3945`, length-weighted `0.2866 → 0.3775`. |
 | "§4: Block APLS came in at **0.3006** length-weighted" | That is a Khartoum-era, sweep-selected figure. |
 | "a proposal … was sent to HOT on 2026-09-18" | It was not sent on that date; the covering email was still marked "Not sent" on 09-22 with open blockers. **Tara sent it on 2026-09-22.** |
-| "1,189 test functions across 82 files" | Does not reproduce. See §6. |
+| "a `roads_hot` package carrying 1,189 test functions across 82 files" | The count is correct; the scope label is not. 1,189/82 is the whole repository; `roads_hot` alone is 981/65. See §6. |
 | The four-city per-city results table as "the result the page is now built around" | That table is **unpinned** and was cut from the proposal. See §4. |
 
 The `9ae5385` pin is itself a trap: that commit is still `main`, so a reader checking "is this current?" against `main` gets a false yes.
@@ -65,8 +65,18 @@ On 2026-09-22 the project audited every figure in its proposal against committed
 | Zero-shot, Khartoum-only model | Vegas `0.585`, Paris `0.386`, Shanghai `0.399` | `reports/khartoum_stage_a_release/zero_shot.json` |
 | Held-out OAM, base → fine-tuned | mean road IoU `0.2907 → 0.3628` (`+0.0721`) | `reports/publication_20260921/candidate_comparison.json` |
 | Footpath schema finding | no footpath code across all `56,251` features in 4 AOIs | model card; verified |
-| Published artifact hashes | ckpt `63dd20c7…` (99,407,751 B), ONNX `9d844d88…` (99,679,000 B) | HF card, `onnx_parity.json` |
-| ONNX parity | `6.4e-05` worst case across three live channels | `onnx_parity.json` |
+### Pinned, but NOT verifiable from this repository
+
+These two rows are real but their evidence lives only in the HuggingFace repo, **which is currently private**. Treat them as weaker than everything above.
+
+| Figure | Value | Where it lives |
+|---|---|---|
+| Published artifact hashes | ckpt `63dd20c7…` (99,407,751 B), ONNX `9d844d88…` (99,679,000 B) | HF card Files table only |
+| ONNX parity, four-city | `6.4e-05` worst case across three live channels | `onnx_parity.json`, **in the HF repo beside the weights — not in git** |
+
+**Do not confuse these with `reports/publication_20260921/artifact_verification.json`.** That file describes the *superseded Khartoum-only* release — its own paths read `runs/khartoum_stageA_20260918T235031Z/release/` — and carries different values: ckpt `3f143fc8…`, ONNX `dbdc48fa…`, parity `5.15e-05` on the live channels. A reviewer checking this spec against that file will "find" three errors that are not errors; one already did. Same architecture means identical file sizes, which makes the two releases easy to mistake for each other.
+
+**Action:** either copy `onnx_parity.json` into `reports/` so the four-city parity figure is verifiable from git, or drop the parity claim from the page. A number whose only home is a private repo is not one a hiring manager can check.
 
 ### Unpinned — must NOT appear
 
@@ -139,16 +149,22 @@ Then the alignment calibration, which is the best "what I'd do differently": pre
 
 ## 6. The test count
 
-The existing spec claims "1,189 test functions across 82 files". **That does not reproduce.** Counting `def test_` at `9ae5385`:
+**Correction.** An earlier draft of this spec claimed the existing spec's "1,189 test functions across 82 files" does not reproduce. **That was wrong, and the error was mine:** I counted `def test_` unanchored across every file, which also catches indented test methods inside classes and files that are not test modules. 1,189/82 reproduces exactly with the obvious method.
+
+Counted at `9ae5385`, `^def test_` in `test_*.py` files only:
 
 | Scope | Functions | Files |
 |---|---|---|
 | `roads_hot/` only | 981 | 65 |
-| whole repository | 1,286 | 87 |
+| whole repository | **1,189** | **82** |
 
-1,189/82 sits between the two and matches neither. Their counting method is unrecorded, so this is not proof it was wrong — but an unreproducible number must not go on a public page.
+| (unanchored, all files — the flawed method) | 1,286 | 87 |
 
-**Publish `981 test functions across 65 files in `roads_hot`**, and state the method inline: a static count of `def test_` at commit `9ae5385`. Say "test functions", not "passing tests", unless the suite has been run green at that commit and the run is recorded. Re-count at implementation time.
+So the number is sound. **What is wrong in the existing spec is its scope label**, not its arithmetic: it says "a `roads_hot` package carrying 1,189 test functions across 82 files", but 1,189/82 is the *whole repository*. `roads_hot` alone is 981/65. The 82 files include tests under `models/`, which are not part of that package.
+
+**Publish either, but label the scope correctly and state the method inline.** Recommended: **"1,189 test functions across 82 files"**, described as the repository's test suite rather than as `roads_hot`'s — it is the larger true number and it is what the whole engineering effort actually amounts to.
+
+Say "test functions", not "passing tests", unless the suite has been run green at that commit and the run is recorded. Re-count at implementation time with `git grep -c "^def test_" <ref> -- '*/test_*.py' 'test_*.py'`.
 
 ## 7. Publication posture
 

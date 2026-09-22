@@ -100,16 +100,24 @@ All four rows use the **identical** `grid-template-columns: minmax(0, 1.35fr) mi
 
 | # | Title | Description | Stat | Caption | Tags |
 |---|---|---|---|---|---|
-| 01 | Ship the whole product, model included. | Idea to live URL, solo. Design, build, deploy, the unglamorous parts after launch — and when the product *is* a model, train, evaluate and export that too. | `4` | products shipped, built alone | Next.js, Supabase, PyTorch, ONNX, Godot |
+| 01 | Ship the whole product, model included. | Idea to shipped thing, solo. Design, build, deploy, the unglamorous parts after launch — and when the product *is* a model, train, evaluate and export that too. | `4` | products shipped, built alone | Next.js, Supabase, PyTorch, ONNX, Godot |
 | 02 | Make systems talk. | Partner APIs, accounting platforms, sync pipelines that fail quietly until someone makes them stop. | `15% → 7%` | sync errors · teams I led | QuickBooks, Xero, Sage Intacct |
 | 03 | Run the engineering team. | Fractional tech leadership. On-call rotations, ops reviews, calibration — the infrastructure that makes leadership scale. | `20 days → 9` | time-to-resolve · teams I led | 2 teams, 5 engineers |
 | 04 | Get a team productive with new tools. | AI tooling adoption, workshops, and teaching people who have never written a line of code. | `+57%` | PR throughput · AI-tooling sprint | AI tooling, Workshops |
 
 **Lane 01 absorbs the ML work rather than getting its own row.** `fair-roads` is the strongest single piece of evidence on the site for ML engineering, and a fifth lane was rejected: five lanes make the "I do everything" problem of §3 worse, not better. Folding it into lane 01 is cheaper and keeps the section tight, at the cost of burying the differentiator inside a generalist row — an accepted trade. The title carries "model included" specifically so a hiring manager skimming four titles still sees it.
 
-Lane 01's stat drops the word **live**: `fair-roads` ships as Stage A with open weights, not as a live product, so "4 products live" would be false. "Shipped" is true of all four.
+Lane 01 drops the word **live** throughout — from the stat caption *and* from the description, which previously read "Idea to live URL". `fair-roads` ships as a base model with open weights, not as a live product with a URL a visitor can use, so "4 products live" would be false and "idea to live URL" would not describe it. "Shipped" is true of all four.
 
-Lane 01 keeps **"built alone"**, now confirmed rather than assumed: all four projects are agent-assisted, which is Tara's normal working method and does not make her any less the sole engineer. `fair-roads`'s own stats strip says `ROLE: Sole engineer`, so the two pages agree. Its §6 discloses agent-direction in body text; the homepage does not need to restate that, and must not contradict it — do not write "hand-coded", "from scratch", or "without AI assistance" anywhere in this section.
+Note the phrasing above avoids "Stage A". The `fair-roads` spec (§3 there) establishes that the project uses that term for two different things — a training stage and a specific superseded checkpoint — and forbids it unqualified. That rule applies here too.
+
+Lane 01 keeps **"built alone"**, now confirmed rather than assumed: all four projects are agent-assisted, which is Tara's normal working method and **does not make her any less the sole engineer**. `fair-roads`'s own stats strip independently says `ROLE: Sole engineer`, so the two pages agree.
+
+**Do not argue this from what the fair-roads page discloses.** An earlier draft reasoned that the homepage need not mention agent assistance because the case study discloses it one click away. That premise is not established: the agent-direction section is an open question in the fair-roads spec (§12.2 there), flagged for Tara's decision and not yet ruled on. If she declines it, and with the source repo private, nothing anywhere discloses it — and this spec would be resting on a disclosure that does not exist.
+
+The claim stands on its own merits instead: she is the sole engineer on all four, which is true whether or not any page discusses tooling. That is also the more robust position, because it does not change if the fair-roads decision goes either way.
+
+**Constraint regardless:** do not write "hand-coded", "from scratch", "by hand", or "without AI assistance" anywhere in this section. Those would be false, and they would contradict the fair-roads page if its disclosure ships.
 
 Stat strings are written as spoken, not abbreviated — `20 days → 9`, never `20d → 9d`. `15% → 7%` is left as-is: screen readers pronounce `%` correctly, and the `→` sits inside a labelled `<dl>` pair (§8) so the relationship is already conveyed.
 
@@ -117,7 +125,9 @@ Stat strings are written as spoken, not abbreviated — `20 days → 9`, never `
 
 **Voice check.** Review raised that the four row titles carry none of the site's signature devices — no `Highlight` colour-block word, no first person, no wry beat — and therefore read corporate, in violation of §2.
 
-Partly accepted. On inspection the device is used at **section-title** level, not item level: every item title on this site is plain, and three of them are plain-with-a-period (`Heart & Hammer`, `Kinetic Minds`, `Jiu-jitsu.`, `Gardening.`, `Layoff Calculator`, `Rollcall`). Row titles are item titles, so "Ship the whole product." matches the established pattern rather than breaking it, and the section heading already carries the `Highlight` ("What you can **hire me** for.").
+Partly accepted. On inspection the device is used at **section-title** level, not item level: every item title on this site is plain, and several are plain-with-a-period (`Heart & Hammer`, `Kinetic Minds`, `Jiu-jitsu.`, `Gardening.`, `Layoff Calculator`, `Rollcall`). Row titles are item titles, so plain declaratives match the established pattern rather than breaking it, and the section heading already carries the `Highlight` ("What you can **hire me** for.").
+
+One caveat on that argument, since lane 01's title changed: **"Ship the whole product, model included."** is longer and comma-claused, where every comparison title above is short and unclaused. The item-title defence covers the other three cleanly; lane 01 is a deliberate exception, taking the extra clause because it is the only place a skimming hiring manager learns the ML work exists (§2). If the row reads heavy once built, shorten it — but do not solve that by deleting "model included", which is the clause doing the work.
 
 Two titles are still weak and are flagged for Tara's decision, not resolved here:
 
@@ -162,7 +172,9 @@ A bounded range rather than `.min(1)`. An earlier draft used `.length(3)` to mat
 
 **Hero** (`Hero.astro`) — subhead gains a final clause naming availability, echoing the contact section's existing phrasing so the two read as one voice:
 
-> Engineering manager at Gusto. Independent builder of a layoff calculator, a jiu-jitsu app, and a tap-and-knock game for my kids. **And yes, I'm taking contract work.**
+> Engineering manager at Gusto. Independent builder of a layoff calculator, a jiu-jitsu app, a road-mapping model for humanitarian work, and a tap-and-knock game for my kids. **And yes, I'm taking contract work.**
+
+Note the fourth item. The subhead currently enumerates three products while lane 01 claims four a section later — not a literal contradiction, since the hero states no count, but a reader who counts will notice. Adding `fair-roads` also puts the ML work in the first sentence on the page, which §2 wants. **Sequenced with `fair-roads` (§13): do not add this clause before that build exists.**
 
 Secondary CTA retargets from `#say-hi` to `#what-i-do` and its label changes from "Say hi" to "What I can do →". Primary CTA ("See the builds →") unchanged. "Say hi" remains reachable from the nav button, which is always visible.
 
@@ -220,7 +232,7 @@ No new client-side JavaScript. `ScrollFadeIn` is reused, not duplicated.
 
 ## 11. Assumptions carried into implementation
 
-1. ~~**"built alone"**~~ **Resolved 2026-09-22.** Tara confirmed all four projects are hers alone, and that all of them — including the three indie products — are agent-assisted. Agent assistance is her normal working method and does not qualify sole authorship; `fair-roads`'s own stats strip independently says `ROLE: Sole engineer`. The claim stands as fact, not assumption. See §7 for the wording this forbids.
+1. ~~**"built alone"**~~ **Resolved 2026-09-22.** Tara confirmed all four projects are hers alone, and that all of them — including the three indie products — are agent-assisted. Agent assistance is her normal working method and **does not make her any less the sole engineer**; `fair-roads`'s own stats strip independently says `ROLE: Sole engineer`. The claim stands as fact, not assumption. See §7 for the wording this forbids, and for why the claim must not be argued from the fair-roads disclosure.
 2. **Metric accuracy** — see §5. The two homepage-facing Gusto numbers rest on Tara's recollection, not on data in this repo.
 3. **Lane 02's integration partners** (QuickBooks, Xero, Sage Intacct) are sourced from `career.astro:41` and are therefore as reliable as that prose. They name real products publicly associated with Gusto Pro; if any of those integrations is not something Tara's teams actually built or owned, the tags must change. This replaced an invented `Rails` tag — see §7.
 
@@ -239,11 +251,13 @@ The `Rails` tag is worth noting as a pattern: §5 was written specifically to st
 - Redesigning the `/career` subpage.
 - Any change to the `/hi` digital business card, which has its own Builder · Consultant · Freelancer framing.
 - A rates page, availability calendar, or intake form. The contact form stays as-is.
-- Case-study pages for anything other than the three existing builds.
+- Case-study pages. The `fair-roads` page is specified in its own spec (§13); this one touches build *cards*, not build pages.
 
 ## 13. Coordination with the fair-roads case study
 
-A second spec landed on `main` the same day: `docs/superpowers/specs/2026-09-22-fair-roads-case-study-design.md` (commits `3de681d`, revised by `40515ea`). It adds a **fourth** build at `/builds/fair-roads` — an open-weight road-extraction model for HOT's fAIr platform. Neither spec was written with knowledge of the other. Both are unimplemented.
+A second spec adds a **fourth** build at `/builds/fair-roads` — an open-weight road-extraction model for HOT's fAIr platform.
+
+**Use `2026-09-22-fair-roads-case-study-design-v2.md`, in this branch.** It supersedes `2026-09-22-fair-roads-case-study-design.md` on `main` (commits `3de681d`, `40515ea`), which was written from a stale checkout and is factually wrong about the project's status, its results, and which figures may be published. Do not implement the `main` one.
 
 **They touch the same three files.** Implementing either one in isolation breaks the other.
 
@@ -253,12 +267,35 @@ A second spec landed on `main` the same day: `docs/superpowers/specs/2026-09-22-
 | `src/content/builds.ts` | add `stack` to the 3 existing entries | add a 4th entry | 4 entries, **each with a `stack`** |
 | `src/content/__tests__/content.test.ts` | `stack` assertions | `builds.length` 3 → 4; update hardcoded slug array | 4, slugs `['fair-roads'?, 'severance', 'rollcall', 'knock-it-off']` per their ordering decision |
 
-**Sequencing: land `fair-roads` first.** It changes the build set, which this spec's lane 01 stat (`4`) and the `stack` requirement both depend on. Building this section first means writing a `3` that is wrong within days.
+**Sequencing: land `fair-roads` first.**
 
-**If this spec lands first anyway**, the `fair-roads` implementer must add a `stack` to the new entry or `BuildSchema` will reject it. Use the values from that spec's own stats strip, which are sourced: `['DINOv2 ViT-S/14', 'UPerNet', 'ONNX']`. Do not invent a stack — see §7's `Rails` incident.
+One genuine dependency and one editorial one, distinguished because they behave differently:
 
-**Gap in neither spec, assigned here:** `BuildsSection.astro:18` is `grid grid-cols-1 md:grid-cols-3`. A fourth build renders three cards and an orphan. The `fair-roads` file-change table does not list this file. Whichever change lands second owns the fix; recommended value is `grid-cols-1 md:grid-cols-2`, giving a 2×2 that matches the card proportions better than four-across at `max-w-6xl`. Verify visually — this is a layout change to an existing section, not a drop-in.
+- **Hard (schema).** `BuildSchema.stack` will be required with no default. Every entry in `builds.ts` must carry one or `z.array(BuildSchema).parse(builds)` throws and the test suite fails.
+- **Soft (editorial).** Lane 01's `statValue: '4'` is a freely authored string in `services.ts` with no code link to `builds.length`. Nothing fails to compile or validate if it reads `4` while only three builds exist — it is just wrong on the page for however long that lasts. Sequencing avoids the wrongness, not a break.
 
-**Constraints this section inherits.** `fair-roads` carries a do-not-quote list, and anything the homepage says about that build is bound by it. Specifically: no claim of HOT acceptance, partnership, or endorsement; no state-of-the-art or benchmark claim; `HOT` stays out of stat strips (their rule, and this section's lane 01 stat is a stat strip); and `fair-roads` is described as shipped, never as live. Lane 01's tags (`PyTorch`, `ONNX`) are safe — both are sourced from that spec — and deliberately avoid quoting any metric, so nothing here needs revision when their in-flight numbers move.
+**Both landing orders need an instruction, and an earlier draft only gave one:**
+
+| Order | Obligation |
+|---|---|
+| **`fair-roads` first** (recommended) | §9's `stack` list below names only `severance`, `rollcall` and `knock-it-off`. **It does not cover the fourth entry.** Whoever adds `stack` to `BuildSchema` must also add one to the existing `fair-roads` entry, or the schema rejects it. Use `['DINOv2 ViT-S/14', 'UPerNet', 'ONNX']`. |
+| **This spec first** | The `fair-roads` implementer must include `stack` on the new entry for the same reason, with the same values. |
+
+Either way the fourth entry needs `['DINOv2 ViT-S/14', 'UPerNet', 'ONNX']` — sourced from the `fair-roads` v2 spec's stats strip, and specified there too. Do not invent a stack; see §7's `Rails` incident.
+
+**Gap in neither spec originally; now owned by `fair-roads` v2.** `BuildsSection.astro:18` is `grid grid-cols-1 md:grid-cols-3`, so a fourth build renders three cards and an orphan. The v2 spec's file-change table now lists this file and assigns the fix (`md:grid-cols-2`, a 2×2). **Do not also do it here** — that would be two specs editing one line. Verify it visually when `fair-roads` lands; it is a layout change to an existing section, not a drop-in.
+
+**Constraints this section inherits.** `fair-roads` v2 carries a do-not-quote list, and anything the homepage says about that build is bound by it:
+
+- no claim of HOT acceptance, partnership, endorsement or review
+- no state-of-the-art or benchmark claim
+- no comparison against HOT's own published models
+- `HOT` stays out of stat strips — their explicit rule, and lane 01's stat is a stat strip
+- never `Stage A` unqualified
+- none of the four-city per-city figures, which their audit found unpinned
+
+**"Shipped, not live" is this spec's rule, not theirs.** An earlier draft attributed it to the `fair-roads` spec. That overstates: their spec chooses a `wip` status and a non-`LIVE` pill label, and reasons about it in prose, but states no explicit prohibition. The constraint is sound and this spec adopts it — but it is ours, and mislabelling an inference as an inherited rule is the same over-attribution that produced the `Rails` tag.
+
+**Lane 01's tags are safe.** `ONNX` and `PyTorch` are both first-class tags on the model card itself — its tag row reads `Image Segmentation · PyTorch · ONNX · remote-sensing · …` — so neither is an inference. The tags also quote no metric, which means nothing in this section needs revision when the in-flight `fair-roads` numbers move.
 
 **Their review trigger applies here too.** That page is revisited on a HOT decision, a Stage B result, a block-APLS measurement, or the source repo going public. The first and last of those could also change what lane 01 may claim.

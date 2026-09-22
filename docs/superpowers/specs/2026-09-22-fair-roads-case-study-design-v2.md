@@ -155,7 +155,41 @@ The existing spec claims "1,189 test functions across 82 files". **That does not
 - The proposal was **submitted on 2026-09-22** to HOT's public GeoAI open call. Tara is the source for that; it is not recorded in git.
 - Say "submitted to an open call." **Never** imply acceptance, partnership, review, or any existing relationship with HOT.
 - Keep "HOT" out of the stats strip. A nonprofit's name in a stats bar, before any relationship exists, reads differently from a body-text sentence.
-- Link the HuggingFace model card, not the private source repo. **The card is currently private** (Tara made it private on 2026-09-22 because it carried the unpinned table). The page cannot ship a dead link — see §10.
+- Link the HuggingFace model card, not the private source repo.
+
+**The card is currently private** (Tara made it private on 2026-09-22 because it carried the unpinned table).
+
+**Decision: ship with the real URL anyway.** `liveUrl` is `https://huggingface.co/tarabird90/dinov2s-roads`, label `Model card ↗`. Hardcoding the final URL now means the link starts working the moment the card goes public, with no edit and no redeploy.
+
+The cost, so it is a known cost: `liveUrl` renders in **three** places, not one —
+
+| Location | What the visitor sees |
+|---|---|
+| `BuildCard.astro:29` | the primary button on the **homepage** build card |
+| `CaseStudy.astro:52` | the mint hero CTA on the case study |
+| `CaseStudy.astro:84` | the closing CTA on the case study |
+
+Until the card is public, all three are dead ends for a logged-out visitor. Tara is not driving traffic to the site in this window — it is not being sent out or promoted — so the exposure is small and the trade is worth it to avoid a follow-up edit. Revisit only if the site starts getting deliberate traffic before the card is public.
+
+**Therefore, while the card is private:** do not describe the link as evidence in body text. Do not write "the weights are published, see the model card" or similar — the page must still make sense to someone who clicks and finds nothing. State that the model is released under open weights (true) without staking a sentence on the link resolving.
+
+This is not just a caveat — it is the mechanism that makes the goal achievable. **Copy that does not depend on the link resolving reads correctly both before and after the card goes public, so making the card public becomes the only action required. No portfolio edit, no redeploy.**
+
+### Go-live checklist: what this design does and does not force you to revisit
+
+Written to make "make the card public" the single step.
+
+| Trigger | Portfolio edit needed? |
+|---|---|
+| **Model card made public** | **None.** URL is already final; copy does not depend on it resolving; `OPEN WEIGHTS` and `status: 'wip'` are both already true and stay true. |
+| Seed repeats complete | Yes — §5.3's "no noise floor" caveat becomes false, and the APLS delta finally gets error bars. Unavoidable; this is a *new result*, not a publication-state change. |
+| HOT responds | Yes — §7's "no response" line. Unavoidable for the same reason. |
+| Four-city per-city evaluation re-run and committed | Optional — §4's excluded table could be added. Not forced. |
+| Source repo made public | Optional — a repo link could be added. Not forced. |
+
+Only the first row is about going live, and it costs nothing. The others are triggered by the work moving, not by publication, and no design choice can pre-empt them — a page that states current results has to change when the results change.
+
+**One thing to get right at authoring time, because it is the cheap way to reduce future edits:** write every status claim with its `as of 2026-09-22` date attached (§5.7), so a stale line reads as correctly-dated history rather than as a wrong claim. A dated sentence ages; an undated one becomes false.
 - No state-of-the-art or benchmark claim.
 
 ## 8. Where it lives
@@ -223,7 +257,9 @@ Bold the findings, not the confessions — the metric disagreement, the oracle c
 
 ## 12. Open questions for Tara
 
-1. **The model card is private.** The page needs a working public link. Republish the card with the unpinned table removed, or ship the page with no model link? This blocks publication either way.
+1. ~~**The model card is private.**~~ **Resolved 2026-09-22.** Ship with the real URL and accept the dead link until the card goes public. See §7 for the three render sites and the body-copy constraint this imposes. **Not a publication blocker any more.**
+
+   Still worth doing, and cheap: when the card is republished, remove the unpinned per-city table (§4) first. It is the reason the card went private, and republishing it unchanged puts those numbers back in public.
 2. **Agent-direction disclosure.** The existing spec proposed a section saying the work is agent-directed, and flagged it for your veto; you never ruled. My recommendation: **include it**, in §6 where the evidence-spending argument already lives — directing agents and building the verification that catches their errors is the most relevant thing on this page for a Director of AI Engineering track, and the withdrawn 61.2% figure is the proof the verification works. But it is a positioning call and it is yours.
 3. **Ordering** — first or second among the builds.
 
@@ -235,7 +271,8 @@ Bold the findings, not the confessions — the metric disagreement, the oracle c
 - no §10 entry appears
 - the page asserts no HOT relationship beyond "submitted to an open call"
 - §1 does not promise footpath output
-- the model-card link resolves for a logged-out visitor
+- the model-card link points at `https://huggingface.co/tarabird90/dinov2s-roads` exactly, so it starts working when the card is made public. It will **not** resolve for a logged-out visitor until then — that is expected (§7), not a bug to fix by changing the URL.
+- no sentence on the page depends on that link resolving (§7)
 
 ## 14. Review trigger
 

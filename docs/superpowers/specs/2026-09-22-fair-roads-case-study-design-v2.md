@@ -329,7 +329,15 @@ The cost, so it is a known cost: `liveUrl` renders in **three** places, not one 
 
 Until the card is public, all three are dead ends for a logged-out visitor. Tara is not driving traffic to the site in this window — it is not being sent out or promoted — so the exposure is small and the trade is worth it to avoid a follow-up edit. Revisit only if the site starts getting deliberate traffic before the card is public.
 
-**Therefore, while the card is private:** do not describe the link as evidence in body text. Do not write "the weights are published, see the model card" or similar — the page must still make sense to someone who clicks and finds nothing. State that the model is released under open weights (true) without staking a sentence on the link resolving.
+**Superseded 2026-09-23 by Tara's decision: write the page for the live state.**
+
+An earlier version of this rule said no sentence may depend on the link resolving, so the copy would read correctly during the private window. That produced weaker copy for a window Tara does not care about, and it solved a problem the URL hardcoding had already solved — copy written for the live state *also* needs zero edits at go-live.
+
+**The rule is now:** write as though the model card is public. Body copy may invite the reader to download the model and check the claims, and the stats strip may say the model is downloadable. The cost is bounded and accepted: until the card is published, a reader who clicks finds nothing, and one sentence on the page is ahead of reality. Tara is not driving traffic in this window (§7), and the page becomes fully true the moment she publishes, with no edit and no redeploy.
+
+**What this does not license.** Everything else on the page still has to be true *today*: no claim of HOT acceptance or relationship, no result that is not in a committed artifact, no figure on the do-not-quote list. This exception covers the accessibility of one link and nothing else.
+
+**Reviewers: do not flag this.** Two review passes have now flagged "Download it, run it, check the claims" as a violation of the older rule. It is a deliberate decision, recorded here.
 
 This is not just a caveat — it is the mechanism that makes the goal achievable. **Copy that does not depend on the link resolving reads correctly both before and after the card goes public, so making the card public becomes the only action required. No portfolio edit, no redeploy.**
 
@@ -387,7 +395,7 @@ Implementation: `fair-roads` becomes the first entry in `src/content/builds.ts`,
 | MODEL AT | huggingface.co/tarabird90/dinov2s-roads |
 | BUILT WITH | Vision transformer + segmentation head |
 | ROLE | Sole engineer |
-| STATUS | Model published · proposal submitted |
+| STATUS | Model downloadable · proposal submitted |
 
 This matches what the site already does. Every existing case study uses exactly four rows, and they are **orientation, not evidence**:
 
@@ -507,8 +515,8 @@ Bold the findings, not the confessions — the metric disagreement, the oracle c
 - no §10 entry appears
 - the page asserts no HOT relationship beyond "submitted to an open call"
 - §1 does not promise footpath output
-- the model-card link points at `https://huggingface.co/tarabird90/dinov2s-roads` exactly, so it starts working when the card is made public. It will **not** resolve for a logged-out visitor until then — that is expected (§7), not a bug to fix by changing the URL.
-- no sentence on the page depends on that link resolving (§7)
+- the model-card link points at `https://huggingface.co/tarabird90/dinov2s-roads` exactly, so it starts working when the card is made public. It will **not** resolve for a logged-out visitor until then — that is expected (§7), not a bug to fix by changing the URL or by softening the copy around it.
+- the page is written for the live state (§7). Sentences that assume the model is downloadable are correct as written; do not "fix" them.
 
 ## 14. Review trigger
 

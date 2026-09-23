@@ -293,7 +293,7 @@ stats:
   - label: "ROLE"
     value: "Sole engineer"
   - label: "STATUS"
-    value: "Model published · proposal submitted"
+    value: "Model downloadable · proposal submitted"
 ---
 
 import Timeline from '../../components/Timeline.astro';
@@ -386,7 +386,7 @@ Nothing forces this bookkeeping. It only ever costs you something.
 </TimelineStage>
 
 <TimelineStage label="Published the model for anyone to download">
-I published the model itself, not just an API you call — [the trained file](https://huggingface.co/tarabird90/dinov2s-roads), with the record of how it was measured beside it. The code that trained it stays private.
+The model itself is published, not just an API you call: [the trained file is on HuggingFace](https://huggingface.co/tarabird90/dinov2s-roads) with the record of how it was measured beside it. Download it, run it, check the claims. The code that trained it stays private.
 
 By this point the project was more than a model: a training pipeline, **1,189** tests, a packaged version that runs on an ordinary server with no graphics card, the work to make it plug into HOT's platform, and a pipeline that pulled and prepared twenty thousand satellite tiles across five regions. Every number in its documentation says what kind of number it is.
 </TimelineStage>

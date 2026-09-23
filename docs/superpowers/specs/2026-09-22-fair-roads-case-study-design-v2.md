@@ -104,7 +104,12 @@ If the four-city evaluation is ever re-run and committed, this section is the th
 
 A reader should finish this page understanding what was built, what was learned, and why the judgement calls were hard — without knowing what a metric is called. Anyone who wants the specifics follows the model-card link.
 
-**Do not put these on the page:** `IoU`, `clDice`, `APLS`, `macro-F1`, `ONNX`, `opset`, `sha256`, `logit`, `softmax`, `argmax`, `epoch`, `seed`, `checkpoint`, `chip`, `distroless`, `UPerNet`, `ViT-S/14`, bare decimal scores presented as if self-explanatory. Every one of these belongs on the card.
+**Do not put these in the case-study page's prose:** `IoU`, `clDice`, `APLS`, `macro-F1`, `ONNX`, `opset`, `sha256`, `logit`, `softmax`, `argmax`, `epoch`, `seed`, `checkpoint`, `chip`, `distroless`, `UPerNet`, `ViT-S/14`, bare decimal scores presented as if self-explanatory. Every one of these belongs on the model card.
+
+**Two scoped exceptions, so the ban is not read wider than intended:**
+
+1. **The homepage build card's `stack` tags** (`['DINOv2 ViT-S/14', 'UPerNet', 'ONNX']`, §8) are exempt. Every build on that homepage grid carries stack tags — `severance` shows `Next.js · TypeScript · Supabase` — and dropping them for this one build alone would break an established site pattern to no benefit. A three-chip tag row is a different thing from prose: nobody reads it as an explanation.
+2. **Verbatim quotations of project records** may contain banned terms, because their value is that they are real artifacts. §5.6's exposure-register quote is the only one. Mark any truncation with `[…]` — do not silently shorten a quote, which is a defect this project has already had caught once.
 
 **Name the architecture once, in a sentence a non-specialist can read**, so a technical reader still sees competence — something like *"a vision transformer Meta released, with a segmentation head I trained on satellite road labels."* One sentence, not a spec table.
 
@@ -132,6 +137,12 @@ The first counts how much of the road surface the model got right, pixel by pixe
 The second asks a different question: do the roads it draws actually join up into a network you could trace a route across? By that measure it improved by about **38%**.
 
 That gap is the interesting part, and it matters for a real reason. A mapper doesn't need pixels — they need roads that connect. A map that is mostly accurate but broken into disconnected fragments is far less useful than the first score makes it sound, and the first score cannot see the difference.
+
+**Three caveats the plain-English draft dropped, and must carry.** They come from the same `cannot_conclude` block as the two below, and a revision review caught their loss:
+
+1. **Still far below the project's own target.** This is the most important and the easiest to lose. The `0.60` target appears on the page only in §5.4 — which is about the **earlier single-city model** (`sweep.json`'s checkpoint is `khartoum_stageA_…`), not the four-city one §5.3 reports on. So a reader meets "+38% better connected", meets a missed target attached to a different experiment, and concludes connectivity is solved. **§5.3 must say plainly that even after the improvement the result is well short of the target**, and §5.4 must say which model it is talking about.
+2. **Agreement, not correctness.** The ground truth is one organisation's own annotations. The page's only "agreement not correctness" line currently sits in §5.6 and is about a different dataset entirely, so it does not cover this.
+3. **Four of five areas scored**, the fifth having no roads to check against. The whole 38% rests on four data points.
 
 **What the page must not claim.** State the disagreement as the observation and stop short of the cause. An earlier draft asserted that the pixel score "was not measuring the thing the product needs." That is not earned:
 
@@ -333,6 +344,10 @@ Keep, in priority order:
 7. **seven mistakes found in one revision** (§5.7) — the only quantified claim about the verification practice; without it that section asserts rigour instead of measuring it
 
 **That is seven, the ceiling.** Nothing further may be added without removing one. If something must go, `53 combinations` is the weakest — its point ("I tried the tempting thing and it didn't work") survives without the count.
+
+**What the budget counts, because an earlier draft was ambiguous and an audit read it the other way:** *quantified claims about the model's performance or the project's scale.* It does **not** count numbers that are part of describing the thing at all — "three road surfaces, only two of them produced" (which *is* the footpath finding), "four cities instead of one", "twenty thousand tiles across five regions", "two-thirds", "zero", dates, or "2 tiles out of 200" in the closing anecdote. Deleting those breaks sentences rather than removing claims, so the budget's own admission test does not apply to them. Counting every numeral instead puts the page at fifteen-plus and makes the budget unusable.
+
+**Also note:** `1,189` lives in §5.2 (What got built), not in §6 — §6 is the implementer's note on how to count it correctly, not page copy.
 
 Cut from the page (they remain in §4 for the implementer, and on the model card): every hash, the parity figure, the zero-shot trio, the held-out before/after pair, chip counts, epoch numbers, block counts, file sizes.
 

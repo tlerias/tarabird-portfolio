@@ -148,7 +148,7 @@ Stage 1 is worth keeping prominent: asking four specific questions before writin
 
 Stages 10–14 are the four-step chain above, plus acceptance. **They must read as description of a published process, never as prediction.** No dates, no likelihood, no "when this ships". The honest register is "this is what happens next, and none of it is mine to control."
 
-"How this was actually built" (the agent-direction disclosure, §5.7) sits **outside** the timeline, after it — it is about method across the whole project, not a stage in it.
+"How this was built" (the agent-direction disclosure, §5.7) sits **outside** the timeline, after it — it is about method across the whole project, not a stage in it.
 
 ### 1. Why anyone needs this, and what "good" means
 
@@ -252,7 +252,7 @@ The same record notes that the reference maps those towns were scored against ar
 
 Nothing forces this bookkeeping. It only ever costs you something. It is also the difference between a number you can rely on and a number that merely sounds good, which is the whole argument of this page.
 
-### 7. How this was actually built
+### 7. How this was built
 **Approved by Tara 2026-09-23. Include it.** For a Director of AI Engineering track this is the most relevant section on the page, and the repository would make it discoverable anyway. One honest passage, no defensiveness, no apology.
 
 The shape, in plain language:

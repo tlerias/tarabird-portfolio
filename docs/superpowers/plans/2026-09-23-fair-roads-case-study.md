@@ -415,17 +415,17 @@ This is the only step that counts. Everything above it is plumbing in service of
 
 </Timeline>
 
-## How this was actually built
+## How this was built
 
-I didn't write most of this code by hand. I directed AI agents to write it, and spent my own time on the part that needed me: deciding what to build, and building the checks that catch the agents when they're wrong.
+I direct AI agents to write the code. My own time goes to deciding what to build and to building the checks that catch the agents when they get it wrong, which is most of the engineering.
 
-That second part is most of the engineering.
+Some of what that looks like here:
 
-- The footpath figure above existed only in prose and a commit message. It had never been written to a saved measurement. The checks are what caught that it didn't reproduce.
-- Every figure in the proposal was audited against saved measurements before it went out, and the ones with no saved record were cut — including a results table I'd have been glad to publish.
-- Every significant document went to reviewers running on different models from the one that wrote it, read-only, so they couldn't quietly fix what they found.
+- A figure has to exist as a saved measurement, not just in prose. The footpath number earlier failed that check and was withdrawn.
+- Before the proposal went out, every figure in it was audited against those saved measurements. Anything without one was cut, including a results table I'd have been glad to publish.
+- Documents go to reviewers running on different models from the one that wrote them, read-only, so a reviewer can't quietly fix what it finds.
 
-One of those reviews checked a revision rather than an original, and found **seven** new mistakes the rewrite itself had introduced. That's the number I'd point at. Rewriting introduces errors at about the same rate as writing, and the only reason I can tell you that is that I measured it.
+One of those reviews looked at a revision rather than an original, and found **seven** new mistakes the rewrite had introduced. Revising turns out to be about as error-prone as writing, which isn't obvious until you count.
 
 ## What I'd do differently
 

@@ -329,30 +329,6 @@ I sent HOT four questions before writing any code. Should a first model do multi
 Khartoum first, from a public satellite road dataset. One city, so that everything after it had something to be compared against.
 </TimelineStage>
 
-<TimelineStage label="Two ways of scoring disagreed">
-Later, retrained on four cities, I measured what had changed and got two different answers.
-
-One score counts how much of the road surface the model got right, pixel by pixel. By that measure, almost nothing changed. The other asks whether the roads it draws actually join up into a network you could trace a route across. By that measure it improved by about **38%**.
-
-That gap is the interesting part. A mapper doesn't need pixels, they need roads that connect — and a map that's mostly accurate but broken into disconnected fragments is far less useful than the first score makes it sound.
-
-Both scores are measured across four areas of the city against one organisation's hand-drawn maps, so what they capture is agreement with those maps, not correctness.
-
-I can't say *why* it improved, though. The four-city model also trained for longer, and it only ran once — so more cities, more training and plain luck are still tangled together.
-</TimelineStage>
-
-<TimelineStage label="Checked the ruler before blaming the model">
-The connectivity score was low, and I didn't know whether that meant the model was bad or the scoring was.
-
-The tempting response is to adjust settings until the number improves. I tried **53** combinations. The best barely moved it.
-
-So I checked the ruler. I took the reference map — the one drawn by hand, the thing the model is compared against — and fed it through the same scoring machinery as if a model had produced it. It scored about **0.79 out of a possible 1.0**.
-
-That settled it. A good answer does score well, so the scoring works. The model was genuinely the weaker part, and specifically because its roads came out in pieces. It also gives a real yardstick: the map scores 0.79, the model about half that. Not a number I picked — a number I measured.
-
-Two things worth keeping honest: the settings were chosen using the same data they were then scored against, so even the best figure flatters itself; and the setting I picked made the *worst* area worse, because the selection rule chased the average and the weakest case paid for it.
-</TimelineStage>
-
 <TimelineStage label="Found a class that couldn't exist">
 The model has three labels for road surface, and one of them — footpath — it can never produce.
 
@@ -363,8 +339,34 @@ So the model was being graded on a category that could not appear, quietly cappi
 I'd also reported a footpath accuracy figure earlier. When I went to reproduce it, it came out at zero, and I withdrew it before the proposal went out. It had only ever existed in prose — never written to a saved measurement — which is exactly why it survived as long as it did.
 </TimelineStage>
 
+<TimelineStage label="Checked the ruler before blaming the model">
+Roads are only useful if they join up, so alongside the pixel score I tracked a second one: do the roads the model draws form a network you could actually trace a route across? It came out low — and I couldn't tell whether that meant the model was bad or the scoring was.
+
+The tempting response is to adjust settings until the number improves. I tried **53** combinations. The best barely moved it.
+
+So I checked the ruler. I took the reference map — the one drawn by hand, the thing the model is compared against — and fed it through the same scoring machinery as if a model had produced it. It scored about **0.79 out of a possible 1.0**.
+
+That settled it. A good answer does score well, so the scoring works. The model was genuinely the weaker part, and specifically because its roads came out in pieces. It also gave me a yardstick I hadn't had: 0.79 is what a near-perfect answer scores on this scale. Not a number I picked — a number I measured.
+
+Two things worth keeping honest: the settings were chosen using the same data they were then scored against, so even the best figure flatters itself; and the setting I picked made the *worst* area worse, because the selection rule chased the average and the weakest case paid for it.
+</TimelineStage>
+
 <TimelineStage label="Retrained on four cities">
-Four cities instead of one, same recipe, same frozen test split for the original city so the comparison stayed honest.
+Four cities instead of one, same recipe. I kept the first city's test split frozen so that a before-and-after would actually mean something.
+</TimelineStage>
+
+<TimelineStage label="Two ways of scoring disagreed">
+I scored the new model against the old one on that frozen test data. The two measures told different stories.
+
+The pixel score — how much of the road surface it got right — barely moved. The connectivity score, the one from two stages back, went up by about **38%**.
+
+That gap is the interesting part. A mapper doesn't need pixels, they need roads that connect — and a map that's mostly accurate but broken into disconnected fragments is far less useful than the first score makes it sound.
+
+Both scores are measured across four areas of the city against one organisation's hand-drawn maps, so what they capture is agreement with those maps, not correctness.
+
+Even after that jump it scores about half what the hand-drawn map does. Better connected, not well connected.
+
+And I can't say *why* it improved. The four-city model also trained for longer, and it ran once with no noise floor measured — so more cities, more training and run-to-run variation are still tangled together.
 </TimelineStage>
 
 <TimelineStage label="Rehearsed the real use case">

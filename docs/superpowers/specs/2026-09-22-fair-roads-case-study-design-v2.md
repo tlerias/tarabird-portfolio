@@ -131,10 +131,10 @@ Three reasons this is the right spine, beyond being what was asked for:
 |---|---|---|
 | 1 | Asked before building — four questions to the open call; the answers changed the design | done |
 | 2 | Built a base model on one city | done |
-| 3 | Two ways of scoring disagreed | done |
+| 3 | Found a class that could not exist | done |
 | 4 | Checked the ruler before blaming the model | done |
-| 5 | Found a class that could not exist | done |
-| 6 | Retrained on four cities | done |
+| 5 | Retrained on four cities | done |
+| 6 | Two ways of scoring disagreed | done |
 | 7 | Rehearsed the real use case — fine-tuned onto two unfamiliar towns | done |
 | 8 | Published the model for anyone to download | done |
 | **9** | **Proposal submitted — 22 September 2026** | **now** |
@@ -143,6 +143,11 @@ Three reasons this is the right spine, beyond being what was asked for:
 | 12 | Merged — the model goes live in fAIr | ahead |
 | 13 | Mappers fine-tune it for their own districts | ahead |
 | 14 | Predictions become OpenStreetMap edits | ahead |
+
+**The order is chronological and that is load-bearing.** An earlier draft ran the scoring disagreement at stage 3, before the four-city retrain it describes, which forced its opening to reach forward ("*Later*, retrained on four cities…") and made the stage hard to follow. Two consequences of the corrected order, both of which the prose now depends on:
+
+- The **ruler check comes before the retrain**, which is chronologically right — `sweep.json`'s checkpoint is `khartoum_stageA_…`, the one-city model. It is now also where the connectivity score is introduced, so the disagreement stage can simply refer back to it.
+- **The "about half the reference map" comparison belongs in the disagreement stage, not the ruler stage.** At ruler time the model is the one-city one (`0.286` against the map's `0.79`, nearer a third). Only after the retrain (`0.394`) is "about half" true.
 
 Stage 1 is worth keeping prominent: asking four specific questions before writing code, and changing the design because of the answers, is a stronger opening than any metric on the page.
 

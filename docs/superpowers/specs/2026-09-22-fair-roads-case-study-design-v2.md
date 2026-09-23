@@ -110,7 +110,7 @@ A reader should finish this page understanding what was built, what was learned,
 
 **Numbers on the page must arrive with their meaning attached.** Never `0.286 → 0.394`. Write what changed and by how much, in the unit a reader cares about.
 
-Seven sections. Two carry results, three carry method, one carries the finding the page exists for, one carries status.
+Eight sections. Two carry results, three carry method, one carries the finding the page exists for, one carries how the work was done, one carries status.
 
 ### 1. What it does
 Volunteers at the Humanitarian OpenStreetMap Team trace roads by hand from satellite imagery, in places where no usable map exists — which is where disaster response and aid delivery need maps most. This model does the first pass: give it a satellite tile and it draws the roads it finds and labels each one paved or unpaved. A person still checks and corrects the result. The job is turning a blank map into a draft.
@@ -157,6 +157,8 @@ The model has three labels for road surface. One of them — footpath — it can
 
 So the model was being graded on a category that could not appear, which quietly capped its best possible surface score at two-thirds no matter how well it performed. I switched that label off, and changed the scoring so it names the categories it has no evidence for instead of averaging in zeros.
 
+**Precision guard — this project has already got this wrong once.** Say *"none of its road types is a footpath."* Do **not** say the dataset has no road types or no road hierarchy: it has seven (`road_type` 1–7), and the project's own loader reads them. An earlier draft of the grant proposal made exactly that overstatement and a reviewer caught it. The true and narrower claim is the one that carries the finding anyway.
+
 I had also reported a footpath accuracy figure earlier. When I went to reproduce it, it came out at zero. I withdrew it before the proposal went out. It had only ever existed in prose — never in a saved measurement — which is exactly why it survived as long as it did.
 
 ### 6. Spending the evidence
@@ -176,7 +178,28 @@ The same record notes that the reference maps those towns were scored against ar
 
 Nothing forces this bookkeeping. It only ever costs you something. It is also the difference between a number you can rely on and a number that merely sounds good, which is the whole argument of this page.
 
-### 7. Where it stands
+### 7. How this was actually built
+**Approved by Tara 2026-09-23. Include it.** For a Director of AI Engineering track this is the most relevant section on the page, and the repository would make it discoverable anyway. One honest passage, no defensiveness, no apology.
+
+The shape, in plain language:
+
+> I didn't write most of this code by hand. I directed AI agents to write it, and spent my own time on the part that needed me — deciding what to build, and building the checks that catch the agents when they are wrong.
+>
+> That second part is most of the engineering. Three examples from this project:
+>
+> - The footpath accuracy figure above existed only in prose and a commit message. It had never been written to a saved measurement. The checks are what caught that it didn't reproduce.
+> - Every figure in the grant proposal was audited against saved measurements before it went out, and the ones with no saved record were cut — including a results table I would have been glad to publish.
+> - Every significant document went to reviewers running on different models from the one that wrote it, read-only, so they could not quietly fix what they found.
+>
+> One of those reviews checked a revision rather than an original, and found **seven** new mistakes the revision itself had introduced. That is the number I'd point at. Rewriting introduces errors at about the same rate as writing, and the only reason I can tell you that is that I measured it.
+
+**Sourced:** `docs/outreach/proposal-send-checklist.md`, sections "Independent review, 2026-09-22" and "Third review, 2026-09-22 (of the revision)" — *"A third reviewer, again on a different model and read-only, checked the revision specifically for defects the rewrite introduced … It found seven, all now fixed."*
+
+**The seven is the seventh number on the page**, taking §8's budget to its ceiling. It earns the slot: it is the only quantified claim about the verification practice, and without it this section is an assertion about rigour rather than a measurement of it. If a number must be cut to stay in budget, cut `53 combinations` before this one.
+
+**Do not** describe the agents by vendor or product name, do not turn this into a methodology essay, and do not claim the practice is novel. It is one passage.
+
+### 8. Where it stands
 Dated explicitly, **"as of 2026-09-22"**: the four-city model is released with open weights; the figures come from data that also chose the model, so they are not an independent test; the repeat runs that would put error bars on §3 were started and stopped; the fine-tuned versions were evaluated but on towns now retired as evidence; a proposal went to a public open call on 2026-09-22 with no response yet; no claim that any of this is state of the art.
 
 Then the best "what I'd do differently": I built a rule-based system to detect when the satellite imagery and the map were misaligned. It accepted 2 tiles out of 200 — and when I looked at those two, both were wrong. The maps had been traced from the same imagery, so they were already aligned. Writing the rules down in advance was right. The thing I wrote rules for did not need solving. Look at the pictures before building the machinery.
@@ -263,7 +286,14 @@ A fourth build at `/builds/fair-roads`, reusing `CaseStudy.astro`.
 - `dates`: "2026 → ongoing"
 - `stack`: `['DINOv2 ViT-S/14', 'UPerNet', 'ONNX']`
 
-**Ordering:** place it first only if the stats strip and first heading read as competence without the surrounding prose. Otherwise second, behind Layoff Calculator.
+**Ordering: first. Decided by Tara 2026-09-23** — ahead of Layoff Calculator, Rollcall and Knock It Off.
+
+Implementation: `fair-roads` becomes the first entry in `src/content/builds.ts`, which is the array `BuildsSection` maps over, so ordering is array order and needs no sort logic. The slug assertion in `content.test.ts` must be updated to `['fair-roads', 'severance', 'rollcall', 'knock-it-off']` to match.
+
+**What this decision costs, so it is built for rather than discovered:** the first card in the grid is the one every visitor sees, and many will read nothing else. It is now the ML project rather than the most immediately graspable one — a layoff calculator explains itself in four words; a road-extraction model does not. Two consequences:
+
+1. **`oneLine` is doing more work than any other copy on the site.** It is the whole impression for a majority of visitors. It must say what the thing *is* and who it is for, in plain words, with no metric and no acronym.
+2. **The first card must not be the one with a dead link.** `MODEL AT` will not resolve while the card is private (§7). That was an acceptable cost in third position; in first position it is the first thing anyone clicks. This does not reverse the ordering decision, but it does raise the priority of the model-card republish (§12.0) from "before going public" to "before this ordering ships."
 
 **Stats strip — four rows, and no metrics in any of them.**
 
@@ -300,6 +330,9 @@ Keep, in priority order:
 4. **53 combinations tried** — evidence the restraint was real rather than claimed
 5. **two towns retired** — §5.6
 6. **1,189 tests** — the "she ships" proof
+7. **seven mistakes found in one revision** (§5.7) — the only quantified claim about the verification practice; without it that section asserts rigour instead of measuring it
+
+**That is seven, the ceiling.** Nothing further may be added without removing one. If something must go, `53 combinations` is the weakest — its point ("I tried the tempting thing and it didn't work") survives without the count.
 
 Cut from the page (they remain in §4 for the implementer, and on the model card): every hash, the parity figure, the zero-shot trio, the held-out before/after pair, chip counts, epoch numbers, block counts, file sizes.
 
@@ -370,8 +403,10 @@ Bold the findings, not the confessions — the metric disagreement, the oracle c
 1. ~~**The model card is private.**~~ **Resolved 2026-09-22.** Ship with the real URL and accept the dead link until the card goes public. See §7 for the three render sites and the body-copy constraint this imposes. **Not a publication blocker any more.**
 
    Still worth doing, and cheap: when the card is republished, remove the unpinned per-city table (§4) first. It is the reason the card went private, and republishing it unchanged puts those numbers back in public.
-2. **Agent-direction disclosure.** The existing spec proposed a section saying the work is agent-directed, and flagged it for your veto; you never ruled. My recommendation: **include it**, in §6 where the evidence-spending argument already lives — directing agents and building the verification that catches their errors is the most relevant thing on this page for a Director of AI Engineering track, and the withdrawn 61.2% figure is the proof the verification works. But it is a positioning call and it is yours.
-3. **Ordering** — first or second among the builds.
+2. ~~**Agent-direction disclosure.**~~ **Decided 2026-09-23: include it.** Written as §5.7, built on the project's own review record rather than on assertion.
+3. ~~**Ordering.**~~ **Decided 2026-09-23: first**, ahead of Layoff Calculator. See §8 for what that costs and the one thing it makes urgent.
+
+**No open questions remain.** The spec is implementable once the revision review (in flight at time of writing) is resolved.
 
 ## 13. Verification before publish
 

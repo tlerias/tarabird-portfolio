@@ -186,7 +186,7 @@ git commit -m "feat(builds): add fair-roads as the first build"
 
 ## Task 3: Plumb the custom status label
 
-`BuildCard.astro:16` and `CaseStudy.astro:53` both render `<StatusPill variant={...} />` with no label, so `OPEN WEIGHTS` cannot reach either without this task. `StatusPill` would otherwise print its `wip` default, `WIP`, which spec §8 rejects.
+`BuildCard.astro:16` and `CaseStudy.astro:53` both render `<StatusPill variant={...} />` with no label, so `PROPOSAL SUBMITTED` cannot reach either without this task. `StatusPill` would otherwise print its `wip` default, `WIP`, which spec §8 rejects.
 
 **Files:**
 - Modify: `src/components/BuildCard.astro:16`
@@ -293,7 +293,7 @@ stats:
   - label: "ROLE"
     value: "Sole engineer"
   - label: "STATUS"
-    value: "Open weights · proposal submitted"
+    value: "Model downloadable · proposal submitted"
 ---
 
 import Timeline from '../../components/Timeline.astro';
@@ -305,7 +305,7 @@ Large parts of the world have no usable map. That tends to correlate with exactl
 
 Volunteers at the [Humanitarian OpenStreetMap Team](https://www.hotosm.org) fill those gaps by tracing roads by hand from satellite imagery. It works, and it is enormously slow.
 
-HOT's answer is a platform called [fAIr](https://fair.hotosm.org). Their own description is the part worth reading twice: it's meant to be the connective tissue between the people who build geospatial ML models and the mapping communities who need them — *"without requiring users to be AI/ML engineers."* Models get built in labs; the communities mapping their own neighbourhoods have no practical route to using them. And without those communities' feedback, the models never improve where they're most needed.
+HOT's answer is a platform called [fAIr](https://www.hotosm.org/en/tools-resources/tech-product-suite/fair/). Their own description is the part worth reading twice: it's meant to be the connective tissue between the people who build geospatial ML models and the mapping communities who need them — *"without requiring users to be AI/ML engineers."* Models get built in labs; the communities mapping their own neighbourhoods have no practical route to using them. And without those communities' feedback, the models never improve where they're most needed.
 
 ## What it has to be good at
 
@@ -379,8 +379,8 @@ Two towns, permanently retired as evidence, written down voluntarily. The same r
 Nothing forces this bookkeeping. It only ever costs you something.
 </TimelineStage>
 
-<TimelineStage label="Released open weights">
-Published so anyone can download the model, read how it was measured, and check the claims. Every number in its documentation says what kind of number it is.
+<TimelineStage label="Published the model for anyone to download">
+The trained model file itself is public, not just an API you call — anyone can download it, run it, read how it was measured and check the claims. The code that trained it is not public. Every number in its documentation says what kind of number it is.
 </TimelineStage>
 
 <TimelineStage label="Proposal submitted" date="22 Sept 2026" status="now">
@@ -460,7 +460,7 @@ That is the ceiling from spec §8. Nothing may be added without removing one; if
 
 Run: `npm run build && npm run preview`
 Open `http://localhost:4321/builds/fair-roads`.
-Expected: page renders, stats strip shows four rows, pill reads `OPEN WEIGHTS`.
+Expected: page renders, stats strip shows four rows, pill reads `PROPOSAL SUBMITTED`.
 
 - [ ] **Step 4: Commit**
 
@@ -498,7 +498,7 @@ Expected: no output.
 - [ ] **Step 4: Visual pass**
 
 Run: `npm run preview`, open `http://localhost:4321`.
-Expected: builds grid is 2×2 with `fair-roads` first; its card shows the `OPEN WEIGHTS` pill; "Case study →" reaches the new page; "Model card ↗" points at `huggingface.co/tarabird90/dinov2s-roads` (it will not resolve while the card is private — expected).
+Expected: builds grid is 2×2 with `fair-roads` first; its card shows the `PROPOSAL SUBMITTED` pill; "Case study →" reaches the new page; "Model card ↗" points at `huggingface.co/tarabird90/dinov2s-roads` (it will not resolve while the card is private — expected).
 
 - [ ] **Step 5: Re-measure Lighthouse**
 

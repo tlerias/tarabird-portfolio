@@ -136,7 +136,7 @@ Three reasons this is the right spine, beyond being what was asked for:
 | 5 | Found a class that could not exist | done |
 | 6 | Retrained on four cities | done |
 | 7 | Rehearsed the real use case — fine-tuned onto two unfamiliar towns | done |
-| 8 | Released open weights | done |
+| 8 | Published the model for anyone to download | done |
 | **9** | **Proposal submitted — 22 September 2026** | **now** |
 | 10 | Acceptance, and a grant agreement | ahead |
 | 11 | A pull request into HOT's model repository | ahead |
@@ -274,7 +274,7 @@ The shape, in plain language:
 **Do not** describe the agents by vendor or product name, do not turn this into a methodology essay, and do not claim the practice is novel. It is one passage.
 
 ### 8. Where it stands
-Dated explicitly, **"as of 2026-09-22"**: the four-city model is released with open weights; the figures come from data that also chose the model, so they are not an independent test; the repeat runs that would put error bars on §3 were started and stopped; the fine-tuned versions were evaluated but on towns now retired as evidence; a proposal went to a public open call on 2026-09-22 with no response yet; no claim that any of this is state of the art.
+Dated explicitly, **"as of 2026-09-22"**: the four-city model is published for anyone to download; the figures come from data that also chose the model, so they are not an independent test; the repeat runs that would put error bars on §3 were started and stopped; the fine-tuned versions were evaluated but on towns now retired as evidence; a proposal went to a public open call on 2026-09-22 with no response yet; no claim that any of this is state of the art.
 
 **Then a short "what happens if it's accepted" passage.** Readers who understand §5.1's stakes will ask it, and the project's own sources answer it precisely — from the organiser's reply of 2026-09-16: *"First proposal needs to be submitted and upon acceptance (you will receive grant agreement) & you can start working on the PR and once the PR is merged grant would be released… current funding duration runs out by end of December."*
 
@@ -382,7 +382,7 @@ Implementation: `fair-roads` becomes the first entry in `src/content/builds.ts`,
 | MODEL AT | huggingface.co/tarabird90/dinov2s-roads |
 | BUILT WITH | Vision transformer + segmentation head |
 | ROLE | Sole engineer |
-| STATUS | Open weights · proposal submitted |
+| STATUS | Model downloadable · proposal submitted |
 
 This matches what the site already does. Every existing case study uses exactly four rows, and they are **orientation, not evidence**:
 

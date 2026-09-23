@@ -5,6 +5,19 @@ type Build = z.infer<typeof BuildSchema>;
 
 export const builds: Build[] = [
   {
+    slug: 'fair-roads',
+    title: 'fair-roads',
+    oneLine: 'A road-mapping model for humanitarian volunteers — and what its own numbers said to build next.',
+    description: 'Volunteers map roads by hand where no usable map exists. This model does the first pass, and the interesting part is what measuring it honestly changed.',
+    dates: 'Sept 2026 · proposal submitted',
+    liveUrl: 'https://huggingface.co/tarabird90/dinov2s-roads',
+    liveLabel: 'Model card ↗',
+    status: 'wip',
+    statusLabel: 'PROPOSAL SUBMITTED',
+    screenshot: '/screenshots/fair-roads-fair-ui.jpg',
+    gradientHeader: 'linear-gradient(135deg, #0d2820 0%, #5b4380 100%)',
+  },
+  {
     slug: 'severance',
     title: 'Layoff Calculator',
     oneLine: 'A free, source-cited tool that grades severance offers.',

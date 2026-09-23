@@ -14,9 +14,9 @@ describe('content data', () => {
 
   it('builds match schema', () => {
     expect(() => z.array(BuildSchema).parse(builds)).not.toThrow();
-    expect(builds.length).toBe(3);
+    expect(builds.length).toBe(4);
     const slugs = builds.map(b => b.slug);
-    expect(slugs).toEqual(['severance', 'rollcall', 'knock-it-off']);
+    expect(slugs).toEqual(['fair-roads', 'severance', 'rollcall', 'knock-it-off']);
   });
 
   it('off-keyboard items match schema', () => {

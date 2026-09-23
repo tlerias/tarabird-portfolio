@@ -100,77 +100,86 @@ If the four-city evaluation is ever re-run and committed, this section is the th
 
 ## 5. The arc
 
+**Register, and it governs everything below: the page explains the project in plain English. The model card carries the technical specification.**
+
+A reader should finish this page understanding what was built, what was learned, and why the judgement calls were hard — without knowing what a metric is called. Anyone who wants the specifics follows the model-card link.
+
+**Do not put these on the page:** `IoU`, `clDice`, `APLS`, `macro-F1`, `ONNX`, `opset`, `sha256`, `logit`, `softmax`, `argmax`, `epoch`, `seed`, `checkpoint`, `chip`, `distroless`, `UPerNet`, `ViT-S/14`, bare decimal scores presented as if self-explanatory. Every one of these belongs on the card.
+
+**Name the architecture once, in a sentence a non-specialist can read**, so a technical reader still sees competence — something like *"a vision transformer Meta released, with a segmentation head I trained on satellite road labels."* One sentence, not a spec table.
+
+**Numbers on the page must arrive with their meaning attached.** Never `0.286 → 0.394`. Write what changed and by how much, in the unit a reader cares about.
+
 Seven sections. Two carry results, three carry method, one carries the finding the page exists for, one carries status.
 
 ### 1. What it does
-Multi-class road extraction for HOT's fAIr platform: a 256×256 RGB chip in, road mask plus per-segment surface class out, post-processed to simplified LineStrings in RFC 7946 GeoJSON. HOT volunteers trace roads by hand in under-mapped regions; fAIr serves model assistance to them.
+Volunteers at the Humanitarian OpenStreetMap Team trace roads by hand from satellite imagery, in places where no usable map exists — which is where disaster response and aid delivery need maps most. This model does the first pass: give it a satellite tile and it draws the roads it finds and labels each one paved or unpaved. A person still checks and corrects the result. The job is turning a blank map into a draft.
 
-**Footpath honesty belongs here, not deferred.** The model declares three surface classes but can only emit two. Say so in this section or the page contradicts itself two screens later.
+**Say here that it cannot do footpaths.** The model declares three road surfaces and can only produce two. If the page waits until §5 to admit that, it has already contradicted itself twice. One sentence is enough: it is supposed to spot footpaths, it can't yet, and §5 explains why.
 
 ### 2. What got built
-Plain inventory, no narrative: the `roads_hot` package and its test suite (§6 for how to count); a four-stage distroless serving image; ONNX export at opset 17 with measured parity; conformance work against fAIr's real harness; a 20k-chip OpenAerialMap pipeline across five regions.
+Short, plain inventory — this is the "she ships" section, and the neighbouring case studies each show a shipped thing. In readable terms: the model and its training pipeline; a test suite (§6 for the count and how to state it); a packaged version that runs on an ordinary server with no graphics card; the work to make it plug into HOT's own platform; and a pipeline that pulled and prepared twenty thousand satellite tiles across five regions.
 
-This section exists because the neighbouring case studies each show a shipped thing. Without it this page reads weaker than the work is.
+No narrative, no adjectives. A list a reader skims in ten seconds.
 
-### 3. Two numbers that disagreed
-**The centerpiece.** Adding three cities to base training moved Khartoum's pixel IoU from `0.6291` to `0.643` — **+0.014, inside the project's ~0.02 noise floor.** On the same checkpoints and the same frozen 388-chip validation split, block APLS moved from `0.2862` to `0.3945`.
+### 3. Two ways of scoring, and they disagreed
+**The centerpiece, and it is explainable without a single metric name.**
 
-The pixel metric said nothing happened. The connectivity metric said something substantial did. Both were measured correctly.
+I retrained the model on four cities instead of one, and measured what changed. Two different ways of scoring gave two different answers.
 
-**State the disagreement as the observation, and the explanation as a hypothesis. Do not assert the causal mechanism.**
+The first counts how much of the road surface the model got right, pixel by pixel. By that measure almost nothing changed.
 
-The tempting sentence — *"pixel IoU was not measuring the thing the product needs"* — is not earned by this experiment, and a reader in the target audience will see why before the caveat list does its work. Two alternatives are live and unexcluded:
+The second asks a different question: do the roads it draws actually join up into a network you could trace a route across? By that measure it improved by about **38%**.
 
-1. **Training length.** The four-city model's best epoch was ~21 of 26; the Khartoum-only model's was 8 of 14. APLS rewards coherent long-range topology, which plausibly keeps improving after pixel IoU saturates. "Trained longer" explains the result as well as "saw more cities."
-2. **Noise.** There is **no APLS noise floor at all.** The ~0.02 figure this page cites is a pixel-IoU estimate, and a weak one. A `+0.108` mean delta at n=1 per arm cannot be separated from run-to-run variation, because nobody has measured what that variation is.
+That gap is the interesting part, and it matters for a real reason. A mapper doesn't need pixels — they need roads that connect. A map that is mostly accurate but broken into disconnected fragments is far less useful than the first score makes it sound, and the first score cannot see the difference.
 
-So write it as: the two metrics disagreed on the same checkpoints and the same frozen split; one reading is that pixel IoU was insensitive to the topological property the product depends on; the experiment as run cannot distinguish that from a longer training schedule or from noise; the seed repeats that would separate them were launched and terminated before finishing.
+**What the page must not claim.** State the disagreement as the observation and stop short of the cause. An earlier draft asserted that the pixel score "was not measuring the thing the product needs." That is not earned:
 
-That is a weaker claim and a better page. The section's value is that the disagreement was *noticed and interrogated* rather than resolved into whichever number flattered the work — not that the mechanism is known. Asserting the mechanism here is precisely the failure this page exists to demonstrate avoiding, committed on the page itself.
+- the new model also **trained for longer**, so "more cities" and "more training" are tangled together and this experiment cannot separate them
+- it ran **once**. Nobody has measured how much these scores bounce around between identical runs, so some of that 38% could be luck
+- the runs that would have settled it were started and stopped before finishing
 
-The honesty this section must carry, from the artifact's own `cannot_conclude` block:
+So: two honest measurements disagreed, one reading is that the simpler score was blind to something that matters, and the experiment as run cannot prove it. Say that. The section's worth is that the disagreement got chased rather than rounded off in the flattering direction — not that the answer is known.
 
-- **single seed per arm, no noise floor** — the `+0.108` APLS delta may not exceed run-to-run variation, and the repeats that would establish it have not run
-- **a confound** — the four-city model differs in training data *and* training length (best epoch ~21 of 26 vs 8 of 14); this experiment cannot separate "more cities" from "more training"
-- ground truth is SpaceNet 3's own annotations, so this measures agreement, not accuracy
-- 4 of 5 blocks scored; one has empty ground truth
-- still far below the project's own pre-registered `0.60` connectivity target
+### 4. Checking the ruler before blaming the model
+Before running anything, I wrote down the score I wanted to reach. I missed it.
 
-State the `+0.014` as **unchanged**, never as an improvement.
+The tempting response is to adjust settings until the number improves. I tried 53 combinations. None came close.
 
-### 4. The model, not the ruler
-Block APLS missed a `0.60` bar written down before the run. The tempting move is to sweep post-processing until it passes; 53 configurations were swept, spanning `0.172–0.3006`.
+So I checked the ruler instead: I took the **correct answer** — the human-drawn map — and fed it through the same scoring machinery as if a model had produced it. It scored about **0.79 out of a possible 1.0**, so the scoring was working; a near-perfect answer scores near-perfect. The model really was the weaker part, and specifically because its roads came out in disconnected pieces. That told me where the next month should go: connecting roads, not tuning settings.
 
-Instead: push the **ground truth** through the identical post-processing and scorer, as though it were a prediction. It scores `0.7929` length-weighted. So the pipeline clears the bar and the model does not — the shortfall is connectivity, not the measurement. That redirects the work toward topology rather than knob-tuning.
+Two things to keep honest in the body: the settings were chosen using the same data they were then scored on, so even the best figure flatters itself; and the setting I picked made the *worst* area worse, because the selection rule chased the average and the weakest case paid for it.
 
-Two honesty notes in the body: the shipped knobs were tuned on the same validation blocks they are scored on, so even `0.3006` is optimistic; and the chosen setting's *worst* block is worse than the base point's (`0.083` vs `0.110`), because the selection rule maximised the weighted mean and the weakest block paid.
+**Required caveat, in the same breath:** that target was mine. I set it for this project. It is not a threshold anyone else imposed or would have judged the work against.
 
-### 5. The class that couldn't exist
-SpaceNet 3's schema carries no footpath code — verified across all `56,251` features in all four AOIs. The channel was never supervised, so the mask lives in the head rather than only in the loss, and the exported ONNX is structurally unable to emit it (verified: constant `−1e4`).
+### 5. Grading against a category that could not exist
+The model has three labels for road surface. One of them — footpath — it can never output, and that is a property of the training data, not a bug. I checked every road in the dataset: **56,251 of them, not one a footpath.** It is a dataset of vehicle roads.
 
-Two consequences, a few sentences each: three-class surface macro-F1 was silently capped at `0.667` by a class that could never appear, so evaluation now names the classes lacking evidence alongside a present-classes score; and a previously reported 61.2% footpath-argmax figure did not reproduce (`0.00%`) and was withdrawn before the proposal was sent.
+So the model was being graded on a category that could not appear, which quietly capped its best possible surface score at two-thirds no matter how well it performed. I switched that label off, and changed the scoring so it names the categories it has no evidence for instead of averaging in zeros.
+
+I had also reported a footpath accuracy figure earlier. When I went to reproduce it, it came out at zero. I withdrew it before the proposal went out. It had only ever existed in prose — never in a saved measurement — which is exactly why it survived as long as it did.
 
 ### 6. Spending the evidence
-**The section no other portfolio page will have.**
+**The closing argument, and the section no other portfolio page will have.**
 
-**Do not open with "genuinely held-out."** That phrase is true in one sense (the cities were never trained on) and misleading in another (the outcome was inspected to choose a release candidate, which makes them development data). Leading with it and undercutting it a paragraph later is the same ambiguous-term trap §3 guards against for "Stage A" — and here the page would be setting the trap itself.
+I tested on two towns the model had never trained on — Banepa in Nepal and Nhamatanda in Mozambique — with the rules for what would count as an improvement written down before I looked. The fine-tuned version did better on both, and cleared the bar I had set in advance.
 
-Open with the tension instead. Something in this shape:
+**No numbers in that sentence, deliberately** (§8). The size of the gain is not what this section is about, and quoting it invites the reader to weigh it instead of noticing what happens next.
 
-> Stage B fine-tuning was scored on two cities the model had never trained on — Banepa, Nepal and Nhamatanda, Mozambique, real OpenAerialMap imagery against OpenStreetMap geometry — using gates written down before the run (`passes_khartoum_guard`, `passes_golden_improvement_rule`). The masked candidate improved mean road IoU from `0.2907` to `0.3628` and passed both. Then I looked at the result to pick a release candidate, and that act converted those two regions from evidence into development data.
-
-Then the register entry, which is the point. From `docs/exposure-register.json`:
+Then I used those results to decide which version to ship. **That decision spent them.** Once you have chosen something because of how it scored on a test, that test is no longer an independent check on it — it has become part of how the thing was built. So I recorded that in the project's own files:
 
 > "Outcome inspected, so this region is development data. It cannot serve as confirmation for any Stage B claim, including the seed 43/44 repeats that reuse it for median selection."
 
-The same register notes that the reference labels are raw uncorrected OSM with no alignment or completeness gate, so *"agreement with these labels is not accuracy"* — and that Banepa's CRS is in degrees, which does not affect pixel IoU but would invalidate any metre-denominated scoring done there without reprojection.
+Two towns, permanently retired as evidence, written down voluntarily.
 
-That is the page's real argument. Anyone can report a held-out number. Writing down that you have consumed your held-out set, and thereby giving up the right to cite it as confirmation later, is a different thing.
+The same record notes that the reference maps those towns were scored against are raw community-contributed data, never hand-checked — so agreement with them is agreement, not correctness.
+
+Nothing forces this bookkeeping. It only ever costs you something. It is also the difference between a number you can rely on and a number that merely sounds good, which is the whole argument of this page.
 
 ### 7. Where it stands
-With an explicit **"as of 2026-09-22"** line: four-city base model released with open weights; Khartoum figures are validation metrics from blocks that also chose the checkpoint; seed repeats planned and not run, so no noise floor exists; Stage B candidates evaluated but on regions now registered as exposed; a proposal submitted to a public open call on 2026-09-22 with no response; no state-of-the-art claim.
+Dated explicitly, **"as of 2026-09-22"**: the four-city model is released with open weights; the figures come from data that also chose the model, so they are not an independent test; the repeat runs that would put error bars on §3 were started and stopped; the fine-tuned versions were evaluated but on towns now retired as evidence; a proposal went to a public open call on 2026-09-22 with no response yet; no claim that any of this is state of the art.
 
-Then the alignment calibration, which is the best "what I'd do differently": pre-registered rules accepted 2 of 200 tiles, and inspection showed both accepted fits were wrong — HOT mappers had traced the OSM from the same imagery, so it was already aligned to within a few metres. Look at the overlays before building the rule chain. The pre-registration was right; the thing pre-registered was unnecessary.
+Then the best "what I'd do differently": I built a rule-based system to detect when the satellite imagery and the map were misaligned. It accepted 2 tiles out of 200 — and when I looked at those two, both were wrong. The maps had been traced from the same imagery, so they were already aligned. Writing the rules down in advance was right. The thing I wrote rules for did not need solving. Look at the pictures before building the machinery.
 
 ## 6. The test count
 
@@ -256,14 +265,45 @@ A fourth build at `/builds/fair-roads`, reusing `CaseStudy.astro`.
 
 **Ordering:** place it first only if the stats strip and first heading read as competence without the surrounding prose. Otherwise second, behind Layoff Calculator.
 
-**Stats strip** — achievement, not category labels, and nothing unpinned:
+**Stats strip — four rows, and no metrics in any of them.**
 
 | Label | Value |
 |---|---|
-| BLOCK APLS | 0.286 → 0.394 |
-| MODEL | DINOv2 ViT-S/14 + UPerNet · ONNX |
-| ENGINEERING | 981 tests · distroless serve |
+| MODEL AT | huggingface.co/tarabird90/dinov2s-roads |
+| BUILT WITH | Vision transformer + segmentation head |
 | ROLE | Sole engineer |
+| STATUS | Open weights · 2026 → ongoing |
+
+This matches what the site already does. Every existing case study uses exactly four rows, and they are **orientation, not evidence**:
+
+| Page | Rows | Performance numbers |
+|---|---|---|
+| `severance` | `LIVE AT` · `STACK` · `ROLE` · `SHIPPED` | 0 |
+| `rollcall` | `LIVE AT` · `STACK` · `ROLE` · `SHIPPED` | 0 |
+| `knock-it-off` | `PLAY AT` · `BUILT WITH` · `ROUND LENGTH` · `PLAYTESTED BY` | 1, and it is a joke |
+
+A strip that led with `BLOCK APLS | 0.286 → 0.394` — as an earlier draft did — would make this page read like it came from a different site, and a bare decimal pair under an acronym is the least useful thing a hiring manager could meet first. The achievement belongs in the body, in the sentence that makes it mean something.
+
+`MODEL AT` will not resolve while the card is private (§7). That is accepted and it is why the row is a destination, not a claim.
+
+### How many numbers on the page at all
+
+**Target: five to seven in the entire body.** The existing case studies run 4–7 including years and version strings, so this page is already the most number-heavy of the four and should not push further.
+
+The test: **a number earns its place only if deleting it would change what a reader believes.**
+
+Keep, in priority order:
+
+1. **56,251 roads, not one a footpath** — irreplaceable; it *is* the finding
+2. **"+38% better connected" against "almost nothing changed"** — the centerpiece, and only as a pair; separately, neither means anything
+3. **0.79 out of a possible 1.0** — makes the ruler-check argument work
+4. **53 combinations tried** — evidence the restraint was real rather than claimed
+5. **two towns retired** — §5.6
+6. **1,189 tests** — the "she ships" proof
+
+Cut from the page (they remain in §4 for the implementer, and on the model card): every hash, the parity figure, the zero-shot trio, the held-out before/after pair, chip counts, epoch numbers, block counts, file sizes.
+
+Note §5.6 needs **no** number at all once cut this way: *"it did better on both, and it passed the bar I'd set in advance"* carries the section, because the point is that the evidence was spent, not the size of the gain.
 
 **Coordination:** this shares three files with `2026-09-22-homepage-skills-design.md`. See that spec's §13. Land this one first — it changes the build count that the homepage's lane 01 stat depends on.
 
@@ -309,6 +349,16 @@ This spans two repositories: assets are generated in `fair-roads`, the page live
 ## 11. Voice
 
 Match the existing case studies: first person, short declaratives, no hype. Do not make the rigor sound heroic; overselling honesty is self-defeating.
+
+**Plain English is a hard requirement, not a preference** (§5). Tara's instruction: the case study explains what the project is; the technical jargon lives on the model card. The test to apply to every sentence: *would someone who has never trained a model follow this?* If not, rewrite it — do not add a parenthetical definition, which is how pages end up technical anyway.
+
+Three rules that do most of the work:
+
+1. **Describe what a number measures, never name the metric.** "whether the roads join up into a network you could route across", not "clDice" or "APLS".
+2. **Give numbers a unit or a comparison.** "+38% better connected" or "0.79 out of a possible 1.0", never a bare `0.394`.
+3. **Explain by consequence.** "a map broken into disconnected fragments is far less useful to a mapper than the score suggests" does more than any definition.
+
+This is not dumbing down. The judgement calls are the hard part of this project and they are all expressible in plain language — the metric names were never carrying the insight.
 
 Bold the findings, not the confessions — the metric disagreement, the oracle ceiling, the 56,251-feature schema finding, the exposure register. Negatives stay in plain text, in full, with their explanation in the same sentence.
 

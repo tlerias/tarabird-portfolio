@@ -31,3 +31,12 @@ export const OffTheClockSchema = z.object({
   title: z.string(),
   body: z.string(),
 });
+
+export const ServiceSchema = z.object({
+  slug: z.enum(['ship', 'integrate', 'lead', 'enable']),
+  title: z.string().min(1),
+  description: z.string().min(1),
+  statValue: z.string().min(1),
+  statCaption: z.string().min(1),
+  tags: z.array(z.string().min(1)).min(2).max(5),
+});

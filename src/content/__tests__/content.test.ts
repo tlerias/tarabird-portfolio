@@ -3,7 +3,8 @@ import { now } from '../now';
 import { builds } from '../builds';
 import { offKeyboard } from '../off-keyboard';
 import { offTheClock } from '../off-the-clock';
-import { NowSchema, BuildSchema, OffKeyboardSchema, OffTheClockSchema } from '../schema';
+import { services } from '../services';
+import { NowSchema, BuildSchema, OffKeyboardSchema, OffTheClockSchema, ServiceSchema } from '../schema';
 import { z } from 'zod';
 
 describe('content data', () => {
@@ -27,6 +28,38 @@ describe('content data', () => {
   it('off-the-clock items match schema', () => {
     expect(() => z.array(OffTheClockSchema).parse(offTheClock)).not.toThrow();
     expect(offTheClock.length).toBe(4);
+  });
+
+  it('service schema rejects too few and too many tags', () => {
+    const base = {
+      slug: 'ship', title: 'x', description: 'x',
+      statValue: '4', statCaption: 'x', tags: ['a', 'b'],
+    };
+    expect(() => ServiceSchema.parse(base)).not.toThrow();
+    expect(() => ServiceSchema.parse({ ...base, tags: ['a'] })).toThrow();
+    expect(() => ServiceSchema.parse({ ...base, tags: ['a','b','c','d','e','f'] })).toThrow();
+    expect(() => ServiceSchema.parse({ ...base, statCaption: '' })).toThrow();
+  });
+
+  it('services match schema', () => {
+    expect(() => z.array(ServiceSchema).parse(services)).not.toThrow();
+    expect(services.length).toBe(4);
+    const slugs = services.map(s => s.slug);
+    expect(slugs).toEqual(['ship', 'integrate', 'lead', 'enable']);
+  });
+
+  it('gusto metrics are attributed to teams, not to one person', () => {
+    const gusto = services.filter(s => ['integrate', 'lead'].includes(s.slug));
+    expect(gusto).toHaveLength(2);
+    for (const s of gusto) {
+      expect(s.statCaption).toContain('teams I led');
+    }
+  });
+
+  it('the withdrawn production-error metric never ships', () => {
+    const blob = JSON.stringify(services);
+    expect(blob).not.toContain('92');
+    expect(blob).not.toContain('production error');
   });
 
   it('build schema accepts the fair-roads shape', () => {

@@ -142,7 +142,7 @@ Three reasons this is the right spine, beyond being what was asked for:
 | 11 | A pull request into HOT's model repository | ahead |
 | 12 | Merged — the model goes live in fAIr | ahead |
 | 13 | Mappers fine-tune it for their own districts | ahead |
-| 14 | Predictions become OpenStreetMap edits | ahead |
+| 14 | Predictions become map data | ahead |
 
 **The order is chronological and that is load-bearing.** An earlier draft ran the scoring disagreement at stage 3, before the four-city retrain it describes, which forced its opening to reach forward ("*Later*, retrained on four cities…") and made the stage hard to follow. Two consequences of the corrected order, both of which the prose now depends on:
 
@@ -387,7 +387,7 @@ Implementation: `fair-roads` becomes the first entry in `src/content/builds.ts`,
 | MODEL AT | huggingface.co/tarabird90/dinov2s-roads |
 | BUILT WITH | Vision transformer + segmentation head |
 | ROLE | Sole engineer |
-| STATUS | Model downloadable · proposal submitted |
+| STATUS | Model published · proposal submitted |
 
 This matches what the site already does. Every existing case study uses exactly four rows, and they are **orientation, not evidence**:
 
@@ -440,7 +440,7 @@ This spans two repositories: assets are generated in `fair-roads`, the page live
 ## 10. Do not quote
 
 - **The four-city per-city table, pooled row, clDice column, and chip counts** — unpinned (§4)
-- **1,189 test functions** — does not reproduce (§6)
+- ~~1,189 test functions~~ **Removed 2026-09-23.** This entry was stale and actively harmful: §6 later established that 1,189/82 reproduces exactly and §8 requires it as one of the page's seven numbers. The live contradiction is the likeliest reason a rewrite dropped the whole "What got built" section, and the number with it. The real constraint is narrower — label the scope correctly, since 1,189/82 is the whole repository, not the `roads_hot` package.
 - **"Stage A" unqualified** (§3)
 - **The +0.014 Khartoum delta as an improvement** — inside the noise floor
 - **Paris 0.6815 against Paris 0.386** as an improvement — different kinds of number, and the first is unpinned

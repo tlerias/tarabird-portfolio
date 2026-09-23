@@ -293,7 +293,7 @@ stats:
   - label: "ROLE"
     value: "Sole engineer"
   - label: "STATUS"
-    value: "Model downloadable · proposal submitted"
+    value: "Model published · proposal submitted"
 ---
 
 import Timeline from '../../components/Timeline.astro';
@@ -340,9 +340,11 @@ I'd also reported a footpath accuracy figure earlier. When I went to reproduce i
 </TimelineStage>
 
 <TimelineStage label="Checked the ruler before blaming the model">
-Roads are only useful if they join up, so alongside the pixel score I tracked a second one: do the roads the model draws form a network you could actually trace a route across? It came out low — and I couldn't tell whether that meant the model was bad or the scoring was.
+Roads are only useful if they join up. Alongside the obvious score — how much of the road surface the model got right, pixel by pixel — I tracked a second one: do the roads it draws form a network you could actually trace a route across?
 
-The tempting response is to adjust settings until the number improves. I tried **53** combinations. The best barely moved it.
+On the one-city model that second score came out low, and I couldn't tell whether that meant the model was bad or the scoring was.
+
+The tempting response is to adjust settings until the number improves. I tried **53** combinations of the settings that turn a prediction into road lines. The best of them barely moved it.
 
 So I checked the ruler. I took the reference map — the one drawn by hand, the thing the model is compared against — and fed it through the same scoring machinery as if a model had produced it. It scored about **0.79 out of a possible 1.0**.
 
@@ -358,11 +360,11 @@ Four cities instead of one, same recipe. I kept the first city's test split froz
 <TimelineStage label="Two ways of scoring disagreed">
 I scored the new model against the old one on that frozen test data. The two measures told different stories.
 
-The pixel score — how much of the road surface it got right — barely moved. The connectivity score — the one I'd checked the ruler on — went up by about **38%**.
+The pixel score barely moved. The connectivity score — the one I'd checked the ruler on — went up by about **38%**.
 
 That gap is the interesting part. A mapper doesn't need pixels, they need roads that connect — and a map that's mostly accurate but broken into disconnected fragments is far less useful than the first score makes it sound.
 
-Both scores are measured across four areas of the city against one organisation's hand-drawn maps, so what they capture is agreement with those maps, not correctness.
+Both scores come from four areas of the city — a fifth had no roads in it to score against — measured against one organisation's hand-drawn maps. So what they capture is agreement with those maps, not correctness, and it rests on four areas rather than a city.
 
 Even after that jump it scores about half what the hand-drawn map does. Better connected, not well connected.
 
@@ -384,7 +386,9 @@ Nothing forces this bookkeeping. It only ever costs you something.
 </TimelineStage>
 
 <TimelineStage label="Published the model for anyone to download">
-The model itself is published, not just an API you call: [the trained file is on HuggingFace](https://huggingface.co/tarabird90/dinov2s-roads) with the record of how it was measured beside it. Download it, run it, check the claims. The code that trained it stays private. Every number in its documentation says what kind of number it is.
+I published the model itself, not just an API you call — [the trained file](https://huggingface.co/tarabird90/dinov2s-roads), with the record of how it was measured beside it. The code that trained it stays private.
+
+By this point the project was more than a model: a training pipeline, **1,189** tests, a packaged version that runs on an ordinary server with no graphics card, the work to make it plug into HOT's platform, and a pipeline that pulled and prepared twenty thousand satellite tiles across five regions. Every number in its documentation says what kind of number it is.
 </TimelineStage>
 
 <TimelineStage label="Proposal submitted" date="22 Sept 2026" status="now">
@@ -399,7 +403,7 @@ The call runs as a grant. Acceptance isn't a finish line — it's the document t
 I hand over a description of the model and two container images: one that trains, one that serves predictions. A HOT admin reviews it. I never touch a server — my entire deliverable is a container that behaves correctly when somebody else runs it.
 </TimelineStage>
 
-<TimelineStage label="Merged, and the model goes live" status="ahead">
+<TimelineStage label="Merged, and the model goes live in fAIr" status="ahead">
 Their system reads the description, mirrors the weights, and stands the serving image up as a live endpoint. The grant releases on merge, not on acceptance. A model on a download page is a research artifact; a model merged into fAIr is one people can actually reach.
 </TimelineStage>
 

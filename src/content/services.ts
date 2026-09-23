@@ -34,6 +34,6 @@ export const services: Service[] = [
     description: 'AI tooling adoption, workshops, and teaching people who have never written a line of code.',
     statValue: '58%',
     statCaption: 'PR throughput · 2-team sprint, DX-confirmed',
-    tags: ['AI tooling', 'Workshops'],
+    tags: ['AI tooling', 'Workshops', 'AI certificate'],
   },
 ];

@@ -190,8 +190,8 @@ export const services: Service[] = [
     slug: 'enable',
     title: 'Get a team productive with new tools.',
     description: 'AI tooling adoption, workshops, and teaching people who have never written a line of code.',
-    statValue: '+57%',
-    statCaption: 'PR throughput · AI-tooling sprint',
+    statValue: '58%',
+    statCaption: 'PR throughput · 2-team sprint, DX-confirmed',
     tags: ['AI tooling', 'Workshops'],
   },
 ];
@@ -627,4 +627,46 @@ Record the four scores in `README.md`'s table, dated. Do not assume 99/95/100/10
 ```bash
 git add README.md
 git commit -m "docs: re-measure Lighthouse after the skills section"
+```
+
+---
+
+## Task 10: Correct the PR-throughput figure on /career
+
+Spec §5 requires this in the same change as the skills section. `career.astro` currently says `+57%`; the resume says `58%`, DX-confirmed. Shipping lane 04 as `58%` while `/career` says `+57%` puts a contradiction two clicks apart, on exactly the kind of number a reader checks.
+
+**Files:**
+- Modify: `src/pages/career.astro:43`
+
+- [ ] **Step 1: Correct the figure**
+
+In `src/pages/career.astro:43`, change:
+
+```
+posted a <strong>+57% PR throughput gain</strong> during an AI-tooling sprint
+```
+
+to:
+
+```
+posted a <strong>58% PR throughput gain</strong> across a two-team AI-tooling sprint, confirmed by our developer-experience metrics
+```
+
+Leave every other number in that sentence alone — this task corrects one figure, it does not rewrite the paragraph.
+
+- [ ] **Step 2: Verify no `+57%` survives anywhere**
+
+Run:
+
+```bash
+grep -rn "57%" src/ docs/superpowers/specs/ || echo "clean"
+```
+
+Expected: no hits in `src/`. Hits inside the spec are fine where they describe the correction itself.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/pages/career.astro
+git commit -m "fix(career): PR throughput is 58%, DX-confirmed"
 ```

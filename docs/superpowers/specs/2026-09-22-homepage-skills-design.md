@@ -36,7 +36,7 @@ Tara will take on all four of:
 
 **Known risk, accepted:** a four-way offer reads as unfocused to a client scanning for "does she do my thing?" This is Tara's decision and it is honest. The design compensates structurally rather than by narrowing scope: each lane is stated as a concrete outcome and carries its own proof number, so the section reads as four demonstrated capabilities rather than a list of services.
 
-Lane 4 was originally "advisory & speaking," whose only evidence (Kinetic Minds, Heart & Hammer) already appears in the Off-keyboard section. It is reframed as **enablement** — getting teams productive with new tools — which gives it proof of its own (+57% PR throughput) and still contains the workshop and speaking work.
+Lane 4 was originally "advisory & speaking," whose only evidence (Kinetic Minds, Heart & Hammer) already appears in the Off-keyboard section. It is reframed as **enablement** — getting teams productive with new tools — which gives it proof of its own (58% PR throughput) and still contains the workshop and speaking work.
 
 ## 4. Attribution
 
@@ -46,7 +46,7 @@ Every Gusto metric is a team outcome under Tara's leadership. `/career` says "my
 
 ## 5. Metric provenance and the qualifier problem
 
-**Every number in this section traces to a single source: prose Tara wrote in the 2026-05-14 spec, reproduced in `src/pages/career.astro:43`. There is no underlying data in this repository** — no dashboard export, no incident counts, no PR metrics. The claims rest on memory of one quarter.
+**With one exception, every number in this section traces to a single source: prose Tara wrote in the 2026-05-14 spec, reproduced in `src/pages/career.astro:43`. There is no underlying data in this repository** — no dashboard export, no incident counts, no PR metrics. The claims rest on memory of one quarter.
 
 Source sentence:
 
@@ -59,13 +59,25 @@ Source sentence:
 | ~15,000 LOC removed | "multi-quarter monolith extraction" | Yes (unused) |
 | 85 GraphQL objects | none | Yes (unused) |
 | −92% weekly prod errors | **"in the closing weeks of the quarter"** | **No** |
-| +57% PR throughput | "during an AI-tooling sprint" | Yes, with sprint named |
+| ~~+57%~~ **58%** PR throughput | "during an AI-tooling sprint" | Yes, with the sprint named — see below |
 
 **The −92% figure is excluded from the homepage.** A reduction measured over the closing weeks of a quarter is a trend at a moment, not an outcome that held. Rendered as a bare stat tile it becomes a claim the source does not support, and it is the claim a technical client is most likely to ask about. It stays on `/career`, where its qualifier travels with it.
 
 Lane 03 uses **time-to-resolve, 20 days → 9** instead: no measurement-window caveat, an operations-and-process win rather than a point-in-time trend, and closer to what a fractional tech leader is actually hired to fix.
 
-**Open action for Tara, outside this implementation:** confirm 15% → 7% and 20 days → 9 against the original dashboards before these ship. They are the two numbers a prospective client may ask her to walk through.
+### The PR-throughput figure is 58%, not 57% — and it has a second source
+
+`career.astro:43` says `+57% PR throughput gain`. **Tara's consultant resume says 58%**, and says more than that:
+
+> "Designed and ran a Claude Code sprint experiment across two teams, producing a **DX-confirmed 58% average increase in PR throughput**."
+
+Three consequences:
+
+1. **Use 58%.** Decided by Tara 2026-09-23.
+2. **`career.astro:43` must be corrected in the same change**, or the site says `+57%` on one page and `58%` on another — a contradiction a reader can find in two clicks, on the exact kind of number they would check.
+3. **The caption gains real provenance.** "DX-confirmed" means an instrumented developer-experience measurement backed it, not Tara's own read of a dashboard — which makes this the **best-sourced number in the section**, and the only one with a second independent document behind it. The caption should carry both that and the scope: it was a sprint experiment across two teams, not a sustained org-wide change.
+
+**Open action for Tara, still outstanding:** confirm 15% → 7% and 20 days → 9 against the original dashboards before these ship. Neither appears anywhere in her resume, and both trace only to prose she wrote in the 2026-05-14 spec. They remain the two numbers a prospective client is most likely to ask her to walk through, and the two with the weakest paper trail.
 
 ## 6. Structure
 
@@ -103,7 +115,7 @@ All four rows use the **identical** `grid-template-columns: minmax(0, 1.35fr) mi
 | 01 | Ship the whole product, model included. | Idea to shipped thing, solo. Design, build, deploy, the unglamorous parts after launch — and when the product *is* a model, train, evaluate and export that too. | `4` | products shipped, built alone | Next.js, Supabase, PyTorch, ONNX, Godot |
 | 02 | Make systems talk. | Partner APIs, accounting platforms, sync pipelines that fail quietly until someone makes them stop. | `15% → 7%` | sync errors · teams I led | QuickBooks, Xero, Sage Intacct |
 | 03 | Run the engineering team. | Fractional tech leadership. On-call rotations, ops reviews, calibration — the infrastructure that makes leadership scale. | `20 days → 9` | time-to-resolve · teams I led | 2 teams, 5 engineers |
-| 04 | Get a team productive with new tools. | AI tooling adoption, workshops, and teaching people who have never written a line of code. | `+57%` | PR throughput · AI-tooling sprint | AI tooling, Workshops |
+| 04 | Get a team productive with new tools. | AI tooling adoption, workshops, and teaching people who have never written a line of code. | `58%` | PR throughput · 2-team sprint, DX-confirmed | AI tooling, Workshops |
 
 **Lane 01 absorbs the ML work rather than getting its own row.** `fair-roads` is the strongest single piece of evidence on the site for ML engineering, and a fifth lane was rejected: five lanes make the "I do everything" problem of §3 worse, not better. Folding it into lane 01 is cheaper and keeps the section tight, at the cost of burying the differentiator inside a generalist row — an accepted trade. The title carries "model included" specifically so a hiring manager skimming four titles still sees it.
 

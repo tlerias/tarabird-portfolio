@@ -1,0 +1,313 @@
+# Homepage Skills Showcase — Design Spec
+
+**Owner:** Tara Bird
+**Date:** 2026-09-22
+**Status:** Draft for approval
+**Supersedes:** nothing. Extends `2026-05-14-tarabird-portfolio-design.md`.
+
+---
+
+## 1. Problem
+
+The homepage does not say what Tara can do. Sections run Hero → Marquee → Builds → Career → Off-keyboard → Off the clock → Say hi. There is no statement of capability, no technical surface, and no evidence of leadership beyond a single hero line.
+
+The hardest evidence is buried. Every Gusto metric lives only on `/career`, a subpage reached by scrolling past four homepage sections and clicking through. A visitor evaluating Tara for paid work never sees it.
+
+"Yes I take contract work" (`ContactSection.astro:14`) sits in the final content section, below the fold, with nothing above it describing what that work would be.
+
+## 2. What changed since the 2026-05-14 spec
+
+The original audience ranking was: (1) personal artifact, (2) network/strangers, (3) contracting clients, (4) engineering peers, (5) founders.
+
+**Contracting has moved up.** Landing paid work is now a real goal. The skills content has a job to do beyond self-expression, and the contract CTA cannot stay in the footer.
+
+**A second goal runs in parallel: a Director of AI Engineering track.** That is the stated purpose of the `fair-roads` case study specced the same day (`2026-09-22-fair-roads-case-study-design.md`, on `main`). Priority for *this* section is contracting first, hiring second — the heading stays "What you can hire me for" and the CTA stays contract-shaped — but the ML evidence must be legible to a hiring manager who lands here, which is why §7's lane 01 absorbs it. See §13.
+
+The voice constraint from §1 of the original spec is unchanged and still binding: *playful + craftsperson + wry, never childish, never corporate.* A skills section is the single most likely element on this page to violate it. Every decision below is constrained by that.
+
+## 3. Scope of the offer
+
+Tara will take on all four of:
+
+1. Hands-on product build
+2. Integrations and platform work
+3. Engineering leadership and ops
+4. Advisory, teaching, and speaking
+
+**Known risk, accepted:** a four-way offer reads as unfocused to a client scanning for "does she do my thing?" This is Tara's decision and it is honest. The design compensates structurally rather than by narrowing scope: each lane is stated as a concrete outcome and carries its own proof number, so the section reads as four demonstrated capabilities rather than a list of services.
+
+Lane 4 was originally "advisory & speaking," whose only evidence (Kinetic Minds, Heart & Hammer) already appears in the Off-keyboard section. It is reframed as **enablement** — getting teams productive with new tools — which gives it proof of its own (58% PR throughput) and still contains the workshop and speaking work.
+
+## 4. Attribution
+
+Every Gusto metric is a team outcome under Tara's leadership. `/career` says "my team delivered."
+
+**Decision: explicit "teams I led" framing.** Solo builds carry "I"; Gusto work carries "teams I led." Ambiguous attribution would read stronger at a glance but creates a gap between the homepage and `/career` that a client who digs will find. For the fractional-leadership lane specifically, a leadership-attributed number is stronger proof than a solo one.
+
+## 5. Metric provenance and the qualifier problem
+
+**With one exception, every number in this section traces to a single source: prose Tara wrote in the 2026-05-14 spec, reproduced in `src/pages/career.astro:43`. There is no underlying data in this repository** — no dashboard export, no incident counts, no PR metrics. The claims rest on memory of one quarter.
+
+Source sentence:
+
+> "In a single recent quarter, my team delivered a new partner integration end-to-end, cut sync error rates from **15% to 7%**, reduced average time-to-resolve from twenty days to nine, removed approximately **15,000 lines of legacy code** and millions of obsolete rows as part of a multi-quarter monolith extraction, and migrated **85 GraphQL objects** to a new authorization layer. We drove a **92% reduction** in weekly production errors in the closing weeks of the quarter and posted a **+57% PR throughput gain** during an AI-tooling sprint."
+
+| Metric | Qualifier in source | Homepage-safe |
+|---|---|---|
+| Sync errors 15% → 7% | "in a single recent quarter" | Yes |
+| TTR 20 days → 9 | "in a single recent quarter" | Yes |
+| ~15,000 LOC removed | "multi-quarter monolith extraction" | Yes (unused) |
+| 85 GraphQL objects | none | Yes (unused) |
+| −92% weekly prod errors | **"in the closing weeks of the quarter"** | **No** |
+| ~~+57%~~ **58%** PR throughput | "during an AI-tooling sprint" | Yes, with the sprint named — see below |
+
+**The −92% figure is excluded from the homepage.** A reduction measured over the closing weeks of a quarter is a trend at a moment, not an outcome that held. Rendered as a bare stat tile it becomes a claim the source does not support, and it is the claim a technical client is most likely to ask about. It stays on `/career`, where its qualifier travels with it.
+
+Lane 03 uses **time-to-resolve, 20 days → 9** instead: no measurement-window caveat, an operations-and-process win rather than a point-in-time trend, and closer to what a fractional tech leader is actually hired to fix.
+
+### The PR-throughput figure is 58%, not 57% — and it has a second source
+
+`career.astro:43` says `+57% PR throughput gain`. **Tara's consultant resume says 58%**, and says more than that:
+
+> "Designed and ran a Claude Code sprint experiment across two teams, producing a **DX-confirmed 58% average increase in PR throughput**."
+
+Three consequences:
+
+1. **Use 58%.** Decided by Tara 2026-09-23.
+2. **`career.astro:43` must be corrected in the same change**, or the site says `+57%` on one page and `58%` on another — a contradiction a reader can find in two clicks, on the exact kind of number they would check.
+3. **The caption gains real provenance.** "DX-confirmed" means an instrumented developer-experience measurement backed it, not Tara's own read of a dashboard — which makes this the **best-sourced number in the section**, and the only one with a second independent document behind it. The caption should carry both that and the scope: it was a sprint experiment across two teams, not a sustained org-wide change.
+
+**Open action for Tara, still outstanding:** confirm 15% → 7% and 20 days → 9 against the original dashboards before these ship. Neither appears anywhere in her resume, and both trace only to prose she wrote in the 2026-05-14 spec. They remain the two numbers a prospective client is most likely to ask her to walk through, and the two with the weakest paper trail.
+
+## 6. Structure
+
+Approach chosen: **show, then offer.** Builds stays first and earns the right to make claims; claims then arrive with receipts attached.
+
+```
+Hero                    edited — subhead names availability; 2nd CTA retargeted
+Marquee (now)           unchanged
+§ 01 Builds             edited — stack tags per card
+§ 02 What I do          NEW
+§ 03 Career             unchanged
+§ 04 Off-keyboard       unchanged (renumbered)
+§ 05 Off the clock      unchanged (renumbered)
+§ 06 Say hi             edited — contract CTA promoted
+```
+
+Rejected: *offer up front* (capabilities before Builds) — fastest answer for a scanning client, but front-loads the broadest claims in the most prominent slot, which makes the four-way-offer vagueness worse and is most likely to read corporate. Rejected: *woven through* (no section, just a stat band and inline metrics) — safest for the voice, but never gives a client one clear statement of what they can hire her for.
+
+## 7. Section 02 — content and layout
+
+**Layout: stacked rows, one per lane.** Not a card grid. Four titles scan in about two seconds, and rows are visually distinct from Builds above and Off-keyboard below — the page already has two grid-of-cards sections and a third would flatten it.
+
+**Header:** `02 / what i do` → "What you can **hire me** for." (mint highlight on *hire me*), mint squiggle beneath, `taking on work · 2026` kicker right-aligned.
+
+`SectionHeader.astro` supplies the number, label, squiggle and heading only — its props are `number`, `label`, `squiggleColor`, `squiggleWidth`, `labelColor`. **It has no `kicker` prop.** Follow `BuildsSection.astro:14`, where the kicker is a sibling `<div>` inside a `flex justify-between items-end` wrapper. Do not add a `kicker` prop to `SectionHeader` for this.
+
+**Row grid:** `title/number` | `description` | `stat + tags`.
+
+All four rows use the **identical** `grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(220px, 0.9fr)`. Columns must align across rows. Do not size the third column `auto` — stat strings differ in length and `auto` would let each row's columns land in a different place. Alignment comes from a shared fixed template, not from table semantics. Collapses to a single stacked column below 820px.
+
+**The four rows:**
+
+| # | Title | Description | Stat | Caption | Tags |
+|---|---|---|---|---|---|
+| 01 | Ship the whole product, model included. | Idea to shipped thing, solo. Design, build, deploy, the unglamorous parts after launch — and when the product *is* a model, train, evaluate and export that too. | `4` | products shipped, built alone | Next.js, Supabase, PyTorch, ONNX, Godot |
+| 02 | Make systems talk. | Partner APIs, accounting platforms, sync pipelines that fail quietly until someone makes them stop. | `15% → 7%` | sync errors · teams I led | QuickBooks, Xero, Sage Intacct |
+| 03 | Run the engineering team. | Fractional tech leadership. On-call rotations, ops reviews, calibration — the infrastructure that makes leadership scale. | `20 days → 9` | time-to-resolve · teams I led | 2 teams, 5 engineers |
+| 04 | Get a team productive with new tools. | AI tooling adoption, workshops, and teaching people who have never written a line of code. | `58%` | PR throughput · 2-team sprint, DX-confirmed | AI tooling, Workshops |
+
+**Lane 01 absorbs the ML work rather than getting its own row.** `fair-roads` is the strongest single piece of evidence on the site for ML engineering, and a fifth lane was rejected: five lanes make the "I do everything" problem of §3 worse, not better. Folding it into lane 01 is cheaper and keeps the section tight, at the cost of burying the differentiator inside a generalist row — an accepted trade. The title carries "model included" specifically so a hiring manager skimming four titles still sees it.
+
+Lane 01 drops the word **live** throughout — from the stat caption *and* from the description, which previously read "Idea to live URL". `fair-roads` ships as a base model with open weights, not as a live product with a URL a visitor can use, so "4 products live" would be false and "idea to live URL" would not describe it. "Shipped" is true of all four.
+
+Note the phrasing above avoids "Stage A". The `fair-roads` spec (§3 there) establishes that the project uses that term for two different things — a training stage and a specific superseded checkpoint — and forbids it unqualified. That rule applies here too.
+
+Lane 01 keeps **"built alone"**, now confirmed rather than assumed: all four projects are agent-assisted, which is Tara's normal working method and **does not make her any less the sole engineer**. `fair-roads`'s own stats strip independently says `ROLE: Sole engineer`, so the two pages agree.
+
+**Do not argue this from what the fair-roads page discloses.** An earlier draft reasoned that the homepage need not mention agent assistance because the case study discloses it one click away. That premise is not established: the agent-direction section is an open question in the fair-roads spec (§12.2 there), flagged for Tara's decision and not yet ruled on. If she declines it, and with the source repo private, nothing anywhere discloses it — and this spec would be resting on a disclosure that does not exist.
+
+The claim stands on its own merits instead: she is the sole engineer on all four, which is true whether or not any page discusses tooling. That is also the more robust position, because it does not change if the fair-roads decision goes either way.
+
+**Constraint regardless:** do not write "hand-coded", "from scratch", "by hand", or "without AI assistance" anywhere in this section. Those would be false, and they would contradict the fair-roads page if its disclosure ships.
+
+Stat strings are written as spoken, not abbreviated — `20 days → 9`, never `20d → 9d`. `15% → 7%` is left as-is: screen readers pronounce `%` correctly, and the `→` sits inside a labelled `<dl>` pair (§8) so the relationship is already conveyed.
+
+**Lane 02 tags — corrected.** An earlier draft tagged this row `GraphQL, Rails, Partner APIs`. **`Rails` has no source.** The only occurrence of "Rails" in the repository is Tara's early-career "we taught ourselves Ruby on Rails" story from Kapost (`career.astro:29`), which has nothing to do with the Gusto Pro Integrations stack this row claims. That is exactly the failure §5 exists to prevent, and §5's discipline was not applied to it. The tags are replaced with the named integration partners, which **are** sourced (`career.astro:41`): QuickBooks Online, Xero, FreshBooks, Sage Intacct. `GraphQL` is separately supported ("migrated 85 GraphQL objects") and may be used, but naming partners is stronger proof for a client than naming a query language.
+
+**Voice check.** Review raised that the four row titles carry none of the site's signature devices — no `Highlight` colour-block word, no first person, no wry beat — and therefore read corporate, in violation of §2.
+
+Partly accepted. On inspection the device is used at **section-title** level, not item level: every item title on this site is plain, and several are plain-with-a-period (`Heart & Hammer`, `Kinetic Minds`, `Jiu-jitsu.`, `Gardening.`, `Layoff Calculator`, `Rollcall`). Row titles are item titles, so plain declaratives match the established pattern rather than breaking it, and the section heading already carries the `Highlight` ("What you can **hire me** for.").
+
+One caveat on that argument, since lane 01's title changed: **"Ship the whole product, model included."** is longer and comma-claused, where every comparison title above is short and unclaused. The item-title defence covers the other three cleanly; lane 01 is a deliberate exception, taking the extra clause because it is the only place a skimming hiring manager learns the ML work exists (§2). If the row reads heavy once built, shorten it — but do not solve that by deleting "model included", which is the clause doing the work.
+
+Two titles are still weak and are flagged for Tara's decision, not resolved here:
+
+- **`Get a team productive with new tools.`** — the most corporate line in the section. Consultant-deck phrasing.
+- **`Make systems talk.`** — serviceable, but close to integrations-vendor boilerplate.
+
+These are Tara's voice, not the implementer's, and must not be rewritten during implementation. Ship the titles above verbatim unless Tara replaces them first.
+
+**Section closes** with an anchor into `#say-hi`: "Any of these sound like your problem? →"
+
+**Background:** a new `--gradient-services: linear-gradient(180deg, #fef9f0, #f3eef8)` token in `tokens.css`, with a `BlurShape`.
+
+Rejected: `cream-warm` (`#fefcf5`). It is ~0.5% lighter than `cream` — imperceptible against the Builds section directly above — and throughout this codebase `cream-warm` means *card surface* (`BuildCard`, `ImpactStrip`, off-the-clock items, `StatusPill`'s `wip`), never a section background. Every existing section uses `bg-cream` or a dedicated `--gradient-*` token. A new gradient keeps that pattern and does useful work: it walks cream → lavender-wash, so it also sets up `--gradient-career` immediately below.
+
+## 8. Components and data
+
+Follows the `BuildsSection` / `BuildCard` split **architecturally** — a section shell that maps over content data into a per-item component. It does **not** follow it visually: `BuildsSection` renders a `grid grid-cols-1 md:grid-cols-3` of cards, and §7 explicitly rejects a card grid for this section.
+
+- **`src/components/SkillsSection.astro`** — section shell, `id="what-i-do"` (required; it is the anchor target for the hero CTA and the nav link), `SectionHeader`, `BlurShape`, `ScrollFadeIn`, maps rows.
+- **`src/components/ServiceRow.astro`** — one row. Props: `{ service, index }`.
+- **`src/content/services.ts`** — the four entries above.
+- **`ServiceSchema`** added to `src/content/schema.ts`:
+
+```ts
+export const ServiceSchema = z.object({
+  slug: z.enum(['ship', 'integrate', 'lead', 'enable']),
+  title: z.string().min(1),
+  description: z.string().min(1),
+  statValue: z.string().min(1),
+  statCaption: z.string().min(1),
+  tags: z.array(z.string().min(1)).min(2).max(5),
+});
+```
+
+A bounded range rather than `.min(1)`. An earlier draft used `.length(3)` to match `OffKeyboardSchema`'s fixed-count `stats` field, but lane 01 now legitimately carries five tags after absorbing the ML work (§7). Correctness beats stylistic symmetry here. The bounds still make a dropped tag or an unbounded list a test failure rather than a silent layout shift; the row's third grid column is sized `minmax(220px, 0.9fr)` and holds five chips without reflowing.
+
+**Tag rendering** (shared by service rows and build cards, which have no existing precedent — `StatusPill` is a different, single-value component): pill chips, `1px` mint border, transparent background, `JetBrains Mono` uppercase at ~9.5px with `0.7px` letter-spacing, `border-radius: 999px`, `5px 8px` padding. Not comma-separated text. Extract as `src/components/Tag.astro` so the two consumers cannot drift.
+
+**Accessibility:** each stat renders as a `<dl>` with `<dt>` caption and `<dd>` value, so a screen reader announces "time-to-resolve, teams I led: 20 days to 9" rather than a naked "20d → 9d". The `→` in stat values is decorative within a labelled pair; write values as `20 days → 9` rather than `20d → 9d` so the text reads correctly when spoken.
+
+## 9. Supporting edits
+
+**Hero** (`Hero.astro`) — subhead gains a final clause naming availability, echoing the contact section's existing phrasing so the two read as one voice:
+
+> Engineering manager at Gusto. Independent builder of a layoff calculator, a jiu-jitsu app, a road-mapping model for humanitarian work, and a tap-and-knock game for my kids. **And yes, I'm taking contract work.**
+
+Note the fourth item. The subhead currently enumerates three products while lane 01 claims four a section later — not a literal contradiction, since the hero states no count, but a reader who counts will notice. Adding `fair-roads` also puts the ML work in the first sentence on the page, which §2 wants. **Sequenced with `fair-roads` (§13): do not add this clause before that build exists.**
+
+Secondary CTA retargets from `#say-hi` to `#what-i-do` and its label changes from "Say hi" to "What I can do →". Primary CTA ("See the builds →") unchanged. "Say hi" remains reachable from the nav button, which is always visible.
+
+**Build cards** (`BuildCard.astro`, `builds.ts`, `BuildSchema`) — add `stack: z.array(z.string().min(1)).min(1)`.
+
+The values exist today in the case-study MDX frontmatter, but **as a single `·`-joined string inside the `stats` array** (`stats[1].value`), under the label `STACK` for severance and rollcall and `BUILT WITH` for knock-it-off. There is no `stack` field anywhere yet.
+
+Author them as explicit arrays in `builds.ts` — do not split the existing string at runtime, and do not make `builds.ts` read the MDX frontmatter:
+
+- severance → `['Next.js', 'TypeScript', 'Supabase']`
+- rollcall → `['Next.js', 'Supabase', 'Playwright']`
+- knock-it-off → `['Godot 4.6', 'GDScript']`
+
+This duplicates the values across `builds.ts` and the MDX frontmatter. That is accepted: they are two presentations with different lifetimes, and the case-study `stats` block also carries non-stack rows. If they drift, `builds.ts` is authoritative for the homepage.
+
+Rendered as small mono tags on the card.
+
+**Say hi** (`ContactSection.astro`) — the existing "Yes I take contract work. Tell me what you're building." expands to name the four lanes:
+
+> Yes I take contract work — shipping a product end to end, wiring up integrations, running your engineering team, or getting the team you have moving faster. Tell me what you're building.
+
+The section is not moved; it is reached earlier via two new anchors (hero CTA, skills section footer).
+
+**Nav** (`Nav.astro`) — add "What I do", anchored to `#what-i-do`. This makes a fourth link in a bar whose links are already `hidden sm:inline`. If it crowds at `sm`, **drop the Career link from the nav** rather than moving it to the footer: `Footer.astro` currently contains only a copyright line and a build tag, with no nav links at all, so "move it to the footer" would mean designing a footer nav — a larger change than this spec should carry. Career stays reachable from its own section and from `/career`.
+
+**Section renumbering (mandatory, not automatic).** Every section number is a hardcoded literal. Inserting § 02 requires all four of these edits, or the page ships with two `02`s, two `03`s and two `04`s:
+
+| File | Line | From | To |
+|---|---|---|---|
+| `CareerSection.astro` | 11 | `number="02"` | `number="03"` |
+| `OffKeyboardSection.astro` | 10 | `number="03"` | `number="04"` |
+| `OffTheClockSection.astro` | 9 | `number="04"` | `number="05"` |
+| `ContactSection.astro` | 9 | literal `05 / say hi` | literal `06 / say hi` |
+
+Note that `ContactSection` does **not** use `SectionHeader` — it hand-rolls its header markup and has no `Squiggle`. That is a pre-existing inconsistency. Do not fix it here; just edit the literal. `BuildsSection` keeps `01`.
+
+## 10. Testing
+
+**Automated** — in `src/content/__tests__/content.test.ts`, matching the existing pattern exactly (`z.array(Schema).parse(...)` plus a length and slug assertion):
+
+- `ServiceSchema`: exactly 4 services; slugs equal `['ship', 'integrate', 'lead', 'enable']`; every field non-empty; 2–5 tags each.
+- `BuildSchema` extended to require `stack`; the builds assertion updated so every entry carries one. **Do not hardcode `builds.length` to 3 here** — the `fair-roads` spec changes it to 4 (§13). Assert `builds.every(b => b.stack.length > 0)` and leave the count assertion to whichever change lands second.
+
+**No component-rendering test.** The suite has no DOM-rendering capability — every existing test is a pure data/schema check, and `src/lib/__tests__/sanity.test.ts` is a `1 + 1 === 2` placeholder. Playwright is present as a devDependency but is wired only to the screenshot scripts (`scripts/screenshot-products.mjs`, `scripts/og-image.mjs`), not to `vitest run`. Introducing render testing is out of scope for this change; do not add a test that silently requires it.
+
+**Manual, before merge** — these cover what the data tests cannot:
+
+1. `#what-i-do` resolves from both the hero CTA and the nav link.
+2. Section numbers read 01–06 once each down the page (the §9 renumbering is the easiest thing here to get wrong).
+3. Row columns align across all four rows at desktop width, and stack cleanly below 820px.
+4. The four `<dl>` stats announce as label-plus-value in VoiceOver, not as bare glyphs.
+5. Re-measure Lighthouse against `npm run preview`; record the result in the README table. Do not assume the 99/95/100/100 baseline holds — accessibility in particular is at 95, and this change adds four new `<dl>` structures and two new tag clusters.
+
+No new client-side JavaScript. `ScrollFadeIn` is reused, not duplicated.
+
+## 11. Assumptions carried into implementation
+
+1. ~~**"built alone"**~~ **Resolved 2026-09-22.** Tara confirmed all four projects are hers alone, and that all of them — including the three indie products — are agent-assisted. Agent assistance is her normal working method and **does not make her any less the sole engineer**; `fair-roads`'s own stats strip independently says `ROLE: Sole engineer`. The claim stands as fact, not assumption. See §7 for the wording this forbids, and for why the claim must not be argued from the fair-roads disclosure.
+2. **Metric accuracy** — see §5. The two homepage-facing Gusto numbers rest on Tara's recollection, not on data in this repo.
+3. **Lane 02's integration partners** (QuickBooks, Xero, Sage Intacct) are sourced from `career.astro:41` and are therefore as reliable as that prose. They name real products publicly associated with Gusto Pro; if any of those integrations is not something Tara's teams actually built or owned, the tags must change. This replaced an invented `Rails` tag — see §7.
+
+## 11a. Review history
+
+This spec was reviewed by two independent read-only reviewers on models other than the author's, per the repository owner's standing rules.
+
+A mechanical fact-check found three false claims about the existing codebase (a non-existent `kicker` prop on `SectionHeader`, an imprecise claim about where the contract line sits on the page, and an omitted Marquee section) and one shape mismatch (build stack values are a `·`-joined string in a `stats` array, not a `stack` field). All are corrected above.
+
+A design review found two blocking defects — §7's `20d → 9d` contradicting §8's own accessibility rule, and the section renumbering being asserted without the four hardcoded edits it requires — plus the unsupported `Rails` tag, a `cream-warm` background that misused a card-surface token, two unwritten copy placeholders, and a test requiring rendering infrastructure this project does not have. All are corrected above. Its voice finding was partly rejected, with reasoning recorded in §7.
+
+The `Rails` tag is worth noting as a pattern: §5 was written specifically to stop unsupportable claims reaching a page that sells work, and an unsupportable claim was then introduced two sections later, in the row most exposed to technical scrutiny. Apply §5's standard to tags and copy, not only to metrics.
+
+## 12. Out of scope
+
+- Redesigning the `/career` subpage.
+- Any change to the `/hi` digital business card, which has its own Builder · Consultant · Freelancer framing.
+- A rates page, availability calendar, or intake form. The contact form stays as-is.
+- Case-study pages. The `fair-roads` page is specified in its own spec (§13); this one touches build *cards*, not build pages.
+
+## 13. Coordination with the fair-roads case study
+
+A second spec adds a **fourth** build at `/builds/fair-roads` — an open-weight road-extraction model for HOT's fAIr platform.
+
+**Use `2026-09-22-fair-roads-case-study-design-v2.md`, in this branch.** It supersedes `2026-09-22-fair-roads-case-study-design.md` on `main` (commits `3de681d`, `40515ea`), which was written from a stale checkout and is factually wrong about the project's status, its results, and which figures may be published. Do not implement the `main` one.
+
+**They touch the same three files.** Implementing either one in isolation breaks the other.
+
+| File | This spec | fair-roads spec | Combined end state |
+|---|---|---|---|
+| `src/content/schema.ts` | add `stack` to `BuildSchema`; add `ServiceSchema` | add `'fair-roads'` to `slug` enum; add `'wip'` to `status` enum | all four changes; they do not conflict textually but land in the same object |
+| `src/content/builds.ts` | add `stack` to the 3 existing entries | add a 4th entry | 4 entries, **each with a `stack`** |
+| `src/content/__tests__/content.test.ts` | `stack` assertions | `builds.length` 3 → 4; update hardcoded slug array | 4, slugs `['fair-roads'?, 'severance', 'rollcall', 'knock-it-off']` per their ordering decision |
+
+**Sequencing: land `fair-roads` first.**
+
+One genuine dependency and one editorial one, distinguished because they behave differently:
+
+- **Hard (schema).** `BuildSchema.stack` will be required with no default. Every entry in `builds.ts` must carry one or `z.array(BuildSchema).parse(builds)` throws and the test suite fails.
+- **Soft (editorial).** Lane 01's `statValue: '4'` is a freely authored string in `services.ts` with no code link to `builds.length`. Nothing fails to compile or validate if it reads `4` while only three builds exist — it is just wrong on the page for however long that lasts. Sequencing avoids the wrongness, not a break.
+
+**Both landing orders need an instruction, and an earlier draft only gave one:**
+
+| Order | Obligation |
+|---|---|
+| **`fair-roads` first** (recommended) | §9's `stack` list below names only `severance`, `rollcall` and `knock-it-off`. **It does not cover the fourth entry.** Whoever adds `stack` to `BuildSchema` must also add one to the existing `fair-roads` entry, or the schema rejects it. Use `['DINOv2 ViT-S/14', 'UPerNet', 'ONNX']`. |
+| **This spec first** | The `fair-roads` implementer must include `stack` on the new entry for the same reason, with the same values. |
+
+Either way the fourth entry needs `['DINOv2 ViT-S/14', 'UPerNet', 'ONNX']` — sourced from the `fair-roads` v2 spec's stats strip, and specified there too. Do not invent a stack; see §7's `Rails` incident.
+
+**Gap in neither spec originally; now owned by `fair-roads` v2.** `BuildsSection.astro:18` is `grid grid-cols-1 md:grid-cols-3`, so a fourth build renders three cards and an orphan. The v2 spec's file-change table now lists this file and assigns the fix (`md:grid-cols-2`, a 2×2). **Do not also do it here** — that would be two specs editing one line. Verify it visually when `fair-roads` lands; it is a layout change to an existing section, not a drop-in.
+
+**Constraints this section inherits.** `fair-roads` v2 carries a do-not-quote list, and anything the homepage says about that build is bound by it:
+
+- no claim of HOT acceptance, partnership, endorsement or review
+- no state-of-the-art or benchmark claim
+- no comparison against HOT's own published models
+- `HOT` stays out of stat strips — their explicit rule, and lane 01's stat is a stat strip
+- never `Stage A` unqualified
+- none of the four-city per-city figures, which their audit found unpinned
+
+**"Shipped, not live" is this spec's rule, not theirs.** An earlier draft attributed it to the `fair-roads` spec. That overstates: their spec chooses a `wip` status and a non-`LIVE` pill label, and reasons about it in prose, but states no explicit prohibition. The constraint is sound and this spec adopts it — but it is ours, and mislabelling an inference as an inherited rule is the same over-attribution that produced the `Rails` tag.
+
+**Lane 01's tags are safe.** `ONNX` and `PyTorch` are both first-class tags on the model card itself — its tag row reads `Image Segmentation · PyTorch · ONNX · remote-sensing · …` — so neither is an inference. The tags also quote no metric, which means nothing in this section needs revision when the in-flight `fair-roads` numbers move.
+
+**Their review trigger applies here too.** That page is revisited on a HOT decision, a Stage B result, a block-APLS measurement, or the source repo going public. The first and last of those could also change what lane 01 may claim.

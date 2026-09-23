@@ -1,5 +1,6 @@
 ---
 import StatusPill from './StatusPill.astro';
+import Tag from './Tag.astro';
 import Button from './Button.astro';
 import type { z } from 'zod';
 import type { BuildSchema } from '../content/schema';
@@ -16,7 +17,7 @@ const { build } = Astro.props;
       loading="lazy"
     />
     <div class="absolute top-3 right-3">
-      <StatusPill variant={build.status} />
+      <StatusPill variant={build.status} label={build.statusLabel} />
     </div>
   </div>
   <div class="p-5">
@@ -25,6 +26,9 @@ const { build } = Astro.props;
     </div>
     <h3 class="font-display font-bold text-[20px] mt-1" style="letter-spacing:-0.025em">{build.title}</h3>
     <p class="text-[14px] mt-1.5 leading-[1.55] text-ink/80">{build.description}</p>
+    <div class="flex flex-wrap gap-1.5 mt-3">
+      {build.stack.map(t => <Tag label={t} />)}
+    </div>
     <div class="flex gap-2 mt-4">
       <Button href={build.liveUrl} variant="primary" size="sm" external={true}>{build.liveLabel}</Button>
       <Button href={`/builds/${build.slug}`} variant="secondary" size="sm">Case study →</Button>

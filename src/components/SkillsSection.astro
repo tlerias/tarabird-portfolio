@@ -1,0 +1,31 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import Highlight from './Highlight.astro';
+import BlurShape from './BlurShape.astro';
+import ScrollFadeIn from './ScrollFadeIn.astro';
+import ServiceRow from './ServiceRow.astro';
+import { services } from '../content/services';
+---
+<section id="what-i-do" class="relative overflow-hidden border-b border-card-border/40" style="background:var(--gradient-services)">
+  <BlurShape size={220} opacity={0.15} position="top:60px;left:-80px" />
+  <div class="relative z-10 max-w-6xl mx-auto px-8 py-16">
+    <div class="flex justify-between items-end mb-6 flex-wrap gap-4">
+      <SectionHeader number="02" label="what i do" squiggleColor="mint" squiggleWidth={200}>
+        What you can <Highlight color="mint">hire me</Highlight> for.
+      </SectionHeader>
+      <div class="font-mono text-[10px] text-ink/50">taking on work · 2026</div>
+    </div>
+
+    <ScrollFadeIn>
+      <ul class="list-none p-0 m-0 border-t border-card-border">
+        {services.map((service, i) => (<ServiceRow service={service} index={i} />))}
+      </ul>
+
+      <div class="mt-7">
+        <a href="#say-hi" class="inline-block font-mono text-[11px] uppercase tracking-[1.5px] font-semibold text-ink border-b-[1.5px] border-mint pb-0.5 hover:text-mint transition-colors">
+          Any of these sound like your problem? →
+        </a>
+      </div>
+    </ScrollFadeIn>
+  </div>
+</section>

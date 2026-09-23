@@ -29,3 +29,4 @@ pnpm-debug.log*
 # Superpowers brainstorm session data
 .superpowers/brainstorm/*/
 !.superpowers/brainstorm/*/README.md
+.superpowers/preview/

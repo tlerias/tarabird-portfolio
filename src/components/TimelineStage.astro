@@ -1,0 +1,35 @@
+---
+interface Props {
+  label: string;
+  date?: string;
+  status?: 'done' | 'now' | 'ahead';
+}
+const { label, date, status = 'done' } = Astro.props;
+
+const dot = {
+  done:  'bg-mint border-mint',
+  now:   'bg-lavender border-lavender ring-4 ring-lavender/25',
+  ahead: 'bg-transparent border-card-border',
+}[status];
+
+const rail = status === 'ahead'
+  ? 'border-dashed border-card-border'
+  : 'border-solid border-mint/40';
+
+const body = status === 'ahead' ? 'text-ink/55' : 'text-ink/85';
+---
+<li class={`relative pl-8 pb-8 border-l-2 last:border-l-0 last:pb-0 ${rail}`}>
+  <span class={`absolute left-0 top-1 -translate-x-1/2 w-3.5 h-3.5 rounded-full border-2 ${dot}`} aria-hidden="true"></span>
+
+  <div class="flex items-baseline gap-3 flex-wrap">
+    <h2 class="font-display font-bold text-[20px] m-0" style="letter-spacing:-0.025em">{label}</h2>
+    {date && <span class="font-mono text-[10px] uppercase tracking-[1.5px] text-ink/50">{date}</span>}
+    {status === 'now' && (
+      <span class="font-mono text-[9px] font-bold uppercase tracking-[1.5px] bg-lavender text-cream rounded-full px-2.5 py-1">I am here</span>
+    )}
+  </div>
+
+  <div class={`mt-2 text-[15px] leading-[1.6] ${body}`}>
+    <slot />
+  </div>
+</li>

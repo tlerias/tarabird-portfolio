@@ -5,6 +5,20 @@ type Build = z.infer<typeof BuildSchema>;
 
 export const builds: Build[] = [
   {
+    slug: 'fair-roads',
+    title: 'fair-roads',
+    oneLine: 'A road-mapping model for humanitarian volunteers — and what its own numbers said to build next.',
+    description: 'Volunteers map roads by hand where no usable map exists. This model does the first pass, and the interesting part is what measuring it honestly changed.',
+    dates: 'Sept 2026 · proposal submitted',
+    liveUrl: 'https://huggingface.co/tarabird90/dinov2s-roads',
+    liveLabel: 'Model card ↗',
+    status: 'wip',
+    statusLabel: 'PROPOSAL SUBMITTED',
+    screenshot: '/screenshots/fair-roads-fair-ui.jpg',
+    gradientHeader: 'linear-gradient(135deg, #0d2820 0%, #5b4380 100%)',
+    stack: ['DINOv2 ViT-S/14', 'UPerNet', 'ONNX'],
+  },
+  {
     slug: 'severance',
     title: 'Layoff Calculator',
     oneLine: 'A free, source-cited tool that grades severance offers.',
@@ -15,6 +29,7 @@ export const builds: Build[] = [
     status: 'live',
     screenshot: '/screenshots/severance-hero.png',
     gradientHeader: 'linear-gradient(135deg, #0d2820 0%, #1a4a3a 100%)',
+    stack: ['Next.js', 'TypeScript', 'Supabase'],
   },
   {
     slug: 'rollcall',
@@ -25,8 +40,9 @@ export const builds: Build[] = [
     liveUrl: 'https://www.meetwithrollcall.com/u/tara',
     liveLabel: 'Visit ↗',
     status: 'live',
-    screenshot: '/screenshots/rollcall-profile.png',
+    screenshot: '/screenshots/rollcall-profile.jpg',
     gradientHeader: 'linear-gradient(135deg, #fef9f0 0%, #f3eef8 100%)',
+    stack: ['Next.js', 'Supabase', 'Playwright'],
   },
   {
     slug: 'knock-it-off',
@@ -37,7 +53,8 @@ export const builds: Build[] = [
     liveUrl: 'https://knock-it-off.vercel.app',
     liveLabel: 'Play ↗',
     status: 'kids',
-    screenshot: '/screenshots/knock-it-off-cat-select.png',
+    screenshot: '/screenshots/knock-it-off-cat-select.jpg',
     gradientHeader: 'linear-gradient(180deg, #8a6f5a 0%, #5b3a2a 100%)',
+    stack: ['Godot 4.6', 'GDScript'],
   },
 ];

@@ -14,16 +14,21 @@
 
 ---
 
-## Prerequisite (blocking, not a task in this repo)
+## Assets — no longer blocking
 
-`public/screenshots/fair-roads-hero.png` must exist before Task 6. `BuildCard.astro` renders `<img src={build.screenshot}>` unconditionally, so a missing file is a broken image on the **first** card on the homepage.
+Three images are committed and ready. They were cropped from matplotlib overlays Tara supplied (axes, tick labels and raw filenames removed), resized, and saved as JPEG rather than PNG because they are photographs:
 
-- The image is generated in the `fair-roads` repository (`/Users/tarabird/Workspace/fair-roads`), not here.
-- It must be rendered from the **four-city** checkpoint. The existing overlays in that repo were produced by the superseded Khartoum-only checkpoint; using one without regenerating means the page implies the figures show the released model, which spec §9 forbids.
-- Match the existing assets' shape: `public/screenshots/severance-hero.png` and siblings. Check with `file public/screenshots/*.png`.
-- `heroImage` on the case study is **optional** (`CaseStudy.astro:40` guards it), so `fair-roads-pred-vs-gt.png` is nice-to-have and does not block.
+| File | Size | Used by |
+|---|---|---|
+| `public/screenshots/fair-roads-banepa.jpg` | 366 KB, 1100×958 | homepage card `screenshot`, and the figure in the fine-tuning stage |
+| `public/screenshots/fair-roads-khartoum.jpg` | 284 KB, 1100×1093 | the figure in the one-city stage |
+| `public/screenshots/fair-roads-hero.jpg` | 463 KB, 1400×1220 | case-study `heroImage` |
 
-**Do not substitute a placeholder image.** A stand-in on the first card either misrepresents the model or looks unfinished. If the asset is not ready, stop after Task 5 and leave the entry uncommitted.
+**Both overlays were produced by the superseded one-city model, not the four-city release.** Spec §9 forbids implying otherwise, and the captions in Task 5 handle it explicitly — each says "the one-city model". Do not reword them into "the model" or the page starts implying they show the released checkpoint.
+
+**Known gap, not blocking.** The Banepa overlay is the model *zero-shot* on imagery it had never seen, which is genuinely what the fine-tuning stage needs to set up, but it is not the released model and it is not the fine-tuned result. If a render from the four-city checkpoint appears later, swap the files and keep the captions accurate to whatever is then shown.
+
+**Colour legend deliberately unstated.** The overlays draw roads in yellow and blue, and the convention could not be found in the `fair-roads` repository. No caption claims a mapping between colour and surface type. Do not guess one — if Tara confirms it, add it.
 
 ---
 
@@ -65,7 +70,7 @@ Add to `src/content/__tests__/content.test.ts`, inside the `describe('content da
       liveLabel: 'Model card ↗',
       status: 'wip',
       statusLabel: 'PROPOSAL SUBMITTED',
-      screenshot: '/screenshots/fair-roads-hero.png',
+      screenshot: '/screenshots/fair-roads-banepa.jpg',
       gradientHeader: 'linear-gradient(135deg, #0d2820 0%, #5b4380 100%)',
     };
     expect(() => BuildSchema.parse(entry)).not.toThrow();
@@ -163,7 +168,7 @@ In `src/content/builds.ts`, insert as the first element of the `builds` array, b
     liveLabel: 'Model card ↗',
     status: 'wip',
     statusLabel: 'PROPOSAL SUBMITTED',
-    screenshot: '/screenshots/fair-roads-hero.png',
+    screenshot: '/screenshots/fair-roads-banepa.jpg',
     gradientHeader: 'linear-gradient(135deg, #0d2820 0%, #5b4380 100%)',
   },
 ```
@@ -264,6 +269,45 @@ git commit -m "fix(builds): 2x2 grid now that there are four builds"
 
 ---
 
+## Task 5b: Figure component
+
+Two overlay images go on the page (Task 5). Both need a caption that says what they are — an uncaptioned aerial photo of road lines tells a reader nothing and invites them to assume it is a performance result.
+
+**Files:**
+- Create: `src/components/Figure.astro`
+
+- [ ] **Step 1: Create the component**
+
+```astro
+---
+interface Props { src: string; alt: string; caption: string; }
+const { src, alt, caption } = Astro.props;
+---
+<figure class="my-5">
+  <img src={src} alt={alt} loading="lazy"
+    class="w-full rounded-xl border border-card-border" />
+  <figcaption class="font-mono text-[11px] leading-[1.5] text-ink/60 mt-2.5">
+    {caption}
+  </figcaption>
+</figure>
+```
+
+Mono at 11px matches the site's existing caption register (`BuildCard`'s date line, `SectionHeader`'s kicker). `loading="lazy"` because both figures sit well below the fold.
+
+- [ ] **Step 2: Verify it compiles**
+
+Run: `npm run build`
+Expected: succeeds.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/components/Figure.astro
+git commit -m "feat(ui): captioned figure for case-study images"
+```
+
+---
+
 ## Task 5: Write the case study page
 
 **Files:**
@@ -284,7 +328,7 @@ liveLabel: "Model card ↗"
 status: "wip"
 statusLabel: "PROPOSAL SUBMITTED"
 gradientHeader: "linear-gradient(135deg, #0d2820 0%, #5b4380 100%)"
-heroImage: "/screenshots/fair-roads-hero.png"
+heroImage: "/screenshots/fair-roads-hero.jpg"
 stats:
   - label: "MODEL AT"
     value: "huggingface.co/tarabird90/dinov2s-roads"
@@ -296,6 +340,7 @@ stats:
     value: "Model downloadable · proposal submitted"
 ---
 
+import Figure from '../../components/Figure.astro';
 import Timeline from '../../components/Timeline.astro';
 import TimelineStage from '../../components/TimelineStage.astro';
 
@@ -327,6 +372,12 @@ I sent HOT four questions before writing any code. Should a first model do multi
 
 <TimelineStage label="Built a base model on one city">
 Khartoum first, from a public satellite road dataset. One city, so that everything after it had something to be compared against.
+
+<Figure
+  src="/screenshots/fair-roads-khartoum.jpg"
+  alt="Satellite view of a Khartoum neighbourhood with the model's predicted roads drawn over it as coloured lines"
+  caption="The one-city model's output over a Khartoum tile: 50 road segments across 25 image tiles. This tile was part of what it learned from, so it shows what the model draws — not how it does somewhere new."
+/>
 </TimelineStage>
 
 <TimelineStage label="Found a class that couldn't exist">
@@ -375,6 +426,12 @@ And I can't say *why* it improved. The four-city model also trained for longer, 
 This is the test that actually matters, for the reason at the top: a base model earns its place by how well it adapts somewhere new.
 
 So I fine-tuned it onto **two** towns it had never seen — Banepa in Nepal and Nhamatanda in Mozambique, real imagery against community-drawn maps, nothing like the benchmark cities — with the rules for what would count as an improvement written down before I looked. It did better on both, and cleared the bar I'd set in advance.
+
+<Figure
+  src="/screenshots/fair-roads-banepa.jpg"
+  alt="Aerial view of Banepa, Nepal, with the model's predicted roads drawn over it as coloured lines"
+  caption="The same one-city model on Banepa, Nepal — real OpenAerialMap imagery it had never seen, with no local fine-tuning, finding 55 road segments. This is the starting point a mapping community would fine-tune from."
+/>
 
 Then I used those results to decide which version to ship, and that decision spent them. Once you've chosen something because of how it scored on a test, that test isn't an independent check any more — it's part of how the thing was built. So I wrote that into the project's records:
 
@@ -481,10 +538,10 @@ git commit -m "feat(builds): fair-roads case study"
 
 ## Task 6: Verify the whole change
 
-- [ ] **Step 1: Confirm the asset exists**
+- [ ] **Step 1: Confirm the assets exist**
 
-Run: `ls -la public/screenshots/fair-roads-hero.png`
-Expected: the file exists. **If it does not, stop here** — see Prerequisite. Do not ship a broken image on the first card.
+Run: `ls -la public/screenshots/fair-roads-*.jpg`
+Expected: all three files present (banepa, khartoum, hero). They are committed already — see Assets.
 
 - [ ] **Step 2: Full test and build**
 

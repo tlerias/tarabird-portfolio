@@ -324,7 +324,7 @@ The second asks a different question: do the roads it draws actually join up int
 
 That gap is the interesting part, and it matters for a practical reason. A mapper doesn't need pixels — they need roads that connect. A map that is mostly accurate but broken into disconnected fragments is far less useful than the first score makes it sound, and the first score cannot see the difference.
 
-Four things keep that 38% in proportion. It's measured against one organisation's hand-drawn maps, so it's agreement with those maps, not correctness. It covers four areas of the city, because a fifth had no roads in it to check against. **And even after the improvement, connectivity is still well short of the target I'd set for this project** — better connected, nowhere near solved.
+Four things keep that 38% in proportion. It's measured against one organisation's hand-drawn maps, so it's agreement with those maps, not correctness. It covers four areas of the city, because a fifth had no roads in it to check against. **And it's still roughly half the score the hand-drawn map itself gets through the same machinery** — better connected, nowhere near solved. The next section explains where that comparison comes from.
 
 The fourth is that I can't tell you why it improved. The new model also trained for longer, so "more cities" and "more training" are tangled together and this experiment can't separate them. It ran once, and nobody has measured how much these scores bounce between identical runs, so some of that 38% could be luck. The repeat runs that would have settled it were started and stopped before they finished.
 
@@ -332,17 +332,17 @@ So: two honest measurements disagreed, and one reading is that the simpler score
 
 ## Checking the ruler before blaming the model
 
-This is the target I keep referring to, and where it came from. Earlier in the project — working with the single-city version of the model, before the four-city one existed — I wrote down the connectivity score I wanted to reach before running anything. I missed it.
+The connectivity score came out low, and I didn't know whether that meant the model was bad or the scoring was.
 
-The tempting response is to adjust settings until the number improves. I tried **53** combinations. None came close.
+The tempting response is to adjust settings until the number improves. I tried **53** combinations, on the earlier single-city version of the model. The best of them barely moved it.
 
-So I checked the ruler instead. I took the reference map — the one drawn by hand — and fed it through the same scoring machinery, as if a model had produced it. It scored about **0.79 out of a possible 1.0**: comfortably past the bar, and far past anything the model managed. So the scoring wasn't broken. The model really was the weaker part, and specifically because its roads came out in disconnected pieces.
+So I checked the ruler instead. I took the reference map — the one drawn by hand, the thing the model is being compared against — and fed it through the same scoring machinery, as if a model had produced it. It scored about **0.79 out of a possible 1.0**.
+
+That settled it. A good answer does score well, so the scoring works. The model was genuinely the weaker part, and specifically because its roads came out in disconnected pieces. It also gives a real yardstick: the map scores 0.79, the model about half that. Not a number I picked — a number I measured.
 
 That told me where the next month should go: connecting roads, not tuning settings.
 
 Two things worth keeping honest. The settings were chosen using the same data they were then scored against, so even the best figure flatters itself. And the setting I picked made the *worst* area worse than the starting point did, because the selection rule chased the average and the weakest case paid for it.
-
-That target was also mine. I set it for this project. It isn't a threshold anyone else imposed or would have judged the work against.
 
 ## Grading against a category that couldn't exist
 

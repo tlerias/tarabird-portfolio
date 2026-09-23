@@ -140,7 +140,7 @@ That gap is the interesting part, and it matters for a real reason. A mapper doe
 
 **Three caveats the plain-English draft dropped, and must carry.** They come from the same `cannot_conclude` block as the two below, and a revision review caught their loss:
 
-1. **Still far below the project's own target.** This is the most important and the easiest to lose. The `0.60` target appears on the page only in §5.4 — which is about the **earlier single-city model** (`sweep.json`'s checkpoint is `khartoum_stageA_…`), not the four-city one §5.3 reports on. So a reader meets "+38% better connected", meets a missed target attached to a different experiment, and concludes connectivity is solved. **§5.3 must say plainly that even after the improvement the result is well short of the target**, and §5.4 must say which model it is talking about.
+1. **Still a long way from solved.** This is the most important and the easiest to lose: without it a reader meets "+38% better connected" and concludes connectivity is fixed. **§5.3 must say plainly that the result is still roughly half what the hand-drawn map scores through the same machinery.** Do *not* express this as "below my target" — that target is cut from the page entirely (§10). Note also that §5.4's 53-combination sweep is on the **earlier single-city model** (`sweep.json`'s checkpoint is `khartoum_stageA_…`), not the four-city one §5.3 reports, so §5.4 must say which model it is talking about or the two sections read as one experiment.
 2. **Agreement, not correctness.** The ground truth is one organisation's own annotations. The page's only "agreement not correctness" line currently sits in §5.6 and is about a different dataset entirely, so it does not cover this.
 3. **Four of five areas scored**, the fifth having no roads to check against. The whole 38% rests on four data points.
 
@@ -378,21 +378,23 @@ This spans two repositories: assets are generated in `fair-roads`, the page live
 - **Any claim of HOT acceptance, partnership, endorsement, or review**
 - **Any state-of-the-art or benchmark claim**
 - **Any comparison against HOT's own published models**, including their building model's pixel IoU of `0.4276`. The project's own audit: *"the tasks, datasets and splits all differ — and theirs is a test split while ours is the validation split used for selection. The comparison is unsound."* A "we beat HOT's own number" line is a tempting thing for a case study to reach for and it is not supportable.
+- **The internal 0.60 connectivity target.** Arbitrary, and cut from the page by decision (see below). The 0.79 reference-map comparison replaces it.
 - **Any comparison against the earlier ResNet-34 U-Net control** — *"it used mismatched training seeds and its headline numbers are not those of the released checkpoint. Superseded."*
 - **The four-city ONNX parity figure and the published artifact hashes**, until they have a committed artifact (§4).
 
-### Used deliberately, against the project's own outreach decision: the 0.60 APLS target
+### The internal 0.60 target — cut from the page entirely
 
-`proposal-send-checklist.md` lists the internal `0.60` APLS target as **deliberately left out of the HOT proposal**:
+**Decided by Tara, 2026-09-23: the target does not appear.** An earlier draft of this spec argued to keep it, reasoning that "wrote a number down, missed it, diagnosed instead of moving the bar" is a legible demonstration of pre-registration. That argument was wrong on three counts:
 
-> "APLS is not in fAIr's vocabulary at all. Introducing a metric they do not use in order to report failing a threshold they never set, then explaining they never set it, spends credibility for nothing."
+1. **The number is arbitrary.** It was chosen, not derived. Naming it hands the reader a negative anchor they have no way to evaluate — "missed my target" reads as failure whether or not the target was sensible.
+2. **The project already decided this** for a more expert audience. `proposal-send-checklist.md` lists it as deliberately left out of the HOT proposal: *"APLS is not in fAIr's vocabulary at all. Introducing a metric they do not use in order to report failing a threshold they never set, then explaining they never set it, spends credibility for nothing."* If domain experts would read it that way, a hiring manager has less context, not more.
+3. **§5.4's argument does not need it.** The section is about checking whether the ruler works before blaming the model. That stands without any target.
 
-§5.4 of this page is built on exactly that framing. The divergence is intentional and the reasoning is audience, not soundness:
+**Pre-registration is still demonstrated, and better, in §5.6** — rules written down in advance that actually gated a shipping decision, rather than a number picked at the start.
 
-- HOT are domain experts who would correctly respond *"we never set that bar"* — the framing spends credibility with them for no gain.
-- A hiring manager reads it the opposite way. "Wrote a number down before the run, missed it, and diagnosed instead of moving the bar" is the most legible possible demonstration of pre-registration, and it needs the bar named to work at all.
+**What replaces it as the yardstick, in both §5.3 and §5.4:** the hand-drawn reference map scores about **0.79** through the same scoring machinery; the model scores roughly half that. That comparison is *measured rather than chosen*, it needs no external standard, and it gives the reader something they can actually judge — a near-perfect input scores 0.79, so 0.39 is genuinely mid-range and not an artifact of a harsh scale.
 
-**But the page must carry the same caveat the model card does, in the same breath:** the `0.60` is *this project's internal pre-registered target and is not a published HOT acceptance threshold.* Without that sentence, §5.4 implies a standard was imposed from outside and missed, which is false and would be the page's single most damaging misreading.
+Add `the internal 0.60 target` to the do-not-quote list above.
 
 ## 11. Voice
 

@@ -28,7 +28,20 @@ Three images are committed and ready. They were cropped from matplotlib overlays
 
 **Known gap, not blocking.** The Banepa overlay is the model *zero-shot* on imagery it had never seen, which is genuinely what the fine-tuning stage needs to set up, but it is not the released model and it is not the fine-tuned result. If a render from the four-city checkpoint appears later, swap the files and keep the captions accurate to whatever is then shown.
 
-**Colour legend deliberately unstated.** The overlays draw roads in yellow and blue, and the convention could not be found in the `fair-roads` repository. No caption claims a mapping between colour and surface type. Do not guess one — if Tara confirms it, add it.
+**Colour legend deliberately unstated, and this is now a hard rule.** The two figures use **opposite** colour schemes, verified in the `fair-roads` session:
+
+| | yellow | cyan/blue |
+|---|---|---|
+| Khartoum (A) | unpaved — 44 of 50 | paved — 6 of 50 |
+| Banepa (B) | paved | unpaved (green = footpath) |
+
+Figure A had no committed plotting script; its mapping was established empirically by sampling rendered pixel colours at each feature's real coordinates against the `surface` property in `e2e_predict.geojson`, with zero contradictions across all 50. Figure B's mapping is explicit in the script that drew it.
+
+**So a single legend on this page would be backwards for one of the two figures.** Do not add one. The Khartoum caption states its unpaved count in words instead, which is the substantive point and carries no colour claim. If the figures are ever regenerated, render both with the same scheme first, and only then consider a legend.
+
+**Attribution is required and is in the captions — do not trim it.** SpaceNet 3 (Khartoum) is CC BY-SA 4.0; OpenAerialMap (Banepa) is CC BY 4.0 and its metadata names Geomatics Engineering Society as the provider. Both are licence conditions, not niceties.
+
+**Open licensing question for Tara, flagged not decided.** SpaceNet 3 is **ShareAlike**, and the Khartoum figure is a derivative of it. Whether ShareAlike has any implication for a figure on tarabird.com is a call for whoever handles the site's licensing. If the answer is awkward, the Banepa figure alone carries the page — it is CC BY, attribution only.
 
 ---
 
@@ -376,7 +389,7 @@ Khartoum first, from a public satellite road dataset. One city, so that everythi
 <Figure
   src="/screenshots/fair-roads-khartoum.jpg"
   alt="Satellite view of a Khartoum neighbourhood with the model's predicted roads drawn over it as coloured lines"
-  caption="The one-city model's output over a Khartoum tile: 50 road segments across 25 image tiles. This tile was part of what it learned from, so it shows what the model draws — not how it does somewhere new."
+  caption="The one-city model over a Khartoum tile: 50 road segments across 25 image tiles, 44 of them unpaved track. This tile was part of what the model learned from, so it shows what it draws — not how it does somewhere new. Imagery: SpaceNet 3, CC BY-SA 4.0."
 />
 </TimelineStage>
 
@@ -429,8 +442,8 @@ So I fine-tuned it onto **two** towns it had never seen — Banepa in Nepal and 
 
 <Figure
   src="/screenshots/fair-roads-banepa.jpg"
-  alt="Aerial view of Banepa, Nepal, with the model's predicted roads drawn over it as coloured lines"
-  caption="The same one-city model on Banepa, Nepal — real OpenAerialMap imagery it had never seen, with no local fine-tuning, finding 55 road segments. This is the starting point a mapping community would fine-tune from."
+  alt="Drone view of Banepa, Nepal, a hillside town of dense rooftops and terraced fields, with the model's predicted roads drawn over it as coloured lines"
+  caption="The same one-city model on Banepa, Nepal: drone imagery at roughly 3 cm per pixel that it had never seen, with no fine-tuning of any kind, finding 55 road segments. This is the starting point a mapping community would fine-tune from. Imagery: Geomatics Engineering Society via OpenAerialMap, CC BY 4.0."
 />
 
 Then I used those results to decide which version to ship, and that decision spent them. Once you've chosen something because of how it scored on a test, that test isn't an independent check any more — it's part of how the thing was built. So I wrote that into the project's records:

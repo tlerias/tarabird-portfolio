@@ -358,7 +358,7 @@ Four cities instead of one, same recipe. I kept the first city's test split froz
 <TimelineStage label="Two ways of scoring disagreed">
 I scored the new model against the old one on that frozen test data. The two measures told different stories.
 
-The pixel score — how much of the road surface it got right — barely moved. The connectivity score, the one from two stages back, went up by about **38%**.
+The pixel score — how much of the road surface it got right — barely moved. The connectivity score — the one I'd checked the ruler on — went up by about **38%**.
 
 That gap is the interesting part. A mapper doesn't need pixels, they need roads that connect — and a map that's mostly accurate but broken into disconnected fragments is far less useful than the first score makes it sound.
 

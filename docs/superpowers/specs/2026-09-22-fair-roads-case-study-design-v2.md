@@ -127,7 +127,26 @@ Three beats, sourced from the project's own outreach material:
 2. **What fAIr is.** HOT's open call describes the platform as connective tissue between people building geospatial ML models and the mapping communities who need them, *"without requiring users to be AI/ML engineers."* The gap it exists to close: models get built in labs while the communities mapping their own neighbourhoods have no practical route to using them, and without local feedback those models never improve where they are most needed.
 3. **What "good" means here, and this reframes the whole page.** fAIr models are **base models** — *"a reusable ML blueprint that users can finetune on their own datasets"* (`docs/outreach/sources/fair-models-contributing-model.md`). So the figure that decides usefulness is not a benchmark score. A model that scores well on four benchmark cities and adapts badly to a town in Nepal is *worse*, for this platform, than one that starts lower and improves quickly on local data.
 
-Beat 3 changes what §5.6 is for. Fine-tuning onto Banepa and Nhamatanda is not a side experiment demonstrating rigour — **it is the platform's actual use case, demonstrated.** §5.6 must say so, and §5.1 must set it up.
+**Beat 3 must be told as the full four-step chain, not summarised as "communities fine-tune it."** An earlier draft stopped at step 1 and lost the point. Tara's own account of the pipeline, which the page should follow:
+
+1. **The author hands over a container, not a service.** A pull request to `hotosm/fAIr-models` carrying a STAC item and two container images (`mlm:training`, `mlm:inference`). A HOT admin reviews, merges, and triggers registration; registration reads the STAC item, mirrors the weights, and deploys the inference image as a live endpoint on HOT's infrastructure. The author never touches a server. **The entire deliverable is a container that behaves correctly when someone else runs it.**
+2. **A mapper previews it.** They open fAIr, choose Roads where today only Buildings exists, pick imagery, draw a box, and get suggested road geometry back. No login, nothing installed.
+3. **A mapper adapts it.** The generic model does not know their district's conventions. They draw their area; fAIr fetches existing map data and imagery, builds a training set, and fine-tunes the base checkpoint into *their own* model. They write no code and need not know what fine-tuning is.
+4. **It becomes map data.** Accepted predictions are pushed into OpenStreetMap as real edits — a road that was not on the map is now on the map, somewhere someone is trying to route aid.
+
+**Step 4 is the only one that counts**, and steps 1–3 are plumbing in service of it. Say so.
+
+This makes §5.6 a **rehearsal of step 3**, not a rigour anecdote — the one step that creates the value is the one Tara does not control, so demonstrating that her base model adapts well to an unfamiliar town is the most relevant evidence on the page.
+
+### Do not publish, from the same account
+
+These are in-flight platform findings from Tara's own debugging, and they belong nowhere near a public portfolio page:
+
+- that `/ai-models` and `/datasets` currently 404 on a fresh `develop` build, so step 3 is API-only until the frontend catches up
+- that the model currently registered in her local test is an untrained stub
+- any characterisation of fAIr's UI as broken, incomplete, or behind its backend
+
+Publishing these means broadcasting an unreleased product's defects, to an organisation she has an open proposal with, on a page whose entire credibility rests on being careful. The chain above is describable entirely in the present tense of what the platform is *for*, which is what a reader needs. Step 2 may note that Roads is not currently an option on fAIr — that is the novelty of the contribution, not a criticism.
 
 Then the mechanics: a satellite tile in, roads drawn and labelled paved or unpaved, a person still checking and correcting. Turning a blank map into a draft.
 

@@ -304,13 +304,27 @@ Volunteers at the Humanitarian OpenStreetMap Team fill those gaps by tracing roa
 
 HOT's answer is a platform called fAIr. Their own description of it is the part worth reading twice: it's meant to be the connective tissue between people who build geospatial ML models and the mapping communities who need them — *"without requiring users to be AI/ML engineers."* The gap it exists to close is that models get built in labs and research groups, while the communities mapping their own neighbourhoods have no practical way to use them. And without those communities' feedback, the models never improve in the places they're most needed.
 
-## What it does, and what "good" means here
+## What has to happen for any of this to matter
 
-Give this model a satellite tile and it draws the roads it finds, labelling each one paved or unpaved. A person still checks and corrects the result. The job is turning a blank map into a draft.
+A model is only the first link. Here is the whole chain, and my part is the smallest piece of it.
 
-But the thing that decides whether it's useful isn't its score on my test data. **fAIr models are base models — starting points that a mapping community fine-tunes on their own imagery, of their own region.** A model that scores well on four cities in a benchmark and adapts badly to a town in Nepal is worse, for this platform, than one that starts lower and improves quickly on local data.
+**1. I hand over a container, not a service.** I open a pull request against HOT's model repository containing a description of the model and two container images — one that trains, one that serves predictions. A HOT admin reviews it, merges it, and their system takes over: it reads the description, mirrors the weights, and stands up the serving image as a live endpoint on their infrastructure. I never touch a server. My entire deliverable is a container that behaves correctly when someone else runs it.
 
-That is why a later section about two towns — Banepa and Nhamatanda — matters more than the headline numbers. Fine-tuning onto somewhere new isn't a side experiment here. It's the entire use case.
+**2. A mapper I'll never meet tries it.** They open fAIr, and where today they can only choose Buildings, they can choose Roads. They pick their imagery, draw a box around an area, and get suggested road geometry back to look at. No login, no commitment, nothing installed.
+
+**3. They make it theirs.** The generic model won't know their district's road conventions — an unpaved track in rural Mozambique doesn't look like an unpaved track outside Las Vegas. So they draw their area, and fAIr pulls the existing map data and imagery for it, builds a training set, and fine-tunes my base model into *their* model. They write no code. They don't need to know what fine-tuning is.
+
+**4. It becomes a map.** When they trust a prediction, they accept it, and it goes into OpenStreetMap as a real edit. A road that wasn't on the map is now on the map — in a place where somebody is trying to route aid down it.
+
+**Step 4 is the only one that counts.** Steps 1 through 3 are plumbing in service of a volunteer in step 4 having something worth trusting.
+
+## Which is why the benchmark score is the wrong thing to optimise
+
+Give this model a satellite tile and it draws the roads it finds, labelling each one paved or unpaved. A person still checks and corrects it. The job is turning a blank map into a draft.
+
+But look at where it sits in that chain. **It's a base model — a starting point, and its job is to be a good one for somebody else's district.** A model that scores brilliantly on the four cities I happened to train on, and adapts badly to a town in Nepal, is *worse* for this platform than one that starts lower and improves quickly on local data. Step 3 is where the value is created, and it's the step I don't control.
+
+That's why a later section about two towns — Banepa and Nhamatanda — matters more than any headline number on this page. Fine-tuning onto somewhere new isn't a side experiment demonstrating rigour. It's a rehearsal of step 3.
 
 Under the hood it's a vision transformer Meta released, with a segmentation head I trained on satellite road labels. The model card has the specifics.
 

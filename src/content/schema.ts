@@ -3,14 +3,15 @@ import { z } from 'zod';
 export const NowSchema = z.string().min(1);
 
 export const BuildSchema = z.object({
-  slug: z.enum(['severance', 'rollcall', 'knock-it-off']),
+  slug: z.enum(['fair-roads', 'severance', 'rollcall', 'knock-it-off']),
   title: z.string(),
   oneLine: z.string(),
   description: z.string(),
   dates: z.string(),
   liveUrl: z.string().url(),
   liveLabel: z.string(),
-  status: z.enum(['live', 'kids']),
+  status: z.enum(['live', 'kids', 'wip']),
+  statusLabel: z.string().optional(),
   screenshot: z.string(),
   gradientHeader: z.string(),
 });

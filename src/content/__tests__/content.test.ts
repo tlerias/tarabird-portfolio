@@ -28,4 +28,30 @@ describe('content data', () => {
     expect(() => z.array(OffTheClockSchema).parse(offTheClock)).not.toThrow();
     expect(offTheClock.length).toBe(4);
   });
+
+  it('build schema accepts the fair-roads shape', () => {
+    const entry = {
+      slug: 'fair-roads',
+      title: 'fair-roads',
+      oneLine: 'x',
+      description: 'x',
+      dates: 'Sept 2026 · proposal submitted',
+      liveUrl: 'https://huggingface.co/tarabird90/dinov2s-roads',
+      liveLabel: 'Model card ↗',
+      status: 'wip',
+      statusLabel: 'PROPOSAL SUBMITTED',
+      screenshot: '/screenshots/fair-roads-fair-ui.jpg',
+      gradientHeader: 'linear-gradient(135deg, #0d2820 0%, #5b4380 100%)',
+    };
+    expect(() => BuildSchema.parse(entry)).not.toThrow();
+  });
+
+  it('statusLabel is optional', () => {
+    const withoutLabel = {
+      slug: 'severance', title: 'x', oneLine: 'x', description: 'x', dates: 'x',
+      liveUrl: 'https://example.com', liveLabel: 'x', status: 'live',
+      screenshot: 'x', gradientHeader: 'x',
+    };
+    expect(() => BuildSchema.parse(withoutLabel)).not.toThrow();
+  });
 });

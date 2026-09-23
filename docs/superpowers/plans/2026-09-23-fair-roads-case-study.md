@@ -296,103 +296,120 @@ stats:
     value: "Open weights · 2026 → ongoing"
 ---
 
+import Timeline from '../../components/Timeline.astro';
+import TimelineStage from '../../components/TimelineStage.astro';
+
 ## Why anyone needs this
 
 Large parts of the world have no usable map. That tends to correlate with exactly the places where a map matters most — disaster response, public health outreach, getting aid down a road that may or may not exist.
 
 Volunteers at the Humanitarian OpenStreetMap Team fill those gaps by tracing roads by hand from satellite imagery. It works, and it is enormously slow.
 
-HOT's answer is a platform called fAIr. Their own description of it is the part worth reading twice: it's meant to be the connective tissue between people who build geospatial ML models and the mapping communities who need them — *"without requiring users to be AI/ML engineers."* The gap it exists to close is that models get built in labs and research groups, while the communities mapping their own neighbourhoods have no practical way to use them. And without those communities' feedback, the models never improve in the places they're most needed.
+HOT's answer is a platform called fAIr. Their own description is the part worth reading twice: it's meant to be the connective tissue between the people who build geospatial ML models and the mapping communities who need them — *"without requiring users to be AI/ML engineers."* Models get built in labs; the communities mapping their own neighbourhoods have no practical route to using them. And without those communities' feedback, the models never improve where they're most needed.
 
-## What has to happen for any of this to matter
-
-A model is only the first link. Here is the whole chain, and my part is the smallest piece of it.
-
-**1. I hand over a container, not a service.** I open a pull request against HOT's model repository containing a description of the model and two container images — one that trains, one that serves predictions. A HOT admin reviews it, merges it, and their system takes over: it reads the description, mirrors the weights, and stands up the serving image as a live endpoint on their infrastructure. I never touch a server. My entire deliverable is a container that behaves correctly when someone else runs it.
-
-**2. A mapper I'll never meet tries it.** They open fAIr, and where today they can only choose Buildings, they can choose Roads. They pick their imagery, draw a box around an area, and get suggested road geometry back to look at. No login, no commitment, nothing installed.
-
-**3. They make it theirs.** The generic model won't know their district's road conventions — an unpaved track in rural Mozambique doesn't look like an unpaved track outside Las Vegas. So they draw their area, and fAIr pulls the existing map data and imagery for it, builds a training set, and fine-tunes my base model into *their* model. They write no code. They don't need to know what fine-tuning is.
-
-**4. It becomes a map.** When they trust a prediction, they accept it, and it goes into OpenStreetMap as a real edit. A road that wasn't on the map is now on the map — in a place where somebody is trying to route aid down it.
-
-**Step 4 is the only one that counts.** Steps 1 through 3 are plumbing in service of a volunteer in step 4 having something worth trusting.
-
-## Which is why the benchmark score is the wrong thing to optimise
+## Why the benchmark score is the wrong thing to optimise
 
 Give this model a satellite tile and it draws the roads it finds, labelling each one paved or unpaved. A person still checks and corrects it. The job is turning a blank map into a draft.
 
-But look at where it sits in that chain. **It's a base model — a starting point, and its job is to be a good one for somebody else's district.** A model that scores brilliantly on the four cities I happened to train on, and adapts badly to a town in Nepal, is *worse* for this platform than one that starts lower and improves quickly on local data. Step 3 is where the value is created, and it's the step I don't control.
+But it's a **base model** — a starting point that a mapping community fine-tunes on imagery of their own region. A model that scores brilliantly on the four cities I happened to train on, and adapts badly to a town in Nepal, is *worse* for this platform than one that starts lower and improves quickly on local data.
 
-That's why a later section about two towns — Banepa and Nhamatanda — matters more than any headline number on this page. Fine-tuning onto somewhere new isn't a side experiment demonstrating rigour. It's a rehearsal of step 3.
+That matters for reading everything below. The value gets created at a step I don't control.
 
 Under the hood it's a vision transformer Meta released, with a segmentation head I trained on satellite road labels. The model card has the specifics.
 
-One thing it's supposed to do and can't: spot footpaths. That turned out to be a property of the training data rather than a bug, and it gets its own section below.
+## The timeline
 
-## What got built
+<Timeline>
 
-- The model, and the pipeline that trains it
-- A test suite — **1,189 tests**
-- A packaged version that runs on an ordinary server with no graphics card
-- The integration work to make it plug into HOT's own platform
-- A pipeline that pulled and prepared twenty thousand satellite tiles across five regions
+<TimelineStage label="Asked before building" date="16 Sept 2026">
+I sent HOT four questions before writing any code. Should a first model do multi-class surface types or plain binary road detection? Does their interface expect road lines or filled shapes? Two of the answers changed the design, and one of them — that they'd prefer multi-class but doubted there was enough training data — turned out to predict the exact wall I hit months later.
+</TimelineStage>
 
-## Two ways of scoring, and they disagreed
+<TimelineStage label="Built a base model on one city">
+Khartoum first, from a public satellite road dataset. One city, so that everything after it had something to be compared against.
+</TimelineStage>
 
-I retrained the model on four cities instead of one, and measured what changed. Two different ways of scoring gave two different answers.
+<TimelineStage label="Two ways of scoring disagreed">
+Later, retrained on four cities, I measured what had changed and got two different answers.
 
-The first counts how much of the road surface the model got right, pixel by pixel. By that measure, almost nothing changed.
+One score counts how much of the road surface the model got right, pixel by pixel. By that measure, almost nothing changed. The other asks whether the roads it draws actually join up into a network you could trace a route across. By that measure it improved by about **38%**.
 
-The second asks a different question: do the roads it draws actually join up into a network you could trace a route across? By that measure it improved by about **38%**.
+That gap is the interesting part. A mapper doesn't need pixels, they need roads that connect — and a map that's mostly accurate but broken into disconnected fragments is far less useful than the first score makes it sound.
 
-That gap is the interesting part, and it matters for a practical reason. A mapper doesn't need pixels — they need roads that connect. A map that is mostly accurate but broken into disconnected fragments is far less useful than the first score makes it sound, and the first score cannot see the difference.
+Four things keep it in proportion. It's measured against one organisation's hand-drawn maps, so it's agreement with those maps, not correctness. It covers four areas of the city, because a fifth had no roads to check against. It's still roughly half the score the hand-drawn map itself gets through the same machinery. And I can't tell you *why* it improved: the new model also trained for longer, so "more cities" and "more training" are tangled together, it ran once, and the repeat runs that would have settled it were started and stopped before finishing.
+</TimelineStage>
 
-Four things keep that 38% in proportion. It's measured against one organisation's hand-drawn maps, so it's agreement with those maps, not correctness. It covers four areas of the city, because a fifth had no roads in it to check against. **And it's still roughly half the score the hand-drawn map itself gets through the same machinery** — better connected, nowhere near solved. The next section explains where that comparison comes from.
+<TimelineStage label="Checked the ruler before blaming the model">
+The connectivity score was low, and I didn't know whether that meant the model was bad or the scoring was.
 
-The fourth is that I can't tell you why it improved. The new model also trained for longer, so "more cities" and "more training" are tangled together and this experiment can't separate them. It ran once, and nobody has measured how much these scores bounce between identical runs, so some of that 38% could be luck. The repeat runs that would have settled it were started and stopped before they finished.
+The tempting response is to adjust settings until the number improves. I tried **53** combinations. The best barely moved it.
 
-So: two honest measurements disagreed, and one reading is that the simpler score was blind to something that matters. The useful part isn't that I know which — it's that the disagreement got chased instead of rounded off in the flattering direction.
+So I checked the ruler. I took the reference map — the one drawn by hand, the thing the model is compared against — and fed it through the same scoring machinery as if a model had produced it. It scored about **0.79 out of a possible 1.0**.
 
-## Checking the ruler before blaming the model
+That settled it. A good answer does score well, so the scoring works. The model was genuinely the weaker part, and specifically because its roads came out in pieces. It also gives a real yardstick: the map scores 0.79, the model about half that. Not a number I picked — a number I measured.
 
-The connectivity score came out low, and I didn't know whether that meant the model was bad or the scoring was.
+Two things worth keeping honest: the settings were chosen using the same data they were then scored against, so even the best figure flatters itself; and the setting I picked made the *worst* area worse, because the selection rule chased the average and the weakest case paid for it.
+</TimelineStage>
 
-The tempting response is to adjust settings until the number improves. I tried **53** combinations, on the earlier single-city version of the model. The best of them barely moved it.
-
-So I checked the ruler instead. I took the reference map — the one drawn by hand, the thing the model is being compared against — and fed it through the same scoring machinery, as if a model had produced it. It scored about **0.79 out of a possible 1.0**.
-
-That settled it. A good answer does score well, so the scoring works. The model was genuinely the weaker part, and specifically because its roads came out in disconnected pieces. It also gives a real yardstick: the map scores 0.79, the model about half that. Not a number I picked — a number I measured.
-
-That told me where the next month should go: connecting roads, not tuning settings.
-
-Two things worth keeping honest. The settings were chosen using the same data they were then scored against, so even the best figure flatters itself. And the setting I picked made the *worst* area worse than the starting point did, because the selection rule chased the average and the weakest case paid for it.
-
-## Grading against a category that couldn't exist
-
+<TimelineStage label="Found a class that couldn't exist">
 The model has three labels for road surface, and one of them — footpath — it can never produce.
 
 That's a property of the training data. I checked every road in the dataset: **56,251** of them, and none of its road types is a footpath. It's a dataset of vehicle roads.
 
-So the model was being graded on a category that could not appear, which quietly capped its best possible surface score at two-thirds no matter how well it did. I switched that label off, and changed the scoring so it names the categories it has no evidence for instead of averaging in zeros.
+So the model was being graded on a category that could not appear, quietly capping its best possible surface score at two-thirds. I switched that label off and changed the scoring to name the categories it has no evidence for instead of averaging in zeros.
 
-I had also reported a footpath accuracy figure earlier. When I went to reproduce it, it came out at zero, and I withdrew it before the proposal went out. It had only ever existed in prose — never written to a saved measurement — which is exactly why it survived as long as it did.
+I'd also reported a footpath accuracy figure earlier. When I went to reproduce it, it came out at zero, and I withdrew it before the proposal went out. It had only ever existed in prose — never written to a saved measurement — which is exactly why it survived as long as it did.
+</TimelineStage>
 
-## Spending the evidence
+<TimelineStage label="Retrained on four cities">
+Four cities instead of one, same recipe, same frozen test split for the original city so the comparison stayed honest.
+</TimelineStage>
 
-This is the test that actually matters, for the reason at the top: a base model earns its place by how well it adapts to somewhere new, not by its score on the cities it trained on.
+<TimelineStage label="Rehearsed the real use case">
+This is the test that actually matters, for the reason at the top: a base model earns its place by how well it adapts somewhere new.
 
-So I fine-tuned it onto **two** towns it had never seen — Banepa in Nepal and Nhamatanda in Mozambique, real imagery against community-drawn maps, nothing like the benchmark cities — with the rules for what would count as an improvement written down before I looked. The fine-tuned version did better on both, and cleared the bar I'd set in advance. That is the platform's use case, working.
+So I fine-tuned it onto **two** towns it had never seen — Banepa in Nepal and Nhamatanda in Mozambique, real imagery against community-drawn maps, nothing like the benchmark cities — with the rules for what would count as an improvement written down before I looked. It did better on both, and cleared the bar I'd set in advance.
 
-Then I used those results to decide which version to ship. That decision spent them. Once you've chosen something because of how it scored on a test, that test isn't an independent check on it any more — it's part of how the thing was built. So I wrote that into the project's own records:
+Then I used those results to decide which version to ship, and that decision spent them. Once you've chosen something because of how it scored on a test, that test isn't an independent check any more — it's part of how the thing was built. So I wrote that into the project's records:
 
 > Outcome inspected, so this region is development data. It cannot serve as confirmation for any Stage B claim […]
 
-Two towns, permanently retired as evidence, written down voluntarily.
+Two towns, permanently retired as evidence, written down voluntarily. The same record notes those towns were scored against raw community-contributed maps, never hand-checked — so agreement with them is agreement, not correctness.
 
-The same record notes that the reference maps those towns were scored against are raw community-contributed data, never hand-checked — so agreement with them is agreement, not correctness.
+Nothing forces this bookkeeping. It only ever costs you something.
+</TimelineStage>
 
-Nothing forces this bookkeeping. It only ever costs you something. It's also the difference between a number you can rely on and a number that merely sounds good.
+<TimelineStage label="Released open weights">
+Published so anyone can download the model, read how it was measured, and check the claims. Every number in its documentation says what kind of number it is.
+</TimelineStage>
+
+<TimelineStage label="Proposal submitted" date="22 Sept 2026" status="now">
+Sent to HOT's open call for geospatial models. No response yet.
+</TimelineStage>
+
+<TimelineStage label="Acceptance, and a grant agreement" status="ahead">
+The call runs as a grant. Acceptance isn't a finish line — it's the document that lets the integration work start.
+</TimelineStage>
+
+<TimelineStage label="A pull request into HOT's model repository" status="ahead">
+I hand over a description of the model and two container images: one that trains, one that serves predictions. A HOT admin reviews it. I never touch a server — my entire deliverable is a container that behaves correctly when somebody else runs it.
+</TimelineStage>
+
+<TimelineStage label="Merged, and the model goes live" status="ahead">
+Their system reads the description, mirrors the weights, and stands the serving image up as a live endpoint. The grant releases on merge, not on acceptance. A model on a download page is a research artifact; a model merged into fAIr is one people can actually reach.
+</TimelineStage>
+
+<TimelineStage label="Mappers fine-tune it for their own districts" status="ahead">
+A mapper opens fAIr and, where today they can only choose Buildings, they can choose Roads. The generic model won't know their district's conventions — an unpaved track in rural Mozambique doesn't look like one outside Las Vegas — so they draw their area, and the platform pulls existing map data and imagery for it and fine-tunes my model into *their* model. They write no code and don't need to know what fine-tuning is.
+</TimelineStage>
+
+<TimelineStage label="Predictions become map data" status="ahead">
+When a mapper trusts a prediction, they accept it and it goes into OpenStreetMap as a real edit. A road that wasn't on the map is now on the map, somewhere someone is trying to route aid down it.
+
+This is the only step that counts. Everything above it is plumbing in service of it.
+</TimelineStage>
+
+</Timeline>
 
 ## How this was actually built
 
@@ -401,31 +418,12 @@ I didn't write most of this code by hand. I directed AI agents to write it, and 
 That second part is most of the engineering.
 
 - The footpath figure above existed only in prose and a commit message. It had never been written to a saved measurement. The checks are what caught that it didn't reproduce.
-- Every figure in the grant proposal was audited against saved measurements before it went out, and the ones with no saved record were cut — including a results table I'd have been glad to publish.
+- Every figure in the proposal was audited against saved measurements before it went out, and the ones with no saved record were cut — including a results table I'd have been glad to publish.
 - Every significant document went to reviewers running on different models from the one that wrote it, read-only, so they couldn't quietly fix what they found.
 
 One of those reviews checked a revision rather than an original, and found **seven** new mistakes the rewrite itself had introduced. That's the number I'd point at. Rewriting introduces errors at about the same rate as writing, and the only reason I can tell you that is that I measured it.
 
-## Where it stands
-
-As of 22 September 2026:
-
-- The four-city model is released with open weights.
-- The figures come from data that also chose the model, so they are not an independent test.
-- The repeat runs that would put error bars on the connectivity result were started and stopped.
-- The fine-tuned versions were evaluated, but on towns now retired as evidence.
-- A proposal went to HOT's public open call on 22 September 2026. No response yet.
-- Nothing here is a claim to be state of the art.
-
-### What happens if it's accepted
-
-The call runs as a grant. Acceptance means a grant agreement, and only then does the real integration work start: a pull request into HOT's own model repository, reviewed by their team. The grant is released when that PR is merged — not when the proposal is accepted. Their current funding runs to the end of December, so the work has a deadline attached to it.
-
-Merging is the point. A model sitting on a download page is a research artifact; a model merged into fAIr is one a mapping community can pick up, fine-tune on their own imagery, and use to draft roads in their own region without needing anyone on their team to understand machine learning.
-
-That's the outcome worth wanting here, and it's still ahead of me.
-
-### What I'd do differently
+## What I'd do differently
 
 I built a rule-based system to detect when the satellite imagery and the map were misaligned. It accepted 2 tiles out of 200 — and when I looked at those two, both were wrong. The maps had been traced from the same imagery, so they were already aligned.
 
@@ -441,6 +439,14 @@ grep -oniE "\b(IoU|clDice|APLS|macro-F1|ONNX|opset|sha256|logit|softmax|argmax|e
 ```
 
 Expected: no output. (`Stage B` appears once, inside the quoted register entry — that is a verbatim quotation and is allowed; do not paraphrase it.)
+
+Then verify the timeline stages render in order with exactly one `status="now"`:
+
+```bash
+grep -c "TimelineStage" src/pages/builds/fair-roads.mdx   # expect 28 (14 open + 14 close)
+grep -c 'status="now"' src/pages/builds/fair-roads.mdx    # expect 1
+grep -c 'status="ahead"' src/pages/builds/fair-roads.mdx  # expect 5
+```
 
 Then count the numbers, using the budget's actual unit: **quantified claims about the model's performance or the project's scale.** Expected exactly these seven:
 
@@ -504,4 +510,83 @@ Record the four scores in `README.md`'s table, replacing the 2026-05-14 row and 
 ```bash
 git add README.md
 git commit -m "docs: re-measure Lighthouse after adding the fair-roads build"
+```
+
+---
+
+## Task 5a: Timeline components
+
+Spec §5 restructures the page as a timeline with a "you are here" marker at **Proposal submitted**. Two small components, because the stage bodies are rich prose and belong in MDX rather than in a data array.
+
+**Files:**
+- Create: `src/components/Timeline.astro`
+- Create: `src/components/TimelineStage.astro`
+
+- [ ] **Step 1: Create the rail**
+
+`src/components/Timeline.astro`:
+
+```astro
+---
+---
+<ol class="list-none p-0 m-0 mt-8 relative">
+  <slot />
+</ol>
+```
+
+- [ ] **Step 2: Create the stage**
+
+`src/components/TimelineStage.astro`:
+
+```astro
+---
+interface Props {
+  label: string;
+  date?: string;
+  status?: 'done' | 'now' | 'ahead';
+}
+const { label, date, status = 'done' } = Astro.props;
+
+const dot = {
+  done:  'bg-mint border-mint',
+  now:   'bg-lavender border-lavender ring-4 ring-lavender/25',
+  ahead: 'bg-transparent border-card-border',
+}[status];
+
+const rail = status === 'ahead' ? 'border-dashed border-card-border' : 'border-solid border-mint/40';
+const body = status === 'ahead' ? 'text-ink/55' : 'text-ink/85';
+---
+<li class={`relative pl-8 pb-8 border-l-2 last:border-l-0 last:pb-0 ${rail}`}>
+  <span class={`absolute left-0 top-1 -translate-x-1/2 w-3.5 h-3.5 rounded-full border-2 ${dot}`} aria-hidden="true"></span>
+
+  <div class="flex items-baseline gap-3 flex-wrap">
+    <h2 class="font-display font-bold text-[20px] m-0" style="letter-spacing:-0.025em">{label}</h2>
+    {date && <span class="font-mono text-[10px] uppercase tracking-[1.5px] text-ink/50">{date}</span>}
+    {status === 'now' && (
+      <span class="font-mono text-[9px] font-bold uppercase tracking-[1.5px] bg-lavender text-cream rounded-full px-2.5 py-1">You are here</span>
+    )}
+  </div>
+
+  <div class={`mt-2 text-[15px] leading-[1.6] ${body}`}>
+    <slot />
+  </div>
+</li>
+```
+
+Three details:
+
+1. **`<ol>`/`<li>`** — this is an ordered sequence and a screen reader should announce it as one. The dots are `aria-hidden`; status is conveyed by the visible "You are here" chip and by the prose, not by colour alone.
+2. **`ahead` stages are dashed and dimmed**, not hidden. The point of the timeline is that the unfinished stages are visible.
+3. **No `prefers-reduced-motion` concern** — nothing animates. Do not add a pulsing marker; the chip carries it.
+
+- [ ] **Step 3: Verify it compiles**
+
+Run: `npm run build`
+Expected: succeeds.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add src/components/Timeline.astro src/components/TimelineStage.astro
+git commit -m "feat(ui): timeline with a you-are-here marker"
 ```

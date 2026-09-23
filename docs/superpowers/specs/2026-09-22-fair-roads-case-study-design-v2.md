@@ -115,7 +115,40 @@ A reader should finish this page understanding what was built, what was learned,
 
 **Numbers on the page must arrive with their meaning attached.** Never `0.286 → 0.394`. Write what changed and by how much, in the unit a reader cares about.
 
-Eight sections. Two carry results, three carry method, one carries the finding the page exists for, one carries how the work was done, one carries status.
+### Structure: a timeline, with a "you are here" marker
+
+**Decided by Tara 2026-09-23. The page is a timeline**, not a sequence of essay sections, with the current position marked at **Proposal submitted**.
+
+Three reasons this is the right spine, beyond being what was asked for:
+
+1. **It makes status structural rather than a closing paragraph.** An "as of" date at the bottom is easy to skim past; a marker two-thirds down a timeline, with visibly unfinished stages below it, cannot be misread as a finished project.
+2. **It demotes the performance numbers to one beat among many.** That is exactly the reframing §5.1 argues for — the model's score is a step, not the point.
+3. **It makes the un-owned steps visible.** Everything after the marker depends on HOT, on mappers, on a merge. Showing them greyed-out-but-named is the most honest possible statement of where the work sits, and it is more interesting than a claim of completion.
+
+**Stages, in order.** Everything up to and including the marker is `done`/`now`; everything after is `ahead` and must be visually distinct.
+
+| # | Stage | Status |
+|---|---|---|
+| 1 | Asked before building — four questions to the open call; the answers changed the design | done |
+| 2 | Built a base model on one city | done |
+| 3 | Two ways of scoring disagreed | done |
+| 4 | Checked the ruler before blaming the model | done |
+| 5 | Found a class that could not exist | done |
+| 6 | Retrained on four cities | done |
+| 7 | Rehearsed the real use case — fine-tuned onto two unfamiliar towns | done |
+| 8 | Released open weights | done |
+| **9** | **Proposal submitted — 22 September 2026** | **now** |
+| 10 | Acceptance, and a grant agreement | ahead |
+| 11 | A pull request into HOT's model repository | ahead |
+| 12 | Merged — the model goes live in fAIr | ahead |
+| 13 | Mappers fine-tune it for their own districts | ahead |
+| 14 | Predictions become OpenStreetMap edits | ahead |
+
+Stage 1 is worth keeping prominent: asking four specific questions before writing code, and changing the design because of the answers, is a stronger opening than any metric on the page.
+
+Stages 10–14 are the four-step chain above, plus acceptance. **They must read as description of a published process, never as prediction.** No dates, no likelihood, no "when this ships". The honest register is "this is what happens next, and none of it is mine to control."
+
+"How this was actually built" (the agent-direction disclosure, §5.7) sits **outside** the timeline, after it — it is about method across the whole project, not a stage in it.
 
 ### 1. Why anyone needs this, and what "good" means
 

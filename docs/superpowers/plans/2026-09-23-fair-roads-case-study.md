@@ -336,7 +336,11 @@ One score counts how much of the road surface the model got right, pixel by pixe
 
 That gap is the interesting part. A mapper doesn't need pixels, they need roads that connect — and a map that's mostly accurate but broken into disconnected fragments is far less useful than the first score makes it sound.
 
-Four things keep it in proportion. It's measured against one organisation's hand-drawn maps, so it's agreement with those maps, not correctness. It covers four areas of the city, because a fifth had no roads to check against. It's still roughly half the score the hand-drawn map itself gets through the same machinery. And I can't tell you *why* it improved: the new model also trained for longer, so "more cities" and "more training" are tangled together, it ran once, and the repeat runs that would have settled it were started and stopped before finishing.
+Both scores are measured across four areas of the city against one organisation's hand-drawn maps, so what they capture is agreement with those maps, not correctness.
+
+And I can't tell you *why* it improved. The four-city model also trained for longer, so "more cities" and "more training" are tangled together and this run can't separate them. It ran once, and nobody has measured how much these scores bounce between identical runs — the repeats that would have settled it were started and stopped before finishing.
+
+That's the honest state of it: two careful measurements disagreed, which was worth chasing, and the explanation is still open.
 </TimelineStage>
 
 <TimelineStage label="Checked the ruler before blaming the model">

@@ -14,6 +14,7 @@ export const BuildSchema = z.object({
   statusLabel: z.string().optional(),
   screenshot: z.string(),
   gradientHeader: z.string(),
+  stack: z.array(z.string().min(1)).min(1),
 });
 
 export const OffKeyboardSchema = z.object({

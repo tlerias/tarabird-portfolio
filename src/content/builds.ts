@@ -16,6 +16,7 @@ export const builds: Build[] = [
     statusLabel: 'PROPOSAL SUBMITTED',
     screenshot: '/screenshots/fair-roads-fair-ui.jpg',
     gradientHeader: 'linear-gradient(135deg, #0d2820 0%, #5b4380 100%)',
+    stack: ['DINOv2 ViT-S/14', 'UPerNet', 'ONNX'],
   },
   {
     slug: 'severance',
@@ -28,6 +29,7 @@ export const builds: Build[] = [
     status: 'live',
     screenshot: '/screenshots/severance-hero.png',
     gradientHeader: 'linear-gradient(135deg, #0d2820 0%, #1a4a3a 100%)',
+    stack: ['Next.js', 'TypeScript', 'Supabase'],
   },
   {
     slug: 'rollcall',
@@ -40,6 +42,7 @@ export const builds: Build[] = [
     status: 'live',
     screenshot: '/screenshots/rollcall-profile.png',
     gradientHeader: 'linear-gradient(135deg, #fef9f0 0%, #f3eef8 100%)',
+    stack: ['Next.js', 'Supabase', 'Playwright'],
   },
   {
     slug: 'knock-it-off',
@@ -52,5 +55,6 @@ export const builds: Build[] = [
     status: 'kids',
     screenshot: '/screenshots/knock-it-off-cat-select.png',
     gradientHeader: 'linear-gradient(180deg, #8a6f5a 0%, #5b3a2a 100%)',
+    stack: ['Godot 4.6', 'GDScript'],
   },
 ];

@@ -15,9 +15,12 @@ describe('content data', () => {
 
   it('builds match schema', () => {
     expect(() => z.array(BuildSchema).parse(builds)).not.toThrow();
-    expect(builds.length).toBe(4);
     const slugs = builds.map(b => b.slug);
     expect(slugs).toEqual(['fair-roads', 'severance', 'rollcall', 'knock-it-off']);
+  });
+
+  it('every build carries a stack', () => {
+    expect(builds.every(b => b.stack.length > 0)).toBe(true);
   });
 
   it('off-keyboard items match schema', () => {
@@ -75,6 +78,7 @@ describe('content data', () => {
       statusLabel: 'PROPOSAL SUBMITTED',
       screenshot: '/screenshots/fair-roads-fair-ui.jpg',
       gradientHeader: 'linear-gradient(135deg, #0d2820 0%, #5b4380 100%)',
+      stack: ['DINOv2 ViT-S/14', 'UPerNet', 'ONNX'],
     };
     expect(() => BuildSchema.parse(entry)).not.toThrow();
   });
@@ -83,7 +87,7 @@ describe('content data', () => {
     const withoutLabel = {
       slug: 'severance', title: 'x', oneLine: 'x', description: 'x', dates: 'x',
       liveUrl: 'https://example.com', liveLabel: 'x', status: 'live',
-      screenshot: 'x', gradientHeader: 'x',
+      screenshot: 'x', gradientHeader: 'x', stack: ['x'],
     };
     expect(() => BuildSchema.parse(withoutLabel)).not.toThrow();
   });

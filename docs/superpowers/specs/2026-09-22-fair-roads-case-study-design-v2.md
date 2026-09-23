@@ -117,8 +117,19 @@ A reader should finish this page understanding what was built, what was learned,
 
 Eight sections. Two carry results, three carry method, one carries the finding the page exists for, one carries how the work was done, one carries status.
 
-### 1. What it does
-Volunteers at the Humanitarian OpenStreetMap Team trace roads by hand from satellite imagery, in places where no usable map exists — which is where disaster response and aid delivery need maps most. This model does the first pass: give it a satellite tile and it draws the roads it finds and labels each one paved or unpaved. A person still checks and corrects the result. The job is turning a blank map into a draft.
+### 1. Why anyone needs this, and what "good" means
+
+**Revised 2026-09-23 on Tara's instruction: the page must make a reader understand why the model matters, not just how it performs.** An earlier draft opened with mechanics and never explained the stakes or the platform, which left the performance sections carrying an argument they cannot make on their own.
+
+Three beats, sourced from the project's own outreach material:
+
+1. **The problem.** Large parts of the world have no usable map, and that correlates with where maps matter most. HOT volunteers close the gap by tracing roads by hand — effective, enormously slow.
+2. **What fAIr is.** HOT's open call describes the platform as connective tissue between people building geospatial ML models and the mapping communities who need them, *"without requiring users to be AI/ML engineers."* The gap it exists to close: models get built in labs while the communities mapping their own neighbourhoods have no practical route to using them, and without local feedback those models never improve where they are most needed.
+3. **What "good" means here, and this reframes the whole page.** fAIr models are **base models** — *"a reusable ML blueprint that users can finetune on their own datasets"* (`docs/outreach/sources/fair-models-contributing-model.md`). So the figure that decides usefulness is not a benchmark score. A model that scores well on four benchmark cities and adapts badly to a town in Nepal is *worse*, for this platform, than one that starts lower and improves quickly on local data.
+
+Beat 3 changes what §5.6 is for. Fine-tuning onto Banepa and Nhamatanda is not a side experiment demonstrating rigour — **it is the platform's actual use case, demonstrated.** §5.6 must say so, and §5.1 must set it up.
+
+Then the mechanics: a satellite tile in, roads drawn and labelled paved or unpaved, a person still checking and correcting. Turning a blank map into a draft.
 
 **Say here that it cannot do footpaths.** The model declares three road surfaces and can only produce two. If the page waits until §5 to admit that, it has already contradicted itself twice. One sentence is enough: it is supposed to spot footpaths, it can't yet, and §5 explains why.
 
@@ -212,6 +223,12 @@ The shape, in plain language:
 
 ### 8. Where it stands
 Dated explicitly, **"as of 2026-09-22"**: the four-city model is released with open weights; the figures come from data that also chose the model, so they are not an independent test; the repeat runs that would put error bars on §3 were started and stopped; the fine-tuned versions were evaluated but on towns now retired as evidence; a proposal went to a public open call on 2026-09-22 with no response yet; no claim that any of this is state of the art.
+
+**Then a short "what happens if it's accepted" passage.** Readers who understand §5.1's stakes will ask it, and the project's own sources answer it precisely — from the organiser's reply of 2026-09-16: *"First proposal needs to be submitted and upon acceptance (you will receive grant agreement) & you can start working on the PR and once the PR is merged grant would be released… current funding duration runs out by end of December."*
+
+So: acceptance is a grant agreement, not a finish line; the real work is a pull request into HOT's model repository, reviewed by their team; the grant releases on merge; and there is a year-end deadline attached. Say that **merging is the point** — a model on a download page is a research artifact, a model merged into fAIr is one a community can fine-tune and use without anyone on their team understanding machine learning.
+
+**Do not** overstate this into a claim about likelihood, timeline, or any relationship with HOT beyond a submitted proposal (§7, §10). It is a description of a published process, ending in "and it is still ahead of me."
 
 Then the best "what I'd do differently": I built a rule-based system to detect when the satellite imagery and the map were misaligned. It accepted 2 tiles out of 200 — and when I looked at those two, both were wrong. The maps had been traced from the same imagery, so they were already aligned. Writing the rules down in advance was right. The thing I wrote rules for did not need solving. Look at the pictures before building the machinery.
 

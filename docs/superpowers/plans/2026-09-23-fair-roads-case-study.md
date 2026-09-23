@@ -296,15 +296,25 @@ stats:
     value: "Open weights · 2026 → ongoing"
 ---
 
-## What it does
+## Why anyone needs this
 
-Volunteers at the Humanitarian OpenStreetMap Team trace roads by hand from satellite imagery, in places where no usable map exists — which tends to be exactly where disaster response and aid delivery need a map most.
+Large parts of the world have no usable map. That tends to correlate with exactly the places where a map matters most — disaster response, public health outreach, getting aid down a road that may or may not exist.
 
-This model does the first pass. Give it a satellite tile and it draws the roads it finds, and labels each one paved or unpaved. A person still checks and corrects the result. The job is turning a blank map into a draft.
+Volunteers at the Humanitarian OpenStreetMap Team fill those gaps by tracing roads by hand from satellite imagery. It works, and it is enormously slow.
+
+HOT's answer is a platform called fAIr. Their own description of it is the part worth reading twice: it's meant to be the connective tissue between people who build geospatial ML models and the mapping communities who need them — *"without requiring users to be AI/ML engineers."* The gap it exists to close is that models get built in labs and research groups, while the communities mapping their own neighbourhoods have no practical way to use them. And without those communities' feedback, the models never improve in the places they're most needed.
+
+## What it does, and what "good" means here
+
+Give this model a satellite tile and it draws the roads it finds, labelling each one paved or unpaved. A person still checks and corrects the result. The job is turning a blank map into a draft.
+
+But the thing that decides whether it's useful isn't its score on my test data. **fAIr models are base models — starting points that a mapping community fine-tunes on their own imagery, of their own region.** A model that scores well on four cities in a benchmark and adapts badly to a town in Nepal is worse, for this platform, than one that starts lower and improves quickly on local data.
+
+That is why a later section about two towns — Banepa and Nhamatanda — matters more than the headline numbers. Fine-tuning onto somewhere new isn't a side experiment here. It's the entire use case.
 
 Under the hood it's a vision transformer Meta released, with a segmentation head I trained on satellite road labels. The model card has the specifics.
 
-One thing it is supposed to do and can't: spot footpaths. That turned out to be a property of the training data rather than a bug, and it's the subject of a section below.
+One thing it's supposed to do and can't: spot footpaths. That turned out to be a property of the training data rather than a bug, and it gets its own section below.
 
 ## What got built
 
@@ -356,7 +366,9 @@ I had also reported a footpath accuracy figure earlier. When I went to reproduce
 
 ## Spending the evidence
 
-I tested on **two** towns the model had never trained on — Banepa in Nepal and Nhamatanda in Mozambique — with the rules for what would count as an improvement written down before I looked. The fine-tuned version did better on both, and cleared the bar I'd set in advance.
+This is the test that actually matters, for the reason at the top: a base model earns its place by how well it adapts to somewhere new, not by its score on the cities it trained on.
+
+So I fine-tuned it onto **two** towns it had never seen — Banepa in Nepal and Nhamatanda in Mozambique, real imagery against community-drawn maps, nothing like the benchmark cities — with the rules for what would count as an improvement written down before I looked. The fine-tuned version did better on both, and cleared the bar I'd set in advance. That is the platform's use case, working.
 
 Then I used those results to decide which version to ship. That decision spent them. Once you've chosen something because of how it scored on a test, that test isn't an independent check on it any more — it's part of how the thing was built. So I wrote that into the project's own records:
 
@@ -388,8 +400,16 @@ As of 22 September 2026:
 - The figures come from data that also chose the model, so they are not an independent test.
 - The repeat runs that would put error bars on the connectivity result were started and stopped.
 - The fine-tuned versions were evaluated, but on towns now retired as evidence.
-- A proposal went to a public open call on 22 September 2026. No response yet.
+- A proposal went to HOT's public open call on 22 September 2026. No response yet.
 - Nothing here is a claim to be state of the art.
+
+### What happens if it's accepted
+
+The call runs as a grant. Acceptance means a grant agreement, and only then does the real integration work start: a pull request into HOT's own model repository, reviewed by their team. The grant is released when that PR is merged — not when the proposal is accepted. Their current funding runs to the end of December, so the work has a deadline attached to it.
+
+Merging is the point. A model sitting on a download page is a research artifact; a model merged into fAIr is one a mapping community can pick up, fine-tune on their own imagery, and use to draft roads in their own region without needing anyone on their team to understand machine learning.
+
+That's the outcome worth wanting here, and it's still ahead of me.
 
 ### What I'd do differently
 

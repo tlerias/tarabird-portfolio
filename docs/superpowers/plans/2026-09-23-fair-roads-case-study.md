@@ -20,12 +20,11 @@ Three images are committed and ready. They were cropped from matplotlib overlays
 
 | File | Size | Used by |
 |---|---|---|
-| `public/screenshots/fair-roads-fair-ui.jpg` | **not yet saved — see below** | homepage card `screenshot`, case-study `heroImage`, and the figure above the timeline |
+| `public/screenshots/fair-roads-fair-ui.jpg` | 299 KB, 1400×795 | homepage card `screenshot`, case-study `heroImage`, and the figure above the timeline |
 | `public/screenshots/fair-roads-banepa.jpg` | 366 KB, 1100×958 | the figure in the fine-tuning stage |
 | `public/screenshots/fair-roads-khartoum.jpg` | 284 KB, 1100×1093 | the figure in the one-city stage |
-| `public/screenshots/fair-roads-hero.jpg` | 463 KB, 1400×1220 | superseded as hero by the fAIr screenshot; keep or delete |
 
-**The fAIr screenshot is not on disk yet.** Tara has it; it needs saving to `public/screenshots/fair-roads-fair-ui.jpg`, cropped and compressed to match the others (~1400px wide, JPEG q82, under 500 KB). Until it exists, `BuildCard` renders a broken image on the first card — so this blocks Task 6 exactly as the earlier asset gap did.
+All three files are committed. **Nothing in this plan is blocked on assets.**
 
 **What that screenshot may and may not claim — read before writing any copy around it.** It was taken on a **local build of fAIr**, not HOT's hosted instance, running Tara's real model. It therefore shows that the model is discoverable and callable through fAIr's real interface. It does **not** show the model live on HOT's platform, and nothing on the page may imply that: the pull request has not been opened, and stages 11 and 12 of the timeline are still `ahead`. The caption states "a local build of the platform rather than HOT's hosted site" — do not trim that clause. It is the difference between an honest figure and a claim of a relationship that §7 and §10 forbid.
 

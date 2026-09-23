@@ -60,11 +60,11 @@ Add to `src/content/__tests__/content.test.ts`, inside the `describe('content da
       title: 'fair-roads',
       oneLine: 'x',
       description: 'x',
-      dates: '2026 → ongoing',
+      dates: 'Sept 2026 · proposal submitted',
       liveUrl: 'https://huggingface.co/tarabird90/dinov2s-roads',
       liveLabel: 'Model card ↗',
       status: 'wip',
-      statusLabel: 'OPEN WEIGHTS',
+      statusLabel: 'PROPOSAL SUBMITTED',
       screenshot: '/screenshots/fair-roads-hero.png',
       gradientHeader: 'linear-gradient(135deg, #2a1810 0%, #5c3420 100%)',
     };
@@ -158,11 +158,11 @@ In `src/content/builds.ts`, insert as the first element of the `builds` array, b
     title: 'fair-roads',
     oneLine: 'A road-mapping model for humanitarian volunteers — and what its own numbers said to build next.',
     description: 'Volunteers map roads by hand where no usable map exists. This model does the first pass, and the interesting part is what measuring it honestly changed.',
-    dates: '2026 → ongoing',
+    dates: 'Sept 2026 · proposal submitted',
     liveUrl: 'https://huggingface.co/tarabird90/dinov2s-roads',
     liveLabel: 'Model card ↗',
     status: 'wip',
-    statusLabel: 'OPEN WEIGHTS',
+    statusLabel: 'PROPOSAL SUBMITTED',
     screenshot: '/screenshots/fair-roads-hero.png',
     gradientHeader: 'linear-gradient(135deg, #2a1810 0%, #5c3420 100%)',
   },
@@ -277,12 +277,12 @@ Read spec §5 first. The register is a hard requirement: **plain English, no met
 ---
 layout: ../../layouts/CaseStudy.astro
 title: fair-roads
-eyebrow: "2026 → ONGOING · OPEN-SOURCE ML"
+eyebrow: "2026 · OPEN-SOURCE ML"
 description: "A road-mapping model for humanitarian volunteers, and what measuring it honestly changed about what I built next."
 liveUrl: "https://huggingface.co/tarabird90/dinov2s-roads"
 liveLabel: "Model card ↗"
 status: "wip"
-statusLabel: "OPEN WEIGHTS"
+statusLabel: "PROPOSAL SUBMITTED"
 gradientHeader: "linear-gradient(135deg, #2a1810 0%, #5c3420 100%)"
 heroImage: "/screenshots/fair-roads-hero.png"
 stats:
@@ -293,7 +293,7 @@ stats:
   - label: "ROLE"
     value: "Sole engineer"
   - label: "STATUS"
-    value: "Open weights · 2026 → ongoing"
+    value: "Open weights · proposal submitted"
 ---
 
 import Timeline from '../../components/Timeline.astro';
@@ -303,17 +303,17 @@ import TimelineStage from '../../components/TimelineStage.astro';
 
 Large parts of the world have no usable map. That tends to correlate with exactly the places where a map matters most — disaster response, public health outreach, getting aid down a road that may or may not exist.
 
-Volunteers at the Humanitarian OpenStreetMap Team fill those gaps by tracing roads by hand from satellite imagery. It works, and it is enormously slow.
+Volunteers at the [Humanitarian OpenStreetMap Team](https://www.hotosm.org) fill those gaps by tracing roads by hand from satellite imagery. It works, and it is enormously slow.
 
-HOT's answer is a platform called fAIr. Their own description is the part worth reading twice: it's meant to be the connective tissue between the people who build geospatial ML models and the mapping communities who need them — *"without requiring users to be AI/ML engineers."* Models get built in labs; the communities mapping their own neighbourhoods have no practical route to using them. And without those communities' feedback, the models never improve where they're most needed.
+HOT's answer is a platform called [fAIr](https://fair.hotosm.org). Their own description is the part worth reading twice: it's meant to be the connective tissue between the people who build geospatial ML models and the mapping communities who need them — *"without requiring users to be AI/ML engineers."* Models get built in labs; the communities mapping their own neighbourhoods have no practical route to using them. And without those communities' feedback, the models never improve where they're most needed.
 
-## Why the benchmark score is the wrong thing to optimise
+## What it has to be good at
 
 Give this model a satellite tile and it draws the roads it finds, labelling each one paved or unpaved. A person still checks and corrects it. The job is turning a blank map into a draft.
 
-But it's a **base model** — a starting point that a mapping community fine-tunes on imagery of their own region. A model that scores brilliantly on the four cities I happened to train on, and adapts badly to a town in Nepal, is *worse* for this platform than one that starts lower and improves quickly on local data.
+It's a **base model** — a starting point that a mapping community fine-tunes on imagery of their own region. So the thing it has to be good at is *adapting*. A district in Nepal doesn't look like Las Vegas, and the model that helps there is the one that picks up local conventions quickly from a small amount of local data.
 
-That matters for reading everything below. The value gets created at a step I don't control.
+Which means the value gets created at a step I don't control, by someone I'll never meet. That shaped what I built and how I measured it.
 
 Under the hood it's a vision transformer Meta released, with a segmentation head I trained on satellite road labels. The model card has the specifics.
 
@@ -384,7 +384,7 @@ Published so anyone can download the model, read how it was measured, and check 
 </TimelineStage>
 
 <TimelineStage label="Proposal submitted" date="22 Sept 2026" status="now">
-Sent to HOT's open call for geospatial models. No response yet.
+Sent to HOT's [open call for geospatial models](https://www.hotosm.org/en/request-for-proposals/open-call-for-earth-observation-geoai-models/). No response yet.
 </TimelineStage>
 
 <TimelineStage label="Acceptance, and a grant agreement" status="ahead">

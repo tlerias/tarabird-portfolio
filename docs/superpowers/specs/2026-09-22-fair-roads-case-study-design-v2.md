@@ -359,11 +359,11 @@ A fourth build at `/builds/fair-roads`, reusing `CaseStudy.astro`.
 | `src/components/BuildsSection.astro` | `md:grid-cols-3` → `md:grid-cols-2`; four cards in a three-column grid leaves an orphan |
 | `public/screenshots/` | two new PNGs (§9) |
 
-`StatusPill` already has a `wip` variant. Use a custom label — but **not** `STAGE A RELEASED` (§3). Suggested: `OPEN WEIGHTS`.
+`StatusPill` already has a `wip` variant. Use a custom label — but **not** `STAGE A RELEASED` (§3). Use `PROPOSAL SUBMITTED` — it is the actual status, and it reads clearly next to the other cards' `LIVE` pills.
 
 **Homepage card copy:**
 - `oneLine`: "Open-weight road extraction for humanitarian mapping — and what its own numbers said to build next."
-- `dates`: "2026 → ongoing"
+- `dates`: "Sept 2026 · proposal submitted"
 - `stack`: `['DINOv2 ViT-S/14', 'UPerNet', 'ONNX']`
 
 **Ordering: first. Decided by Tara 2026-09-23** — ahead of Layoff Calculator, Rollcall and Knock It Off.
@@ -382,7 +382,7 @@ Implementation: `fair-roads` becomes the first entry in `src/content/builds.ts`,
 | MODEL AT | huggingface.co/tarabird90/dinov2s-roads |
 | BUILT WITH | Vision transformer + segmentation head |
 | ROLE | Sole engineer |
-| STATUS | Open weights · 2026 → ongoing |
+| STATUS | Open weights · proposal submitted |
 
 This matches what the site already does. Every existing case study uses exactly four rows, and they are **orientation, not evidence**:
 

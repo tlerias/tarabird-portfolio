@@ -358,6 +358,26 @@ Only the first row is about going live, and it costs nothing. The others are tri
 **One thing to get right at authoring time, because it is the cheap way to reduce future edits:** write every status claim with its `as of 2026-09-22` date attached (§5.7), so a stale line reads as correctly-dated history rather than as a wrong claim. A dated sentence ages; an undated one becomes false.
 - No state-of-the-art or benchmark claim.
 
+## 7a. The Stage B release hold — lifted
+
+`reports/publication_20260921/candidate_comparison.json` carries, verbatim:
+
+```
+public_release: held until user confirms proposal acceptance
+final_release_candidate_confirmed: False
+repeat_seeds_completed: False
+```
+
+That file is the **only** evidence behind §5's fine-tuning stage — the Banepa and Nhamatanda result, which is the page's closing argument. The hold was written to expire on proposal acceptance; the proposal was submitted 2026-09-22 and has not been accepted.
+
+**Tara lifted the hold on 2026-09-23.** She set it and she is the "user" it defers to. The stage ships.
+
+**What ships and what does not.** The page states that fine-tuning improved the model on both towns and cleared a bar written down in advance. It quotes **no numbers** from that file — not `0.2907`, not `0.3628`, not `+0.0721` — because §8's numbers budget already excluded them, and the stage is about the evidence being spent rather than the size of the gain. The two candidate names `stage_b_mask` and `stage_b_footpath` do not appear either. Keep it that way: the lift covers the qualitative finding, which is all the page needs.
+
+**Two things still true and still binding**, both already in §5: the towns were scored against raw uncorrected OpenStreetMap, so agreement is not accuracy; and `repeat_seeds_completed: False`, so no repeat has confirmed the result.
+
+**Follow-up in the `fair-roads` repo, not here.** Update `candidate_comparison.json` so its `public_release` field reflects the lift. Leaving it reading "held" while the page publishes the finding leaves a committed file contradicting a live page — which is exactly the class of inconsistency this project keeps catching in review, and the next reviewer will flag it.
+
 ## 8. Where it lives
 
 A fourth build at `/builds/fair-roads`, reusing `CaseStudy.astro`.

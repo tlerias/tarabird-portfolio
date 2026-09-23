@@ -384,11 +384,11 @@ Nothing forces this bookkeeping. It only ever costs you something.
 </TimelineStage>
 
 <TimelineStage label="Published the model for anyone to download">
-The trained model file itself is public, not just an API you call — anyone can download it, run it, read how it was measured and check the claims. The code that trained it is not public. Every number in its documentation says what kind of number it is.
+The model itself is published, not just an API you call: [the trained file is on HuggingFace](https://huggingface.co/tarabird90/dinov2s-roads) with the record of how it was measured beside it. Download it, run it, check the claims. The code that trained it stays private. Every number in its documentation says what kind of number it is.
 </TimelineStage>
 
 <TimelineStage label="Proposal submitted" date="22 Sept 2026" status="now">
-Sent to HOT's [open call for geospatial models](https://www.hotosm.org/en/request-for-proposals/open-call-for-earth-observation-geoai-models/). No response yet.
+Sent to HOT's open call for geospatial models. No response yet.
 </TimelineStage>
 
 <TimelineStage label="Acceptance, and a grant agreement" status="ahead">
@@ -567,7 +567,7 @@ const body = status === 'ahead' ? 'text-ink/55' : 'text-ink/85';
     <h2 class="font-display font-bold text-[20px] m-0" style="letter-spacing:-0.025em">{label}</h2>
     {date && <span class="font-mono text-[10px] uppercase tracking-[1.5px] text-ink/50">{date}</span>}
     {status === 'now' && (
-      <span class="font-mono text-[9px] font-bold uppercase tracking-[1.5px] bg-lavender text-cream rounded-full px-2.5 py-1">You are here</span>
+      <span class="font-mono text-[9px] font-bold uppercase tracking-[1.5px] bg-lavender text-cream rounded-full px-2.5 py-1">I am here</span>
     )}
   </div>
 
@@ -579,7 +579,7 @@ const body = status === 'ahead' ? 'text-ink/55' : 'text-ink/85';
 
 Three details:
 
-1. **`<ol>`/`<li>`** — this is an ordered sequence and a screen reader should announce it as one. The dots are `aria-hidden`; status is conveyed by the visible "You are here" chip and by the prose, not by colour alone.
+1. **`<ol>`/`<li>`** — this is an ordered sequence and a screen reader should announce it as one. The dots are `aria-hidden`; status is conveyed by the visible "I am here" chip and by the prose, not by colour alone.
 2. **`ahead` stages are dashed and dimmed**, not hidden. The point of the timeline is that the unfinished stages are visible.
 3. **No `prefers-reduced-motion` concern** — nothing animates. Do not add a pulsing marker; the chip carries it.
 
@@ -592,5 +592,5 @@ Expected: succeeds.
 
 ```bash
 git add src/components/Timeline.astro src/components/TimelineStage.astro
-git commit -m "feat(ui): timeline with a you-are-here marker"
+git commit -m "feat(ui): timeline with a i-am-here marker"
 ```

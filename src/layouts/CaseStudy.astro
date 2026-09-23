@@ -12,7 +12,8 @@ interface Props {
   description: string;
   liveUrl: string;
   liveLabel: string;
-  status: 'live' | 'kids';
+  status: 'live' | 'kids' | 'wip';
+  statusLabel?: string;
   gradientHeader: string;
   heroImage?: string;
   stats?: { label: string; value: string }[];
@@ -23,7 +24,8 @@ interface Props {
     description: string;
     liveUrl: string;
     liveLabel: string;
-    status: 'live' | 'kids';
+    status: 'live' | 'kids' | 'wip';
+    statusLabel?: string;
     gradientHeader: string;
     heroImage?: string;
     stats?: { label: string; value: string }[];
@@ -31,7 +33,7 @@ interface Props {
 }
 // MDX passes frontmatter as Astro.props.frontmatter; support both paths
 const fm = Astro.props.frontmatter ?? Astro.props;
-const { title, eyebrow, description, liveUrl, liveLabel, status, gradientHeader, heroImage, stats = [] } = fm;
+const { title, eyebrow, description, liveUrl, liveLabel, status, statusLabel, gradientHeader, heroImage, stats = [] } = fm;
 ---
 <Base title={`${title} · Tara Bird`} description={description}>
   <Nav />
@@ -50,7 +52,7 @@ const { title, eyebrow, description, liveUrl, liveLabel, status, gradientHeader,
           <p class="text-[18px] mt-5 max-w-xl text-cream/90 leading-[1.55]">{description}</p>
           <div class="flex gap-3 mt-6 items-center">
             <Button href={liveUrl} variant="mint" external={true}>{liveLabel}</Button>
-            <StatusPill variant={status} />
+            <StatusPill variant={status} label={statusLabel} />
           </div>
         </div>
       </div>

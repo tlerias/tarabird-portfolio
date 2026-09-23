@@ -16,7 +16,7 @@ const { build } = Astro.props;
       loading="lazy"
     />
     <div class="absolute top-3 right-3">
-      <StatusPill variant={build.status} />
+      <StatusPill variant={build.status} label={build.statusLabel} />
     </div>
   </div>
   <div class="p-5">

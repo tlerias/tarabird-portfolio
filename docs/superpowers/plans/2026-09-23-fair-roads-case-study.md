@@ -531,7 +531,7 @@ Expected: no output. (`Stage B` appears once, inside the quoted register entry â
 Then verify the timeline stages render in order with exactly one `status="now"`:
 
 ```bash
-grep -c "TimelineStage" src/pages/builds/fair-roads.mdx   # expect 28 (14 open + 14 close)
+grep -c "<TimelineStage" src/pages/builds/fair-roads.mdx  # expect 14 (a plain "TimelineStage" grep also counts the import line)
 grep -c 'status="now"' src/pages/builds/fair-roads.mdx    # expect 1
 grep -c 'status="ahead"' src/pages/builds/fair-roads.mdx  # expect 5
 ```

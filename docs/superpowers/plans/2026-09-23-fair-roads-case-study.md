@@ -66,7 +66,7 @@ Add to `src/content/__tests__/content.test.ts`, inside the `describe('content da
       status: 'wip',
       statusLabel: 'PROPOSAL SUBMITTED',
       screenshot: '/screenshots/fair-roads-hero.png',
-      gradientHeader: 'linear-gradient(135deg, #2a1810 0%, #5c3420 100%)',
+      gradientHeader: 'linear-gradient(135deg, #0d2820 0%, #5b4380 100%)',
     };
     expect(() => BuildSchema.parse(entry)).not.toThrow();
   });
@@ -164,7 +164,7 @@ In `src/content/builds.ts`, insert as the first element of the `builds` array, b
     status: 'wip',
     statusLabel: 'PROPOSAL SUBMITTED',
     screenshot: '/screenshots/fair-roads-hero.png',
-    gradientHeader: 'linear-gradient(135deg, #2a1810 0%, #5c3420 100%)',
+    gradientHeader: 'linear-gradient(135deg, #0d2820 0%, #5b4380 100%)',
   },
 ```
 
@@ -283,7 +283,7 @@ liveUrl: "https://huggingface.co/tarabird90/dinov2s-roads"
 liveLabel: "Model card ↗"
 status: "wip"
 statusLabel: "PROPOSAL SUBMITTED"
-gradientHeader: "linear-gradient(135deg, #2a1810 0%, #5c3420 100%)"
+gradientHeader: "linear-gradient(135deg, #0d2820 0%, #5b4380 100%)"
 heroImage: "/screenshots/fair-roads-hero.png"
 stats:
   - label: "MODEL AT"
@@ -338,9 +338,7 @@ That gap is the interesting part. A mapper doesn't need pixels, they need roads 
 
 Both scores are measured across four areas of the city against one organisation's hand-drawn maps, so what they capture is agreement with those maps, not correctness.
 
-And I can't tell you *why* it improved. The four-city model also trained for longer, so "more cities" and "more training" are tangled together and this run can't separate them. It ran once, and nobody has measured how much these scores bounce between identical runs — the repeats that would have settled it were started and stopped before finishing.
-
-That's the honest state of it: two careful measurements disagreed, which was worth chasing, and the explanation is still open.
+I can't say *why* it improved, though. The four-city model also trained for longer, and it only ran once — so more cities, more training and plain luck are still tangled together.
 </TimelineStage>
 
 <TimelineStage label="Checked the ruler before blaming the model">

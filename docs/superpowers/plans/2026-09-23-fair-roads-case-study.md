@@ -390,7 +390,7 @@ Under the hood it's a vision transformer Meta released, with a segmentation head
 <Timeline>
 
 <TimelineStage label="Asked before building" date="16 Sept 2026">
-I sent HOT four questions before writing any code. Should a first model do multi-class surface types or plain binary road detection? Does their interface expect road lines or filled shapes? Two of the answers changed the design, and one of them — that they'd prefer multi-class but doubted there was enough training data — turned out to predict the exact wall I hit months later.
+I sent HOT four questions before writing any code. Should a first model do multi-class surface types or plain binary road detection? Does their interface expect road lines or filled shapes? Two of the answers changed the design, and one of them — that they'd prefer multi-class but doubted there was enough training data — turned out to predict the exact wall I hit later.
 </TimelineStage>
 
 <TimelineStage label="Built a base model on one city">
